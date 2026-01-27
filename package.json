@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "jest-expo": "^54.0.16"
+  }
+}
