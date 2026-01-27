@@ -22,3 +22,13 @@ A text-based RPG with a focus on real stories, places and events.
 - Инициализация на UI репото според архитектурния документ.
 - Работещи dev-story цикли за Epic 1 (Main Menu & Save Flow).
 - Настройка на автоматичните тестове/telemetry според GuardianShell DoD.
+
+## Developer Documentation
+- [`CONTRIBUTING.md`](./CONTRIBUTING.md)
+- [`docs/development-setup.md`](./docs/development-setup.md)
+- [`docs/code-style.md`](./docs/code-style.md)
+- [`docs/testing.md`](./docs/testing.md)
+- [`docs/troubleshooting.md`](./docs/troubleshooting.md)
+- [`docs/architecture-overview.md`](./docs/architecture-overview.md)
+- [`docs/onboarding-checklist.md`](./docs/onboarding-checklist.md)
+- [`docs/common-workflows.md`](./docs/common-workflows.md)
