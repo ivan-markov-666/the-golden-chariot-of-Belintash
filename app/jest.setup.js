@@ -1,4 +1,5 @@
 const { performance } = require('perf_hooks');
+const mockAsyncStorage = require('@react-native-async-storage/async-storage/jest/async-storage-mock');
 
 if (!global.__fbBatchedBridgeConfig) {
   global.__fbBatchedBridgeConfig = { remoteModuleConfig: [] };
@@ -42,3 +43,5 @@ jest.mock('react-native/Libraries/TurboModule/TurboModuleRegistry', () => {
     },
   };
 });
+
+jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);

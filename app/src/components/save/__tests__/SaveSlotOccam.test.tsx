@@ -8,6 +8,7 @@ import {
   subscribeToSaveTelemetry,
   type SaveTelemetryEvent,
 } from '../../../services/telemetry/save';
+import { renderWithProviders } from '../../../test-utils/renderWithProviders';
 
 jest.mock('expo-linear-gradient', () => {
   const React = require('react');
@@ -57,11 +58,11 @@ describe('SaveSlotOccam', () => {
   });
 
   it('спазва Occam двуслоен layout и reach зона <=48px', () => {
-    const { getByTestId } = render(<SaveSlotOccam />);
+    const { getByTestId } = renderWithProviders(<SaveSlotOccam />);
     expect(getByTestId('occam-layer-primary')).toBeTruthy();
     expect(getByTestId('occam-layer-overlay')).toBeTruthy();
     const reachZoneStyle = flattenStyle(getByTestId('reach-zone').props.style);
-    expect(reachZoneStyle.width).toBeLessThanOrEqual(48);
+    expect(reachZoneStyle.width).toBeWithinRange(0, 48);
   });
 
   it('логва telemetry за select/delete/recover/NG+', () => {
@@ -95,7 +96,7 @@ describe('SaveSlotOccam', () => {
       useUXState.getState().setEffectsAvailable(false);
     });
 
-    render(<SaveSlotOccam />);
+    renderWithProviders(<SaveSlotOccam />);
     await waitFor(() => {
       expect(haptics.impactAsync).toHaveBeenCalledTimes(1);
     });
