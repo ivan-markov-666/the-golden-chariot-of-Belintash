@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Golden Chariot of Belintash – Design Directions</title>
+  <style>
+    :root {
+      --soil-black: #0c0907;
+      --charred-umber: #1f140f;
+      --hidden-bark: #3b2a23;
+      --ember-orange: #ff7a1a;
+      --molten-amber: #ffa552;
+      --parchment: #d7c2a6;
+      --obsidian: #070504;
+      --lichen: #4e6a4f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      background: var(--soil-black);
+      color: var(--parchment);
+    }
+    header {
+      padding: 40px 5vw 20px;
+      background: radial-gradient(circle at top, rgba(255,122,26,0.35), transparent 65%);
+    }
+    h1 {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      letter-spacing: 0.05em;
+      color: var(--molten-amber);
+      margin-bottom: 0.4em;
+    }
+    .intro {
+      max-width: 720px;
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+    main {
+      padding: 40px 5vw 80px;
+      display: grid;
+      gap: 40px;
+    }
+    .direction {
+      border: 1px solid rgba(215,194,166,0.15);
+      padding: 28px;
+      border-radius: 18px;
+      background: linear-gradient(140deg, rgba(31,20,15,0.9), rgba(7,5,4,0.9));
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+    .direction h2 {
+      font-family: "Playfair Display", serif;
+      color: var(--ember-orange);
+      margin-top: 0;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 18px;
+    }
+    .tag {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      background: rgba(255,122,26,0.18);
+      color: var(--molten-amber);
+      border: 1px solid rgba(255,122,26,0.35);
+    }
+    .palette {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .swatch {
+      flex: 1;
+      border-radius: 14px;
+      height: 70px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      font-size: 0.75rem;
+      padding-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.85);
+    }
+    ul.details {
+      margin: 0 0 0 1.2em;
+      line-height: 1.5;
+    }
+    .hero-preview {
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 16px;
+      background: rgba(12,9,7,0.6);
+      border: 1px solid rgba(255,255,255,0.05);
+      font-family: "Crimson Pro", serif;
+    }
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (min-width: 901px) {
+      main {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Design Direction Mockups</h1>
+    <p class="intro">
+      Шест различни визуални посоки, изградени върху Occult Scriptorium DS. Всяка вариация показва как StoryTile,
+      Consequences Telegraph и Celestial Dial могат да се усещат при различна плътност, акцент върху glow, или фокус
+      върху фактографската линия.
+    </p>
+  </header>
+  <main>
+    <section class="direction">
+      <h2>01 · Obsidian Codex</h2>
+      <div class="tags">
+        <span class="tag">Manuscript Density</span>
+        <span class="tag">Fact Spine First</span>
+        <span class="tag">StoryTile Glow</span>
+      </div>
+      <p>Компактен двуколонен StoryTile с подчертана Fact Spine. Telegraph се появява като вертикален scroll-ридер вдясно.</p>
+      <ul class="details">
+        <li>StoryTile заема 60% широчина с текстурирано Soil Black платно.</li>
+        <li>Fact Spine витраж се показва постоянно; CTA „Разтвори“ отваря мини popover.</li>
+        <li>Telegraph overlay има гравирана рамка и емблеми за фракции.</li>
+      </ul>
+      <div class="palette">
+        <div class="swatch" style="background:#0c0907">Soil</div>
+        <div class="swatch" style="background:#1f140f">Umber</div>
+        <div class="swatch" style="background:#ff7a1a">Ember</div>
+      </div>
+      <div class="hero-preview">„Разтвори хрониката“ стои като издълбан бутон с медни кантове и emboss ефект.</div>
+    </section>
+
+    <section class="direction">
+      <h2>02 · Ember Sigil</h2>
+      <div class="tags">
+        <span class="tag">Glow Forward</span>
+        <span class="tag">Telemetry Hooks</span>
+        <span class="tag">Haptic-first</span>
+      </div>
+      <p>Consequences Telegraph доминира – сигилите са върху полупрозрачно стъкло, а StoryTile стои под формата на card stack.</p>
+      <ul class="details">
+        <li>Telegraph CTR KPI е визуализиран като „ember gauge“ под сигилите.</li>
+        <li>Witness Voice се отваря встрани, с аудио waveform и glow подсветка.</li>
+        <li>Journey Tracker е фиксиран footer с DLC teasers.</li>
+      </ul>
+      <div class="palette">
+        <div class="swatch" style="background:#0c0907">Soil</div>
+        <div class="swatch" style="background:#ffa552">Amber</div>
+        <div class="swatch" style="background:#4e6a4f">Lichen</div>
+      </div>
+      <div class="hero-preview">Sigils избухват в 1.5 s glow; telemetry copy „Жрецът прехвърля листа…“ се показва над тях.</div>
+    </section>
+
+    <section class="direction">
+      <h2>03 · Celestial Meridian</h2>
+      <div class="tags">
+        <span class="tag">Map-forward</span>
+        <span class="tag">Dial Focus</span>
+        <span class="tag">Triad Loop</span>
+      </div>
+      <p>Celestial Dial получава централната позиция, StoryTile се dock-ва отдолу като parchment drawer.</p>
+      <ul class="details">
+        <li>Dial показва „линия на изворите“ с мини fact plaques и glow по траекторията.</li>
+        <li>Manual Override и Fast Chronicle CTA са позиционирани около Dial рамката.</li>
+        <li>Journey Tracker отговаря със странична timeline „Ехо“.</li>
+      </ul>
+      <div class="palette">
+        <div class="swatch" style="background:#0c0907">Soil</div>
+        <div class="swatch" style="background:#1f140f">Umber</div>
+        <div class="swatch" style="background:#ff7a1a">Ember</div>
+      </div>
+      <div class="hero-preview">Центриран Dial с бронзови координати; StoryTile се плъзга нагоре при докосване.</div>
+    </section>
+
+    <section class="direction">
+      <h2>04 · Chronicle Cascade</h2>
+      <div class="tags">
+        <span class="tag">Scrolling Narrative</span>
+        <span class="tag">Fact Anchors</span>
+        <span class="tag">Compact Spine</span>
+      </div>
+      <p>Дълъг scroll с редуващи се StoryTile секции, всяка с автоматично вмъкнат Telegraph card.</p>
+      <ul class="details">
+        <li>Fact Spine compact icon стои в лявата колона; long-press показва витраж слой.</li>
+        <li>Telemetry snippets са вградени като storyteller aside между секциите.</li>
+        <li>Fast Chronicle режим показва condensed summaries след всяка карта.</li>
+      </ul>
+      <div class="palette">
+        <div class="swatch" style="background:#1f140f">Umber</div>
+        <div class="swatch" style="background:#3b2a23">Bark</div>
+        <div class="swatch" style="background:#d7c2a6; color:#0c0907">Parchment</div>
+      </div>
+      <div class="hero-preview">StoryTile заглавия с големи dropcaps, Telegraph cards като parchment вмъквания.</div>
+    </section>
+
+    <section class="direction">
+      <h2>05 · Ascetic Runes</h2>
+      <div class="tags">
+        <span class="tag">High Contrast</span>
+        <span class="tag">Low Ember Default</span>
+        <span class="tag">Accessibility</span>
+      </div>
+      <p>Deep Obsidian фон, бели текстове, оранжеви outlines; изглежда като гравирана каменна плоча.</p>
+      <ul class="details">
+        <li>Всички сигили имат 2 px бяли контури и текстови етикети.</li>
+        <li>Dry seal вибрации заменят glow; Manual Override става „Silent Rune“.</li>
+        <li>Journey Tracker показва timeline с белите glyphs.</li>
+      </ul>
+      <div class="palette">
+        <div class="swatch" style="background:#070504">Obsidian</div>
+        <div class="swatch" style="background:#ffffff; color:#0c0907">White</div>
+        <div class="swatch" style="background:#ff7a1a">Ember</div>
+      </div>
+      <div class="hero-preview">Copy: „Жрецът покри лампата…“ с italic Playfair и силен outline.</div>
+    </section>
+
+    <section class="direction">
+      <h2>06 · Scribe's Loom</h2>
+      <div class="tags">
+        <span class="tag">Card Matrix</span>
+        <span class="tag">DLC Hooks</span>
+        <span class="tag">On-demand HUD</span>
+      </div>
+      <p>StoryTile се разделя на серия parchment cards; Telegraph и Dial са представени като stack от HUD плочки.</p>
+      <ul class="details">
+        <li>Всяка карта има HeritageDivider и DLC hooks („Нов извор“ badge).</li>
+        <li>Consequences Telegraph излиза като swipeable deck.</li>
+        <li>Telemetry KPIs се показват като mini-sigils в горния ъгъл.</li>
+      </ul>
+      <div class="palette">
+        <div class="swatch" style="background:#0c0907">Soil</div>
+        <div class="swatch" style="background:#d7c2a6; color:#0c0907">Parchment</div>
+        <div class="swatch" style="background:#ff7a1a">Ember</div>
+      </div>
+      <div class="hero-preview">Card grid с плавни 8 px разстояния и glow при активните избори.</div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,64 @@
+# Workflow Status - BMad Method (Greenfield)
+generated: "2026-01-15T12:35:00+02:00"
+project: "the-golden-chariot-of-Belintash"
+project_type: "bmad-method"
+selected_track: "bmad-method"
+field_type: "greenfield"
+workflow_path: "_bmad/bmm/workflows/workflow-status/paths/method-greenfield.yaml"
+
+workflow_status:
+  - phase: "Analysis"
+    optional: true
+    workflows:
+      - id: "brainstorm-project"
+        agent: "analyst"
+        status: "skipped"
+        notes: "Не е заявено в инициализацията"
+      - id: "research"
+        agent: "analyst"
+        status: "skipped"
+        notes: "Не е заявено в инициализацията"
+      - id: "product-brief"
+        agent: "analyst"
+        status: "skipped"
+        notes: "Не е заявено в инициализацията"
+
+  - phase: "Planning"
+    required: true
+    workflows:
+      - id: "prd"
+        agent: "pm"
+        status: "_bmad-output/planning-artifacts/foundation/PRD-Golden-Chariot-Belintash.md"
+      - id: "create-ux-design"
+        agent: "ux-designer"
+        conditional: "if_has_ui"
+        status: "_bmad-output/planning-artifacts/ux-design-specification.md"
+        notes: "UX дизайнът е завършен и архивиран"
+
+  - phase: "Solutioning"
+    required: true
+    workflows:
+      - id: "create-architecture"
+        agent: "architect"
+        status: "_bmad-output/planning-artifacts/foundation/ARCHITECTURE-Golden-Chariot-Belintash.md"
+      - id: "create-epics-and-stories"
+        agent: "pm"
+        status: "_bmad-output/planning-artifacts/epics/USER-STORIES-EPIC-01.md"
+        notes: "Пълен комплект USER-STORIES-EPIC-01..05 + EPIC-BREAKDOWN"
+      - id: "test-design"
+        agent: "tea"
+        optional: true
+        status: "skipped"
+        notes: "Може да се заяви преди implementation-readiness"
+      - id: "implementation-readiness"
+        agent: "architect"
+        status: "_bmad-output/planning-artifacts/implementation-readiness-report-2026-01-27.md"
+        notes: "Докладът за готовност е готов за използване"
+
+  - phase: "Implementation"
+    required: true
+    workflows:
+      - id: "sprint-planning"
+        agent: "sm"
+        status: "required"
+        notes: "Старт на изпълнението и създаване на sprint-status.yaml"
