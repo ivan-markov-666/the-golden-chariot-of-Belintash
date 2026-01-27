@@ -1,19 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { SaveSlotOccam } from './src/components/save/SaveSlotOccam';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AppNavigator } from './src/navigation/AppNavigator';
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.root}>
+    <SafeAreaProvider>
       <StatusBar style="light" />
-      <SaveSlotOccam />
-    </SafeAreaView>
+      <AppNavigator />
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    backgroundColor: '#02040a',
-  },
-});

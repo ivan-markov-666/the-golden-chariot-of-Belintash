@@ -37,7 +37,11 @@ const TOOLTIP_KEY: Record<MenuOptionId, MenuCopyKey> = {
 const LOCKED_BADGE_KEY: MenuCopyKey = 'dlc.lockedLabel';
 const UNLOCKED_BADGE_KEY: MenuCopyKey = 'dlc.unlockedLabel';
 
-export const MainMenuOccam: React.FC = () => {
+type MainMenuOccamProps = {
+  onNavigate?: (optionId: MenuOptionId) => void;
+};
+
+export const MainMenuOccam: React.FC<MainMenuOccamProps> = ({ onNavigate }) => {
   const { locale, highContrast, setOverlaysVisible } = useUXState();
   const { hasEntitlement } = useEntitlements();
   const hasSaves = useSaveSlots((state) => state.hasOccupied);
@@ -92,7 +96,7 @@ export const MainMenuOccam: React.FC = () => {
     }
 
     logMenuOptionSelected(option.id, { variant: option.variant });
-    // Actual navigation wiring will arrive with future stories.
+    onNavigate?.(option.id);
   };
 
   return (
