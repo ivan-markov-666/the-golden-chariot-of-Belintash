@@ -16,8 +16,14 @@ jest.mock('expo-linear-gradient', () => {
   };
 });
 
+const EMPTY_SLOTS = [
+  { id: 'slot-1', occupied: false, title: null, updatedAt: null },
+  { id: 'slot-2', occupied: false, title: null, updatedAt: null },
+  { id: 'slot-3', occupied: false, title: null, updatedAt: null },
+];
+
 const resetStores = () => {
-  useSaveSlots.getState().reset();
+  useSaveSlots.getState().reset(EMPTY_SLOTS as any);
   useEntitlements.getState().reset();
   useUXPerfEvents.getState().reset();
 };
