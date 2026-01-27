@@ -1,0 +1,108 @@
+# generated: 2026-01-27T15:45:00+02:00
+# project: the-golden-chariot-of-Belintash
+# project_key: belintash
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Mark epic as 'in-progress' when starting work on its first story
+# - SM creates the next story only after previous one is 'done' to capture learnings
+# - Dev moves story to 'review', then dedicated code-review workflow finalizes it
+
+generated: "2026-01-27T15:45:00+02:00"
+project: "the-golden-chariot-of-Belintash"
+project_key: "belintash"
+tracking_system: "file-system"
+story_location: "_bmad-output/implementation-artifacts"
+
+development_status:
+  epic-1: in-progress
+  1-1-main-menu-occam-entry: in-progress
+  1-2-save-slot-selection-sync: ready-for-dev
+  1-3-storyteller-onboarding: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-storytile-fact-spine-accessibility: backlog
+  2-2-choice-ribbon-manual-override: backlog
+  2-3-consequences-telegraph-journey-tracker-sync: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-character-sheet-occult-grid: backlog
+  3-2-inventory-actions-telemetry: backlog
+  3-3-progression-tracker-witness-voice: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-combat-ui-turn-order-docking: backlog
+  4-2-skill-check-visualization: backlog
+  4-3-manual-override-recovery-loop: backlog
+  epic-4-retrospective: optional
+
+  epic-5: backlog
+  5-1-map-screen-travel-cta: backlog
+  5-2-journey-tracker-kpi-sigils: backlog
+  5-3-dlc-module-loader: backlog
+  epic-5-retrospective: optional
+
+  epic-6: backlog
+  6-1-journal-one-hand-mode: backlog
+  6-2-quest-consequence-telegraph: backlog
+  6-3-reputation-dashboard: backlog
+  epic-6-retrospective: optional
+
+  epic-7: backlog
+  7-1-save-load-ui-gwt: backlog
+  7-2-auto-save-loading-indicators: backlog
+  7-3-corruption-recovery-loop: backlog
+  epic-7-retrospective: optional
+
+  epic-8: backlog
+  8-1-dlc-selector-entitlements: backlog
+  8-2-dlc-state-namespacing: backlog
+  8-3-dlc-telemetry-comparison: backlog
+  epic-8-retrospective: optional
+
+  epic-9: backlog
+  9-1-scene-loader-cache: backlog
+  9-2-condition-evaluator: backlog
+  9-3-choice-processor-history: backlog
+  epic-9-retrospective: optional
+
+  epic-10: backlog
+  10-1-markdown-template-lint-rules: backlog
+  10-2-item-npc-quest-schemas: backlog
+  10-3-authoring-tooling-previews: backlog
+  epic-10-retrospective: optional
+
+  epic-11: backlog
+  11-1-currency-pricing-conversion: backlog
+  11-2-weight-encumbrance-feedback: backlog
+  11-3-barter-vendor-ux: backlog
+  epic-11-retrospective: optional
+
+  epic-12: backlog
+  12-1-storage-adapter-layer: backlog
+  12-2-save-export-backup-pipeline: backlog
+  12-3-integrity-monitor-dry-seal-alerts: backlog
+  epic-12-retrospective: optional
