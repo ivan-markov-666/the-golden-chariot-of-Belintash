@@ -1,7 +1,8 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
+import { act, fireEvent, render } from '@testing-library/react-native';
 import { Text, Pressable } from 'react-native';
 import { MainMenuScreen } from '../MainMenuScreen';
+import { useSaveSlots } from '../../state/saveSlots';
 
 const mockNavigate = jest.fn();
 
@@ -42,6 +43,9 @@ jest.mock('../../components/menu/MainMenuOccam', () => {
 describe('MainMenuScreen', () => {
   beforeEach(() => {
     mockNavigate.mockClear();
+    act(() => {
+      useSaveSlots.getState().reset();
+    });
   });
 
   it('пренасочва към LoadGame при навигация от менюто', () => {
@@ -82,5 +86,38 @@ describe('MainMenuScreen', () => {
     fireEvent.press(getByTestId('mock-menu-dlc'));
 
     expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('показва версия и позволява toggle на музика', () => {
+    const { getByTestId } = render(<MainMenuScreen />);
+
+    const toggle = getByTestId('bgm-toggle');
+    expect(toggle.props.accessibilityState?.checked).toBe(true);
+
+    fireEvent.press(toggle);
+    expect(toggle.props.accessibilityState?.checked).toBe(false);
+
+    expect(getByTestId('main-menu-version').props.children).toBe('v1.0.0');
+  });
+
+  it('показва empty preview hint когато няма save слотове', () => {
+    act(() => {
+      useSaveSlots.getState().reset([
+        {
+          id: 'slot-1',
+          occupied: false,
+          title: null,
+          updatedAt: null,
+          playtimeMinutes: 0,
+          lastSaveType: 'manual',
+          dlcFlags: [],
+          corrupted: false,
+        },
+      ] as any);
+    });
+
+    const { getByTestId } = render(<MainMenuScreen />);
+
+    expect(getByTestId('save-preview-hint')).toBeTruthy();
   });
 });

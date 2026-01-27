@@ -45,3 +45,15 @@ jest.mock('react-native/Libraries/TurboModule/TurboModuleRegistry', () => {
 });
 
 jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
+
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper', () => ({}), {
+  virtual: true,
+});
+
+jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper', () => ({}), {
+  virtual: true,
+});
+
+jest.mock('react-native/src/private/animated/NativeAnimatedHelper', () => ({}), {
+  virtual: true,
+});

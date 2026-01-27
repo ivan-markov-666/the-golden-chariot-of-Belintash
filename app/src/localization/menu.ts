@@ -19,7 +19,10 @@ export type MenuCopyKey =
   | 'tooltips.quit'
   | 'tooltips.dlcLocked'
   | 'dlc.lockedLabel'
-  | 'dlc.unlockedLabel';
+  | 'dlc.unlockedLabel'
+  | 'music.on'
+  | 'music.off'
+  | 'preview.emptyState';
 
 const STRINGS: Record<Locale, Record<MenuCopyKey, string>> = {
   bg: {
@@ -42,6 +45,9 @@ const STRINGS: Record<Locale, Record<MenuCopyKey, string>> = {
     'tooltips.dlcLocked': 'Нужен е Occult Expansion entitlement.',
     'dlc.lockedLabel': 'Заключен DLC ритуал',
     'dlc.unlockedLabel': 'DLC ритуал – Глава Occult Expansion',
+    'music.on': 'Музика: Вкл',
+    'music.off': 'Музика: Изкл',
+    'preview.emptyState': 'Няма dry seal записи – започни нов ритуал',
   },
   en: {
     titleLine1: 'The Golden Chariot',
@@ -63,6 +69,9 @@ const STRINGS: Record<Locale, Record<MenuCopyKey, string>> = {
     'tooltips.dlcLocked': 'Occult Expansion entitlement required.',
     'dlc.lockedLabel': 'Locked DLC ritual',
     'dlc.unlockedLabel': 'DLC ritual – Occult Expansion arc',
+    'music.on': 'Music: On',
+    'music.off': 'Music: Off',
+    'preview.emptyState': 'No dry seals yet – start a new ritual',
   },
 };
 
