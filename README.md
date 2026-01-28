@@ -19,9 +19,7 @@ A text-based RPG with a focus on real stories, places and events.
 3. След приключване на story → обнови `sprint-status.yaml` и пусни code-review workflows.
 
 ## Следващи стъпки
-- Инициализация на UI репото според архитектурния документ.
-- Работещи dev-story цикли за Epic 1 (Main Menu & Save Flow).
-- Настройка на автоматичните тестове/telemetry според GuardianShell DoD.
+- Работещи dev-story цикли за Epic 2.
 
 ## Developer Documentation
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md)
