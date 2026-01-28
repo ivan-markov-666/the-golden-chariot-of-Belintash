@@ -1,8 +1,10 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react-native';
+import { act, fireEvent } from '@testing-library/react-native';
 import { Text, Pressable } from 'react-native';
 import { MainMenuScreen } from '../MainMenuScreen';
 import { useSaveSlots } from '../../state/saveSlots';
+import { useUXState } from '../../state/uxState';
+import { renderWithProviders } from '../../test-utils/renderWithProviders';
 
 const mockNavigate = jest.fn();
 
@@ -40,16 +42,32 @@ jest.mock('../../components/menu/MainMenuOccam', () => {
   };
 });
 
+const renderScreen = () => renderWithProviders(<MainMenuScreen />);
+
+const getStyleProp = (styleProp: any, key: string) => {
+  if (!styleProp) return undefined;
+  if (Array.isArray(styleProp)) {
+    for (const item of styleProp) {
+      if (item && typeof item === 'object' && key in item) {
+        return item[key];
+      }
+    }
+    return undefined;
+  }
+  return styleProp[key];
+};
+
 describe('MainMenuScreen', () => {
   beforeEach(() => {
     mockNavigate.mockClear();
     act(() => {
       useSaveSlots.getState().reset();
+      useUXState.getState().setHighContrast(false);
     });
   });
 
   it('пренасочва към LoadGame при навигация от менюто', () => {
-    const { getByTestId } = render(<MainMenuScreen />);
+    const { getByTestId } = renderScreen();
 
     fireEvent.press(getByTestId('mock-menu-load'));
 
@@ -57,7 +75,7 @@ describe('MainMenuScreen', () => {
   });
 
   it('пренасочва към CharacterCreation при избор на New Game', () => {
-    const { getByTestId } = render(<MainMenuScreen />);
+    const { getByTestId } = renderScreen();
 
     fireEvent.press(getByTestId('mock-menu-new'));
 
@@ -65,7 +83,7 @@ describe('MainMenuScreen', () => {
   });
 
   it('пренасочва към Settings', () => {
-    const { getByTestId } = render(<MainMenuScreen />);
+    const { getByTestId } = renderScreen();
 
     fireEvent.press(getByTestId('mock-menu-settings'));
 
@@ -73,7 +91,7 @@ describe('MainMenuScreen', () => {
   });
 
   it('пренасочва към Credits', () => {
-    const { getByTestId } = render(<MainMenuScreen />);
+    const { getByTestId } = renderScreen();
 
     fireEvent.press(getByTestId('mock-menu-credits'));
 
@@ -81,7 +99,7 @@ describe('MainMenuScreen', () => {
   });
 
   it('не навигира при неподдържана опция', () => {
-    const { getByTestId } = render(<MainMenuScreen />);
+    const { getByTestId } = renderScreen();
 
     fireEvent.press(getByTestId('mock-menu-dlc'));
 
@@ -89,7 +107,7 @@ describe('MainMenuScreen', () => {
   });
 
   it('показва версия и позволява toggle на музика', () => {
-    const { getByTestId } = render(<MainMenuScreen />);
+    const { getByTestId } = renderScreen();
 
     const toggle = getByTestId('bgm-toggle');
     expect(toggle.props.accessibilityState?.checked).toBe(true);
@@ -116,8 +134,38 @@ describe('MainMenuScreen', () => {
       ] as any);
     });
 
-    const { getByTestId } = render(<MainMenuScreen />);
+    const { getByTestId } = renderScreen();
 
     expect(getByTestId('save-preview-hint')).toBeTruthy();
+  });
+
+  it('fades in overlay when running outside of test environment', async () => {
+    const originalWorkerId = process.env.JEST_WORKER_ID;
+    delete process.env.JEST_WORKER_ID;
+    jest.useFakeTimers();
+
+    const { getByTestId } = renderScreen();
+    const overlay = getByTestId('main-menu-overlay');
+    expect(getStyleProp(overlay.props.style, 'opacity')).toBe(0);
+
+    await act(async () => {
+      jest.advanceTimersByTime(200);
+    });
+
+    expect(getStyleProp(overlay.props.style, 'opacity')).toBe(1);
+
+    jest.useRealTimers();
+    process.env.JEST_WORKER_ID = originalWorkerId;
+  });
+
+  it('uses high-contrast overlay colors when enabled', () => {
+    act(() => {
+      useUXState.getState().setHighContrast(true);
+    });
+
+    const { getByTestId } = renderScreen();
+    const overlay = getByTestId('main-menu-overlay');
+
+    expect(getStyleProp(overlay.props.style, 'backgroundColor')).toBe('rgba(4, 4, 4, 0.88)');
   });
 });

@@ -1,0 +1,11 @@
+{
+  "id": "invalid-scenario",
+  "titleKey": "scenarios.invalid.title",
+  "textKey": "scenarios.invalid.text",
+  "act": 0,
+  "scene": 1,
+  "locationId": "invalid-location",
+  "choices": [],
+  "prerequisites": [],
+  "npcsPresent": []
+}

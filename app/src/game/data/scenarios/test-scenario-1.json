@@ -1,0 +1,34 @@
+{
+  "id": "test-scenario-1",
+  "titleKey": "scenarios.test_scenario_1.title",
+  "textKey": "scenarios.test_scenario_1.narrative",
+  "act": 0,
+  "scene": 1,
+  "locationId": "test-location",
+  "choices": [
+    {
+      "id": "a",
+      "textKey": "scenarios.test_scenario_1.choice_a",
+      "conditions": [],
+      "consequences": [],
+      "nextScenario": "test-scenario-2"
+    },
+    {
+      "id": "b",
+      "textKey": "scenarios.test_scenario_1.choice_b",
+      "conditions": [],
+      "skillCheck": {
+        "skill": "persuasion",
+        "dc": 10
+      },
+      "consequences": [],
+      "nextScenario": "test-scenario-3"
+    }
+  ],
+  "prerequisites": [],
+  "npcsPresent": ["test-npc"],
+  "metadata": {
+    "author": "Scenario Loader",
+    "createdDate": "2026-01-27"
+  }
+}

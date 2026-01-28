@@ -43,7 +43,7 @@ export interface Scenario {
 }
 
 /** Zod schema for metadata block. */
-const ScenarioMetadataSchema: z.ZodType<ScenarioMetadata> = z.object({
+export const ScenarioMetadataSchema: z.ZodType<ScenarioMetadata> = z.object({
   author: z.string().optional(),
   createdDate: z.string().optional(),
   tags: z.array(z.string()).optional(),
