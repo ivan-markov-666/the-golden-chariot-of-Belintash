@@ -10,7 +10,8 @@
       "@/screens/*": ["src/screens/*"],
       "@/components/*": ["src/components/*"],
       "@/state/*": ["src/state/*"],
-      "@/services/*": ["src/services/*"]
+      "@/services/*": ["src/services/*"],
+      "@/game/*": ["src/game/*"]
     }
   },
   "include": ["src", "App.tsx", "jest.setup.js"]
