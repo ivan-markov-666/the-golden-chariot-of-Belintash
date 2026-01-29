@@ -32,6 +32,12 @@ export interface EquipmentSlots {
 
 export interface PlayerCharacter {
   level: number;
+  experience: number;
+  health: number;
+  maxHealth: number;
+  mana: number;
+  maxMana: number;
+  gold: number;
   attributes: CharacterAttributeMap;
   skills: CharacterSkillMap;
   inventory: InventoryItem[];

@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "test": "cd app && npm run test"
+  },
   "devDependencies": {
     "jest-expo": "^54.0.16"
   }

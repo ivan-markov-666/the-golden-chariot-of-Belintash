@@ -184,6 +184,12 @@ function createMockGameState(): GameState {
 function createMockCharacter(): PlayerCharacter {
   return {
     level: 5,
+    experience: 0,
+    health: 50,
+    maxHealth: 50,
+    mana: 10,
+    maxMana: 10,
+    gold: 25,
     attributes: {
       strength: 10,
       agility: 8,

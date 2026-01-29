@@ -90,6 +90,8 @@ export const useSaveSlots = create<SaveSlotState>((set) => ({
       );
       return { slots, hasOccupied: hasOccupied(slots) };
     }),
-  reset: (slots = cloneSlots(DEFAULT_SLOTS)) =>
-    set({ slots, hasOccupied: hasOccupied(slots) }),
+  reset: (slots = DEFAULT_SLOTS) => {
+    const cloned = cloneSlots(slots);
+    return set({ slots: cloned, hasOccupied: hasOccupied(cloned) });
+  },
 }));
