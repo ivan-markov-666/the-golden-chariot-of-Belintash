@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadGameScreen renders the save slot component inside a SafeAreaView 1`] = `
+<RCTSafeAreaView
+  style={
+    {
+      "backgroundColor": "#02040a",
+      "flex": 1,
+    }
+  }
+/>
+`;

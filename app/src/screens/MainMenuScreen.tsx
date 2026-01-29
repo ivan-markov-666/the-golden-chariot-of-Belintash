@@ -59,7 +59,10 @@ export const MainMenuScreen: React.FC = () => {
         style={styles.background}
         blurRadius={bgmEnabled ? 0 : 6}
       >
-        <View style={[styles.overlay, { backgroundColor: overlayColor, opacity: overlayOpacity }]}>
+        <View
+          testID="main-menu-overlay"
+          style={[styles.overlay, { backgroundColor: overlayColor, opacity: overlayOpacity }]}
+        >
           <View style={styles.headerRow}>
             <Text
               style={[styles.versionLabel, { color: theme.palette.textSecondary }]}

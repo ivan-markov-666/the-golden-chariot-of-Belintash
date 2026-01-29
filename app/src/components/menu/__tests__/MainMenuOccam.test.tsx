@@ -8,6 +8,8 @@ import {
   type MenuTelemetryEvent,
 } from '../../../services/telemetry/menu';
 import { useUXPerfEvents } from '../../../state/perf';
+import { useUXState } from '../../../state/uxState';
+import { t } from '../../../localization/menu';
 
 jest.mock('expo-linear-gradient', () => {
   const React = require('react');
@@ -26,6 +28,10 @@ const resetStores = () => {
   useSaveSlots.getState().reset(EMPTY_SLOTS as any);
   useEntitlements.getState().reset();
   useUXPerfEvents.getState().reset();
+  const uxState = useUXState.getState();
+  uxState.setOverlaysVisible(0);
+  uxState.setHighContrast(false);
+  uxState.setLocale('bg');
 };
 
 describe('MainMenuOccam', () => {
@@ -83,6 +89,80 @@ describe('MainMenuOccam', () => {
     );
 
     unsubscribe();
+  });
+
+  it('не навигира и не логва, когато опцията е деактивирана (липсват сейвове)', () => {
+    const events: MenuTelemetryEvent[] = [];
+    const unsubscribe = subscribeToMenuTelemetry((event) => events.push(event));
+    act(() => {
+      useSaveSlots.getState().reset([
+        {
+          id: 'slot-1',
+          occupied: false,
+          title: null,
+          updatedAt: null,
+          playtimeMinutes: 0,
+          lastSaveType: 'manual',
+          dlcFlags: [],
+          corrupted: false,
+        },
+      ] as any);
+    });
+
+    const { getByTestId } = render(<MainMenuOccam />);
+    fireEvent.press(getByTestId('menu-option-load'));
+
+    expect(events.filter((event) => event.type === 'menu.optionSelected')).toHaveLength(0);
+    unsubscribe();
+  });
+
+  it('извиква onNavigate за отключена опция', () => {
+    const onNavigate = jest.fn();
+    const { getByTestId } = render(<MainMenuOccam onNavigate={onNavigate} />);
+
+    fireEvent.press(getByTestId('menu-option-newGame'));
+
+    expect(onNavigate).toHaveBeenCalledWith('newGame');
+  });
+
+  it('показва отключен DLC badge и навигира при entitlement', () => {
+    act(() => {
+      useEntitlements.getState().setEntitlement('dlc-occult-expansion', true);
+    });
+    const events: MenuTelemetryEvent[] = [];
+    const unsubscribe = subscribeToMenuTelemetry((event) => events.push(event));
+    const onNavigate = jest.fn();
+    const { getByTestId, getByText } = render(<MainMenuOccam onNavigate={onNavigate} />);
+
+    expect(getByText(t('bg', 'dlc.unlockedLabel'))).toBeTruthy();
+
+    fireEvent.press(getByTestId('menu-option-dlc'));
+
+    expect(events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: 'menu.optionSelected', optionId: 'dlc' }),
+      ]),
+    );
+    expect(onNavigate).toHaveBeenCalledWith('dlc');
+    unsubscribe();
+  });
+
+  it('обновява tooltip при сменен акцент и управлява overlay visibility', async () => {
+    const { getByTestId, getByText, unmount } = render(<MainMenuOccam />);
+
+    act(() => {
+      fireEvent(getByTestId('menu-option-credits'), 'pressIn');
+    });
+
+    await waitFor(() => {
+      expect(getByText(t('bg', 'tooltips.credits'))).toBeTruthy();
+      expect(useUXState.getState().overlaysVisible).toBe(2);
+    });
+
+    unmount();
+    await waitFor(() => {
+      expect(useUXState.getState().overlaysVisible).toBe(0);
+    });
   });
 
   it('прави snapshot на двуслойния layout', () => {
