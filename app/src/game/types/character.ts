@@ -31,6 +31,7 @@ export interface EquipmentSlots {
 }
 
 export interface PlayerCharacter {
+  name: string;
   level: number;
   experience: number;
   health: number;

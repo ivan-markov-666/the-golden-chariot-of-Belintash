@@ -46,6 +46,7 @@ development_status:
   2-2-choice-ribbon-manual-override: backlog
   2-3-condition-evaluator: review
   2-4-consequence-applicator: in-progress
+  2-5-variable-interpolation: done
   2-3-consequences-telegraph-journey-tracker-sync: backlog
   epic-2-retrospective: optional
 
