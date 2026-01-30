@@ -1,6 +1,7 @@
 import { Scenario, ScenarioSchema } from '@/game/types';
 import { scenarioManifest, type ScenarioResolver } from '@/game/data/scenarioManifest';
 import { z } from 'zod';
+import { ScenarioCache, type ScenarioCacheEntrySummary } from './ScenarioCache';
 
 export class ScenarioNotFoundError extends Error {
   constructor(message: string) {
@@ -31,10 +32,15 @@ export type ScenarioManifest = Record<string, ScenarioResolver>;
 export class ScenarioLoader {
   private static instance: ScenarioLoader | null = null;
 
-  private readonly loadedScenarios = new Map<string, Scenario>();
+  private readonly cache: ScenarioCache;
   private readonly loadingPromises = new Map<string, Promise<Scenario>>();
 
-  constructor(private readonly manifest: ScenarioManifest = scenarioManifest) {}
+  constructor(
+    private readonly manifest: ScenarioManifest = scenarioManifest,
+    cache: ScenarioCache = new ScenarioCache(),
+  ) {
+    this.cache = cache;
+  }
 
   public static getInstance(): ScenarioLoader {
     if (!ScenarioLoader.instance) {
@@ -44,28 +50,31 @@ export class ScenarioLoader {
   }
 
   public async loadScenario(scenarioId: string): Promise<Scenario> {
-    if (this.loadedScenarios.has(scenarioId)) {
-      return this.loadedScenarios.get(scenarioId)!;
+    const cachedScenario = this.cache.get(scenarioId);
+    if (cachedScenario) {
+      return cachedScenario;
     }
 
     if (this.loadingPromises.has(scenarioId)) {
       return this.loadingPromises.get(scenarioId)!;
     }
 
-    const promise = this.loadScenarioInternal(scenarioId);
-    this.loadingPromises.set(scenarioId, promise);
+    const loadPromise = this.loadScenarioInternal(scenarioId)
+      .then((scenario) => {
+        this.cache.set(scenarioId, scenario);
+        return scenario;
+      })
+      .finally(() => {
+        this.loadingPromises.delete(scenarioId);
+      });
 
-    try {
-      const scenario = await promise;
-      this.loadedScenarios.set(scenarioId, scenario);
-      return scenario;
-    } finally {
-      this.loadingPromises.delete(scenarioId);
-    }
+    this.loadingPromises.set(scenarioId, loadPromise);
+
+    return loadPromise;
   }
 
   public preloadScenario(scenarioId: string): void {
-    if (!this.loadedScenarios.has(scenarioId) && !this.loadingPromises.has(scenarioId)) {
+    if (!this.cache.has(scenarioId) && !this.loadingPromises.has(scenarioId)) {
       void this.loadScenario(scenarioId);
     }
   }
@@ -75,18 +84,30 @@ export class ScenarioLoader {
   }
 
   public isLoaded(scenarioId: string): boolean {
-    return this.loadedScenarios.has(scenarioId);
+    return this.cache.has(scenarioId);
   }
 
   public clearCache(): void {
-    this.loadedScenarios.clear();
+    this.cache.clear();
   }
 
-  public getCacheStats(): { loaded: number; loading: number } {
+  public getCacheStats(): {
+    loaded: number;
+    loading: number;
+    capacity: number;
+    entries: ScenarioCacheEntrySummary[];
+  } {
+    const stats = this.cache.getStats();
     return {
-      loaded: this.loadedScenarios.size,
+      loaded: stats.size,
       loading: this.loadingPromises.size,
+      capacity: stats.capacity,
+      entries: stats.entries,
     };
+  }
+
+  public deleteFromCache(scenarioId: string): boolean {
+    return this.cache.delete(scenarioId);
   }
 
   private async loadScenarioInternal(scenarioId: string): Promise<Scenario> {
@@ -118,3 +139,6 @@ export const preloadScenario = (scenarioId: string) => ScenarioLoader.getInstanc
 export const preloadScenarios = (scenarioIds: string[]) =>
   ScenarioLoader.getInstance().preloadScenarios(scenarioIds);
 export const clearScenarioCache = () => ScenarioLoader.getInstance().clearCache();
+export const getScenarioCacheStats = () => ScenarioLoader.getInstance().getCacheStats();
+export const deleteScenarioFromCache = (scenarioId: string) =>
+  ScenarioLoader.getInstance().deleteFromCache(scenarioId);
