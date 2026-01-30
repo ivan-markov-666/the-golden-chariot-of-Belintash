@@ -183,6 +183,7 @@ function createMockGameState(): GameState {
 
 function createMockCharacter(): PlayerCharacter {
   return {
+    name: 'Test Hero',
     level: 5,
     experience: 0,
     health: 50,
