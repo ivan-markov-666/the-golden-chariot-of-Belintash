@@ -137,6 +137,53 @@ describe('ConditionEvaluator', () => {
     warnSpy.mockRestore();
   });
 
+  it('explains nested logical failures for AND trees', () => {
+    gameState.flags['alpha'] = true;
+    gameState.flags['beta'] = true;
+    const condition: Condition = {
+      type: 'and',
+      conditions: [
+        { type: 'flag', target: 'alpha', value: true },
+        {
+          type: 'and',
+          conditions: [
+            { type: 'flag', target: 'beta', value: true },
+            { type: 'counter', target: 'missing', operator: 'greater_than', value: 1 },
+          ],
+        },
+      ],
+    };
+
+    const explain = explainConditionFailure(condition, gameState, character);
+    expect(explain).toContain("Counter 'missing'");
+  });
+
+  it('handles OR/NOT nesting with evaluateConditions helper', () => {
+    const conditions: Condition[] = [
+      {
+        type: 'or',
+        conditions: [
+          { type: 'flag', target: 'missing', value: true },
+          { type: 'level', operator: 'greater_equal', value: 5 },
+        ],
+      },
+      {
+        type: 'not',
+        condition: { type: 'location', target: 'unknown' },
+      },
+    ];
+
+    expect(ConditionEvaluator.evaluateAll(conditions, gameState, character)).toBe(true);
+  });
+
+  it('evaluates time and location comparisons with operators', () => {
+    const timeCondition: Condition = { type: 'time', operator: 'less_equal', value: 12 };
+    const locationCondition: Condition = { type: 'location', target: 'kamenitsa_home' };
+
+    expect(ConditionEvaluator.evaluate(timeCondition, gameState, character)).toBe(true);
+    expect(ConditionEvaluator.evaluate(locationCondition, gameState, character)).toBe(true);
+  });
+
   it('evaluates 100 simple conditions under 50ms', () => {
     const conditions: FlagCondition[] = Array.from({ length: 100 }, (_, index) => ({
       type: 'flag',

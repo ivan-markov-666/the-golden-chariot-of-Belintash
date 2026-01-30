@@ -150,6 +150,57 @@ describe('ConsequenceApplicator', () => {
     expect(result.warnings).toContain('Attempted to remove more items than owned for herb');
   });
 
+  it('emits unlock and trigger events (non-duplicate) and tracks mana/gold deltas', async () => {
+    const gameState = createGameState();
+    const character = createCharacter();
+
+    const consequences: Consequence[] = [
+      { type: 'unlock_location', target: 'hidden_cave' },
+      { type: 'unlock_location', target: 'hidden_cave' },
+      { type: 'unlock_dialogue', target: 'npc.guide' },
+      { type: 'trigger_event', target: 'ambient.rumble', data: { intensity: 3 } },
+      { type: 'mana', value: 5 },
+      { type: 'gold', value: 25 },
+    ];
+
+    const result = await ConsequenceApplicator.apply(consequences, gameState, character);
+
+    expect(gameState.unlockedLocations).toEqual(['hidden_cave']);
+    expect(gameState.unlockedDialogues).toEqual(['npc.guide']);
+    expect(character.mana).toBe(character.maxMana);
+    expect(character.gold).toBe(25);
+    expect(result.events).toEqual(
+      expect.arrayContaining([
+        { type: 'unlock', category: 'location', id: 'hidden_cave' },
+        { type: 'unlock', category: 'dialogue', id: 'npc.guide' },
+        { type: 'trigger_event', eventName: 'ambient.rumble', data: { intensity: 3 } },
+        { type: 'gold_change', newTotal: 25 },
+      ]),
+    );
+    expect(result.warnings).toHaveLength(0);
+  });
+
+  it('handles level-up side effects and death events after applying experience+health', async () => {
+    const gameState = createGameState();
+    const character = createCharacter();
+
+    const consequences: Consequence[] = [
+      { type: 'experience', value: 200 },
+      { type: 'health', value: -200, canKill: true },
+    ];
+
+    const result = await ConsequenceApplicator.apply(consequences, gameState, character);
+
+    expect(result.events).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: 'level_up' }),
+        { type: 'death' },
+      ]),
+    );
+    expect(character.level).toBeGreaterThan(1);
+    expect(character.health).toBe(0);
+  });
+
   it('rolls back the entire transaction when a consequence throws', async () => {
     const gameState = createGameState();
     const character = createCharacter();
@@ -189,6 +240,7 @@ function createGameState(): GameState {
 
 function createCharacter(): PlayerCharacter {
   return {
+    name: 'Test Hero',
     level: 1,
     experience: 0,
     health: 150,
