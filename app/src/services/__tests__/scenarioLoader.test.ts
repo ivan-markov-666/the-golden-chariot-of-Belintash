@@ -1,10 +1,12 @@
-import type { Scenario } from '@/game/types';
+import { Scenario } from '@/game/types';
 import {
   ScenarioLoader,
   ScenarioLoadError,
   ScenarioNotFoundError,
   ScenarioValidationError,
   clearScenarioCache,
+  deleteScenarioFromCache,
+  getScenarioCacheStats,
   loadScenario,
   preloadScenario,
   preloadScenarios,
@@ -186,12 +188,16 @@ describe('ScenarioLoader', () => {
     const loader = new ScenarioLoader(manifest);
 
     loader.preloadScenario('stats-scenario');
-    expect(loader.getCacheStats()).toEqual({ loaded: 0, loading: 1 });
+    expect(loader.getCacheStats()).toMatchObject({ loaded: 0, loading: 1 });
     await loader.loadScenario('stats-scenario');
-    expect(loader.getCacheStats()).toEqual({ loaded: 1, loading: 0 });
+    const statsAfterLoad = loader.getCacheStats();
+    expect(statsAfterLoad.loaded).toBe(1);
+    expect(statsAfterLoad.loading).toBe(0);
+    expect(statsAfterLoad.capacity).toBeGreaterThan(0);
+    expect(statsAfterLoad.entries).toHaveLength(1);
 
     loader.clearCache();
-    expect(loader.getCacheStats()).toEqual({ loaded: 0, loading: 0 });
+    expect(loader.getCacheStats()).toMatchObject({ loaded: 0, loading: 0 });
     expect(loader.isLoaded('stats-scenario')).toBe(false);
   });
 
@@ -212,6 +218,8 @@ describe('ScenarioLoader', () => {
       preloadScenario: jest.fn(),
       preloadScenarios: jest.fn(),
       clearCache: jest.fn(),
+      getCacheStats: jest.fn().mockReturnValue({ loaded: 0, loading: 0, capacity: 5, entries: [] }),
+      deleteFromCache: jest.fn().mockReturnValue(true),
     } as unknown as ScenarioLoader;
 
     const getInstanceSpy = jest.spyOn(ScenarioLoader, 'getInstance').mockReturnValue(mockInstance);
@@ -227,6 +235,12 @@ describe('ScenarioLoader', () => {
 
     clearScenarioCache();
     expect(mockInstance.clearCache).toHaveBeenCalledTimes(1);
+
+    getScenarioCacheStats();
+    expect(mockInstance.getCacheStats).toHaveBeenCalledTimes(1);
+
+    deleteScenarioFromCache('delta');
+    expect(mockInstance.deleteFromCache).toHaveBeenCalledWith('delta');
 
     getInstanceSpy.mockRestore();
   });
