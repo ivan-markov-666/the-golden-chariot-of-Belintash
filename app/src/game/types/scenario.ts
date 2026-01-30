@@ -22,6 +22,7 @@ export interface Choice {
   conditions: Condition[];
   skillCheck?: SkillCheck;
   consequences: Consequence[];
+  failureConsequences?: Consequence[];
   nextScenario: string;
   nextScenarioOnFailure?: string;
 }
@@ -57,6 +58,7 @@ export const ChoiceSchema: z.ZodType<Choice> = z.object({
   conditions: z.array(ConditionSchema),
   skillCheck: SkillCheckSchema.optional(),
   consequences: z.array(ConsequenceSchema),
+  failureConsequences: z.array(ConsequenceSchema).optional(),
   nextScenario: z.string(),
   nextScenarioOnFailure: z.string().optional(),
 });

@@ -44,3 +44,40 @@ export interface PlayerCharacter {
   inventory: InventoryItem[];
   equipment: EquipmentSlots;
 }
+
+const DEFAULT_ATTRIBUTES: CharacterAttributeMap = {
+  strength: 10,
+  agility: 10,
+  intelligence: 10,
+  charisma: 10,
+  wisdom: 10,
+  vitality: 10,
+};
+
+export const createPlayerCharacter = (
+  overrides: Partial<PlayerCharacter> = {},
+): PlayerCharacter => {
+  const base: PlayerCharacter = {
+    name: 'Unnamed Adventurer',
+    level: 1,
+    experience: 0,
+    health: 10,
+    maxHealth: 10,
+    mana: 5,
+    maxMana: 5,
+    gold: 0,
+    attributes: { ...DEFAULT_ATTRIBUTES },
+    skills: {},
+    inventory: [],
+    equipment: {},
+  };
+
+  return {
+    ...base,
+    ...overrides,
+    attributes: { ...DEFAULT_ATTRIBUTES, ...(overrides.attributes ?? {}) },
+    skills: { ...(overrides.skills ?? {}) },
+    inventory: overrides.inventory ?? base.inventory,
+    equipment: overrides.equipment ?? base.equipment,
+  };
+};
