@@ -2,12 +2,9 @@ import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import { MainMenuOccam } from '../MainMenuOccam';
 import { useSaveSlots } from '@/store/saveSlotsStore';
-import { useEntitlements } from '../../../state/entitlements';
-import {
-  subscribeToMenuTelemetry,
-  type MenuTelemetryEvent,
-} from '../../../services/telemetry/menu';
-import { useUXPerfEvents } from '../../../state/perf';
+import { useEntitlements } from '@/store/entitlementsStore';
+import { subscribeToMenuTelemetry, type MenuTelemetryEvent } from '../../../services/telemetry/menu';
+import { useUXPerfEvents } from '@/store/perfStore';
 import { useUIStore } from '@/store/uiStore';
 import { t } from '../../../localization/menu';
 
@@ -119,7 +116,7 @@ jest.mock('@/store/saveSlotsStore', () => {
   return { useSaveSlots };
 });
 
-jest.mock('../../../state/perf', () => {
+jest.mock('@/store/perfStore', () => {
   type MockUXPerfEvent = { id: string; durationMs: number; timestamp: number };
   const state = {
     events: [] as MockUXPerfEvent[],

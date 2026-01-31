@@ -3,7 +3,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import { SaveSlotOccam } from '../SaveSlotOccam';
 import { useSaveSlots } from '@/store/saveSlotsStore';
 import { useUIStore } from '@/store/uiStore';
-import { useUXPerfEvents } from '../../../state/perf';
+import { useUXPerfEvents } from '@/store/perfStore';
 import {
   subscribeToSaveTelemetry,
   type SaveTelemetryEvent,
@@ -120,7 +120,7 @@ jest.mock('@/store/saveSlotsStore', () => {
   return { useSaveSlots };
 });
 
-jest.mock('../../../state/perf', () => {
+jest.mock('@/store/perfStore', () => {
   type MockUXPerfEvent = { id: string; durationMs: number; timestamp: number };
   const state = {
     events: [] as MockUXPerfEvent[],

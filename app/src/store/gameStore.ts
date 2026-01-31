@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { devtools, persist, createJSONStorage } from 'zustand/middleware';
+import { withStoreLogger } from './middleware/withStoreLogger';
 import { GameState, GameTime, createInitialGameState } from '@/game/types/gameState';
 
 export interface GameStoreState {
@@ -33,24 +34,26 @@ const createFreshState = () => ({
 });
 
 export const useGameStore = create<GameStoreState>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        gameState: createInitialGameState(),
-        setFlag: (key, value) =>
-          set(
-            (state) => ({
-              gameState: {
-                ...state.gameState,
-                flags: {
-                  ...state.gameState.flags,
-                  [key]: value,
+  withStoreLogger(
+    devtools(
+      persist(
+        (set, get) => ({
+          gameState: createInitialGameState(),
+          setFlag: (key, value) =>
+            set(
+              (state) => ({
+                gameState: {
+                  ...state.gameState,
+                  flags: {
+                    ...state.gameState.flags,
+                    [key]: value,
+                  },
                 },
-              },
-            }),
-            false,
-            `game/setFlag/${key}`,
-          ),
+              }),
+              false,
+              `game/setFlag/${key}`,
+            ),
+        
         setCounter: (key, value) =>
           set(
             (state) => ({
@@ -191,13 +194,15 @@ export const useGameStore = create<GameStoreState>()(
         resetGameState: () => set(createFreshState(), false, 'game/reset'),
         loadGameState: (state) => set({ gameState: state }, false, 'game/load'),
       }),
-      {
-        name: 'game-storage',
-        storage: createJSONStorage(() => AsyncStorage),
-        partialize: (state) => ({ gameState: state.gameState }),
-      },
+        {
+          name: 'game-storage',
+          storage: createJSONStorage(() => AsyncStorage),
+          partialize: (state) => ({ gameState: state.gameState }),
+        },
+      ),
+      { name: 'GameStore' },
     ),
-    { name: 'GameStore' },
+    'GameStore',
   ),
 );
 

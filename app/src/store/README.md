@@ -11,6 +11,8 @@ The engine state is split into four dedicated Zustand stores:
 | `useQuestStore` | ✅ AsyncStorage (`quest-storage`) | Quest lifecycle + objectives |
 | `useUIStore` | ❌ non-persisted | Loading state, modals, notifications |
 
+All stores are wrapped with `withStoreLogger`, a lightweight middleware that prints every action (name + payload) to the console in development builds. This makes it easier to follow state mutations while keeping production output clean.
+
 All stores share the same structure: `devtools` middleware for Redux DevTools naming/inspection and `persist` middleware (where enabled) with `createJSONStorage` targeting React Native AsyncStorage.
 
 ## Usage

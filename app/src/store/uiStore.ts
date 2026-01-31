@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { withStoreLogger } from './middleware/withStoreLogger';
 import { Locale } from '@/theme/guardianShell';
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
@@ -36,8 +37,9 @@ export interface UIStoreState {
 }
 
 export const useUIStore = create<UIStoreState>()(
-  devtools(
-    (set) => ({
+  withStoreLogger(
+    devtools(
+      (set) => ({
       loading: false,
       currentScreen: 'home',
       modalOpen: false,
@@ -104,8 +106,10 @@ export const useUIStore = create<UIStoreState>()(
           false,
           'ui/setEffectsAvailable',
         ),
-    }),
-    { name: 'UIStore' },
+      }),
+      { name: 'UIStore' },
+    ),
+    'UIStore',
   ),
 );
 
