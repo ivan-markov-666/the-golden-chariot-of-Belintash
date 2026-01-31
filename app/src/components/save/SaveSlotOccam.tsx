@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { tsave } from '../../localization/save';
 import { requestManualOverride } from '../../services/guardianShell/manualOverride';
@@ -10,10 +10,12 @@ import {
   logSaveSlotDeleted,
   logSaveSlotSelected,
 } from '../../services/telemetry/save';
-import { useSaveSlots, type SaveSlot } from '@/store/saveSlotsStore';
 import { useUXPerfEvents } from '@/store/perfStore';
 import { useUIStore } from '@/store/uiStore';
 import { getGuardianShellTheme } from '../../theme/guardianShell';
+import { useSaveLoad } from '@/hooks/useSaveLoad';
+import type { SaveSlotId } from '@/services/save/SaveLoadService';
+import type { SaveSlot } from '@/store/saveSlotsStore';
 
 const ACTION_ZONE_WIDTH = 48;
 const NEW_GAME_PLUS_ID = 'ng-plus';
@@ -35,12 +37,22 @@ const formatPlaytime = (minutes: number) => {
 
 const formatDlcFlags = (flags: string[]) => (flags.length ? flags.join(', ') : '—');
 
+const isSaveSlotId = (slotId: string): slotId is SaveSlotId =>
+  slotId === 'slot-1' || slotId === 'slot-2' || slotId === 'slot-3';
+
 export const SaveSlotOccam: React.FC = () => {
   const locale = useUIStore((state) => state.locale);
   const highContrast = useUIStore((state) => state.highContrast);
   const setOverlaysVisible = useUIStore((state) => state.setOverlaysVisible);
   const effectsAvailable = useUIStore((state) => state.effectsAvailable);
-  const { slots, setSlot, deleteSlot } = useSaveSlots();
+  const {
+    slots,
+    actionState,
+    error,
+    loadFromSlot,
+    deleteSlot: deleteSaveSlot,
+    recoverSlot,
+  } = useSaveLoad();
   const theme = useMemo(() => getGuardianShellTheme(highContrast), [highContrast]);
   const [activeSlotId, setActiveSlotId] = useState<string>(slots[0]?.id ?? NEW_GAME_PLUS_ID);
   const logPerfEvent = useUXPerfEvents((state) => state.logEvent);
@@ -95,15 +107,39 @@ export const SaveSlotOccam: React.FC = () => {
     });
   };
 
+  const safeRun = useCallback(async (action: () => Promise<void>) => {
+    try {
+      await action();
+    } catch {
+      // Errors are surfaced via notifications in the hook; no-op here.
+    }
+  }, []);
+
+  const handleSelect = (slot: SaveSlot) => {
+    handleSlotFocus(slot);
+    if (!isSaveSlotId(slot.id) || slot.corrupted) {
+      return;
+    }
+    void safeRun(() => loadFromSlot(slot.id));
+  };
+
   const handleDelete = (slot: SaveSlot) => {
-    deleteSlot(slot.id);
-    logSaveSlotDeleted(slot.id, { timestamp: Date.now() });
+    if (!isSaveSlotId(slot.id)) {
+      return;
+    }
+    void safeRun(async () => {
+      await deleteSaveSlot(slot.id);
+      logSaveSlotDeleted(slot.id, { timestamp: Date.now() });
+    });
   };
 
   const handleRecover = (slot: SaveSlot) => {
+    if (!isSaveSlotId(slot.id)) {
+      return;
+    }
     requestManualOverride({ slotId: slot.id, reason: 'corruption' });
     logSaveRecoveryAttempt(slot.id, { dlcFlags: slot.dlcFlags });
-    setSlot(slot.id, { corrupted: false });
+    void safeRun(() => recoverSlot(slot.id));
   };
 
   const handleNewGamePlus = () => {
@@ -113,6 +149,7 @@ export const SaveSlotOccam: React.FC = () => {
 
   const renderSlotCard = (slot: SaveSlot) => {
     const selected = activeSlotId === slot.id;
+    const slotAction = actionState.slotId === slot.id ? actionState.type : null;
     return (
       <Pressable
         key={slot.id}
@@ -125,10 +162,11 @@ export const SaveSlotOccam: React.FC = () => {
           },
         ]}
         onPress={() => handleSlotFocus(slot)}
+        disabled={slotAction === 'load'}
         accessibilityRole="button"
         accessibilityState={{ selected }}
       >
-        <Text style={[styles.slotTitle, { color: theme.palette.textPrimary }]}>
+        <Text style={[styles.slotTitle, { color: theme.palette.textPrimary }]}> 
           {slot.title ?? tsave(locale, 'emptySlot')}
         </Text>
         <Text style={[styles.slotMeta, { color: theme.palette.textSecondary }]}>
@@ -225,6 +263,9 @@ export const SaveSlotOccam: React.FC = () => {
                 {tsave(locale, 'drySeal.fallback')}
               </Text>
             )}
+            {error && (
+              <Text style={[styles.errorText, { color: theme.palette.danger }]}>{error}</Text>
+            )}
           </View>
 
           <View style={[styles.reachZone, { borderColor: theme.palette.outline }]} testID="reach-zone">
@@ -232,15 +273,19 @@ export const SaveSlotOccam: React.FC = () => {
               <>
                 <ActionButton
                   label={tsave(locale, 'button.select')}
-                  onPress={() => handleSlotFocus(activeSlot)}
+                  onPress={() => handleSelect(activeSlot)}
                   color={theme.palette.primary}
                   testID="action-select"
+                  disabled={!isSaveSlotId(activeSlot.id) || (actionState.slotId === activeSlot.id && actionState.type !== null && actionState.type !== 'load')}
+                  loading={actionState.slotId === activeSlot.id && actionState.type === 'load'}
                 />
                 <ActionButton
                   label={tsave(locale, 'button.delete')}
                   onPress={() => handleDelete(activeSlot)}
                   color={theme.palette.textSecondary}
                   testID="action-delete"
+                  disabled={!isSaveSlotId(activeSlot.id) || (actionState.slotId === activeSlot.id && actionState.type !== null && actionState.type !== 'delete')}
+                  loading={actionState.slotId === activeSlot.id && actionState.type === 'delete'}
                 />
                 {activeSlot.corrupted && (
                   <ActionButton
@@ -248,6 +293,8 @@ export const SaveSlotOccam: React.FC = () => {
                     onPress={() => handleRecover(activeSlot)}
                     color={theme.palette.accent}
                     testID="action-recover"
+                    disabled={!isSaveSlotId(activeSlot.id) || (actionState.slotId === activeSlot.id && actionState.type !== null && actionState.type !== 'recover')}
+                    loading={actionState.slotId === activeSlot.id && actionState.type === 'recover'}
                   />
                 )}
               </>
@@ -275,19 +322,26 @@ type ActionButtonProps = {
   onPress: () => void;
   color: string;
   testID: string;
+  disabled?: boolean;
+  loading?: boolean;
 };
 
-const ActionButton: React.FC<ActionButtonProps> = ({ label, onPress, color, testID }) => (
+const ActionButton: React.FC<ActionButtonProps> = ({ label, onPress, color, testID, disabled = false, loading = false }) => (
   <Pressable
     style={({ pressed }) => [
       styles.actionButton,
-      { borderColor: color, backgroundColor: pressed ? 'rgba(255,255,255,0.08)' : 'transparent' },
+      {
+        borderColor: color,
+        backgroundColor: pressed && !disabled ? 'rgba(255,255,255,0.08)' : 'transparent',
+        opacity: disabled ? 0.4 : 1,
+      },
     ]}
     onPress={onPress}
+    disabled={disabled || loading}
     testID={testID}
   >
     <Text style={[styles.actionLabel, { color }]} numberOfLines={2}>
-      {label}
+      {loading ? '…' : label}
     </Text>
   </Pressable>
 );
@@ -368,6 +422,10 @@ const styles = StyleSheet.create({
   drySeal: {
     fontSize: 12,
     marginTop: 12,
+  },
+  errorText: {
+    marginTop: 8,
+    fontSize: 12,
   },
   reachZone: {
     width: ACTION_ZONE_WIDTH,
