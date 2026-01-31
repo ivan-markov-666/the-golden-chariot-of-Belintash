@@ -16,6 +16,13 @@ export interface InventoryItem {
   id: string;
   quantity?: number;
   equipped?: boolean;
+  weight?: number;
+  attributeModifiers?: Partial<CharacterAttributeMap>;
+  skillModifiers?: Partial<CharacterSkillMap>;
+  requirements?: {
+    level?: number;
+    attributes?: Partial<CharacterAttributeMap>;
+  };
 }
 
 export interface EquipmentSlots {
@@ -30,6 +37,23 @@ export interface EquipmentSlots {
   [slot: string]: InventoryItem | undefined;
 }
 
+export interface StatusEffect {
+  id: string;
+  type: 'buff' | 'debuff' | 'condition';
+  source?: string;
+  magnitude?: number;
+  durationMs?: number;
+  appliedAt: number;
+  attributeModifiers?: Partial<CharacterAttributeMap>;
+  skillModifiers?: Partial<CharacterSkillMap>;
+}
+
+export type CharacterMilestone = {
+  id: string;
+  unlockedAt: number;
+  description?: string;
+};
+
 export interface PlayerCharacter {
   name: string;
   level: number;
@@ -43,6 +67,13 @@ export interface PlayerCharacter {
   skills: CharacterSkillMap;
   inventory: InventoryItem[];
   equipment: EquipmentSlots;
+  attributePoints: number;
+  skillPoints: number;
+  statusEffects: StatusEffect[];
+  milestones: CharacterMilestone[];
+  inventoryWeight: number;
+  maxCarryWeight: number;
+  encumbered: boolean;
 }
 
 const DEFAULT_ATTRIBUTES: CharacterAttributeMap = {
@@ -70,6 +101,13 @@ export const createPlayerCharacter = (
     skills: {},
     inventory: [],
     equipment: {},
+    attributePoints: 0,
+    skillPoints: 0,
+    statusEffects: [],
+    milestones: [],
+    inventoryWeight: 0,
+    maxCarryWeight: 80,
+    encumbered: false,
   };
 
   return {
