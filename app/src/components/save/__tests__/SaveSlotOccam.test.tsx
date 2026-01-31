@@ -4,9 +4,12 @@ import { SaveSlotOccam } from '../SaveSlotOccam';
 import { useUIStore } from '@/store/uiStore';
 import { useUXPerfEvents } from '@/store/perfStore';
 import { useSaveLoad, type UseSaveLoadResult } from '@/hooks/useSaveLoad';
+import type { SaveSlotId } from '@/services/save/SaveLoadService';
 import {
-  subscribeToSaveTelemetry,
-  type SaveTelemetryEvent,
+  logSaveNewGamePlus,
+  logSaveRecoveryAttempt,
+  logSaveSlotDeleted,
+  logSaveSlotSelected,
 } from '../../../services/telemetry/save';
 import { renderWithProviders } from '../../../test-utils/renderWithProviders';
 import { requestManualOverride } from '../../../services/guardianShell/manualOverride';
@@ -48,6 +51,13 @@ jest.mock('@/store/uiStore', () => {
   return { useUIStore };
 });
 
+jest.mock('../../../services/telemetry/save', () => ({
+  logSaveSlotSelected: jest.fn(),
+  logSaveSlotDeleted: jest.fn(),
+  logSaveRecoveryAttempt: jest.fn(),
+  logSaveNewGamePlus: jest.fn(),
+}));
+
 const createMockSlots = () => [
   {
     id: 'slot-1',
@@ -81,17 +91,23 @@ const createMockSlots = () => [
   },
 ];
 
-const mockSaveLoadState: UseSaveLoadResult = {
+const createAsyncMock = <Args extends unknown[]>(
+  impl?: (...args: Args) => Promise<void>,
+) => jest.fn<Promise<void>, Args>(impl ?? (async () => {}));
+
+const createSaveLoadMock = (): jest.Mocked<UseSaveLoadResult> => ({
   slots: createMockSlots(),
   actionState: { type: null, slotId: undefined },
   error: null,
   loading: false,
-  refreshSlots: jest.fn(() => Promise.resolve()),
-  saveToSlot: jest.fn(() => Promise.resolve()),
-  loadFromSlot: jest.fn(() => Promise.resolve()),
-  deleteSlot: jest.fn(() => Promise.resolve()),
-  recoverSlot: jest.fn(() => Promise.resolve()),
-};
+  refreshSlots: createAsyncMock(),
+  saveToSlot: createAsyncMock<[SaveSlotId]>(async () => {}),
+  loadFromSlot: createAsyncMock<[SaveSlotId]>(async () => {}),
+  deleteSlot: createAsyncMock<[SaveSlotId]>(async () => {}),
+  recoverSlot: createAsyncMock<[SaveSlotId]>(async () => {}),
+});
+
+const mockSaveLoadState = createSaveLoadMock();
 
 jest.mock('@/hooks/useSaveLoad', () => ({
   useSaveLoad: jest.fn(() => mockSaveLoadState),
@@ -118,18 +134,17 @@ jest.mock('@/store/perfStore', () => {
 });
 
 const useSaveLoadMock = useSaveLoad as jest.MockedFunction<typeof useSaveLoad>;
+const telemetryMocks = {
+  logSaveSlotSelected: logSaveSlotSelected as jest.Mock,
+  logSaveSlotDeleted: logSaveSlotDeleted as jest.Mock,
+  logSaveRecoveryAttempt: logSaveRecoveryAttempt as jest.Mock,
+  logSaveNewGamePlus: logSaveNewGamePlus as jest.Mock,
+};
 
 const resetStores = () => {
   act(() => {
-    mockSaveLoadState.slots = createMockSlots();
-    mockSaveLoadState.actionState = { type: null, slotId: undefined };
-    mockSaveLoadState.error = null;
-    mockSaveLoadState.loading = false;
-    mockSaveLoadState.refreshSlots.mockClear();
-    mockSaveLoadState.saveToSlot.mockClear();
-    mockSaveLoadState.loadFromSlot.mockClear();
-    mockSaveLoadState.deleteSlot.mockClear();
-    mockSaveLoadState.recoverSlot.mockClear();
+    const fresh = createSaveLoadMock();
+    Object.assign(mockSaveLoadState, fresh);
     useSaveLoadMock.mockReturnValue(mockSaveLoadState);
     useUXPerfEvents.getState().reset();
     const uiState = useUIStore.getState();
@@ -156,6 +171,10 @@ describe('SaveSlotOccam', () => {
     jest.useRealTimers();
     resetStores();
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    telemetryMocks.logSaveSlotSelected.mockClear();
+    telemetryMocks.logSaveSlotDeleted.mockClear();
+    telemetryMocks.logSaveRecoveryAttempt.mockClear();
+    telemetryMocks.logSaveNewGamePlus.mockClear();
   });
 
   afterEach(() => {
@@ -173,9 +192,7 @@ describe('SaveSlotOccam', () => {
     expect(reachZoneStyle.width).toBeWithinRange(0, 48);
   });
 
-  it('логва telemetry за select/delete/recover/NG+', () => {
-    const events: SaveTelemetryEvent[] = [];
-    const unsubscribe = subscribeToSaveTelemetry((event) => events.push(event));
+  it('логва telemetry за select/delete/recover/NG+', async () => {
     const { getByTestId } = render(<SaveSlotOccam />);
 
     fireEvent.press(getByTestId('save-slot-card-slot-2'));
@@ -184,16 +201,20 @@ describe('SaveSlotOccam', () => {
     fireEvent.press(getByTestId('save-slot-card-ng-plus'));
     fireEvent.press(getByTestId('action-ng-plus'));
 
-    expect(events).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ type: 'save.slotSelected', slotId: 'slot-2' }),
-        expect.objectContaining({ type: 'save.recoveryAttempt', slotId: 'slot-2' }),
-        expect.objectContaining({ type: 'save.slotDeleted', slotId: 'slot-2' }),
-        expect.objectContaining({ type: 'save.newGamePlus', slotId: 'ng-plus' }),
-      ]),
+    expect(telemetryMocks.logSaveSlotSelected).toHaveBeenCalledWith(
+      'slot-2',
+      expect.objectContaining({ corrupted: true }),
     );
-
-    unsubscribe();
+    expect(telemetryMocks.logSaveRecoveryAttempt).toHaveBeenCalledWith(
+      'slot-2',
+      expect.objectContaining({ dlcFlags: [] }),
+    );
+    await waitFor(() =>
+      expect(telemetryMocks.logSaveSlotDeleted).toHaveBeenCalledWith('slot-2', expect.any(Object)),
+    );
+    await waitFor(() =>
+      expect(telemetryMocks.logSaveNewGamePlus).toHaveBeenCalledWith('ng-plus', expect.any(Object)),
+    );
   });
 
   it('превключва активния слот, ако текущият липсва в стора', () => {
@@ -270,9 +291,7 @@ describe('SaveSlotOccam', () => {
     });
   });
 
-  it('action бутоните select/delete актуализират стора и телеметрията', () => {
-    const events: SaveTelemetryEvent[] = [];
-    const unsubscribe = subscribeToSaveTelemetry((event) => events.push(event));
+  it('action бутоните select/delete актуализират стора и телеметрията', async () => {
     const { getByTestId } = render(<SaveSlotOccam />);
 
     fireEvent.press(getByTestId('save-slot-card-slot-1'));
@@ -281,14 +300,14 @@ describe('SaveSlotOccam', () => {
 
     expect(mockSaveLoadState.loadFromSlot).toHaveBeenCalledWith('slot-1');
     expect(mockSaveLoadState.deleteSlot).toHaveBeenCalledWith('slot-1');
-    expect(events.filter((event) => event.type === 'save.slotSelected')).toHaveLength(2);
-    expect(events.find((event) => event.type === 'save.slotDeleted')).toBeTruthy();
-
-    unsubscribe();
+    expect(telemetryMocks.logSaveSlotSelected).toHaveBeenCalled();
+    await waitFor(() =>
+      expect(telemetryMocks.logSaveSlotDeleted).toHaveBeenCalledWith('slot-1', expect.any(Object)),
+    );
   });
 
   it('обновява overlay копието при NG+ и при възстановен слот', () => {
-    const { getByTestId, getAllByText } = render(<SaveSlotOccam />);
+    const { getByTestId, getAllByText, rerender } = render(<SaveSlotOccam />);
 
     expect(getAllByText(tsave('bg', 'overlay.detailsTitle')).length).toBeGreaterThan(0);
 
@@ -302,6 +321,13 @@ describe('SaveSlotOccam', () => {
     ).toBeGreaterThan(0);
 
     fireEvent.press(getByTestId('action-recover'));
+    act(() => {
+      mockSaveLoadState.slots = mockSaveLoadState.slots.map((slot) =>
+        slot.id === 'slot-2' ? { ...slot, corrupted: false } : slot,
+      );
+      useSaveLoadMock.mockReturnValue({ ...mockSaveLoadState });
+    });
+    rerender(<SaveSlotOccam />);
     expect(
       getAllByText(new RegExp(escapeRegExp(tsave('bg', 'status.clean')), 'i')).length,
     ).toBeGreaterThan(0);

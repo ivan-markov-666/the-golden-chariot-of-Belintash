@@ -17,23 +17,24 @@ GuardianShell mandates reliable tests across unit, component, and integration la
 | Screen tests | `src/screens/__tests__` | Include navigation mocks where needed |
 | Store tests | `src/store/__tests__` | Reset Zustand stores between tests |
 | Services tests | `src/services/**/__tests__` | Mock network/telemetry clients |
+| Hooks tests | `src/hooks/__tests__` | Render via `renderHook`, assert notification state |
 
 ## Running Tests
 
 ```bash
 cd app
-npm test                 # single pass
-npm test -- --watch      # rerun on file changes
-npm test -- --runInBand  # stable CI mode
-npm run test -- --coverage  # full suite w/ coverage (≈89% lines as of Jan 31, 2026)
+npm test                     # single pass
+npm test -- --watch          # rerun on file changes
+npm test -- --runInBand      # stable CI mode
+npm test -- --runInBand --coverage  # full suite w/ coverage (≈97.6/95.6/93.5/85.7 lines/statements/functions/branches – Jan 31 2026)
 ```
 
 Add `--clearCache` if encountering stale transforms. For coverage runs, keep the console output (or HTML report under `coverage/`) attached to story hand-offs.
 
 ## Coverage Expectations
 
-- **Global CI gate:** ≥70% statements/branches/lines/functions (currently ~88/70/89/96%).
-- **Core services goal:** ≥90% coverage for engine + store layers (Game/Character/Quest/UI + telemetry services). Re-run `npm run test -- --coverage` before handing off to confirm.
+- **Global CI gate:** ≥70% statements/branches/lines/functions (latest run: 95.6% statements / 85.7% branches / 93.5% functions / 97.6% lines from `temp-coverage/coverage-summary.json`).
+- **Core services goal:** ≥90% coverage for engine + store layers (Game/Character/Quest/UI + telemetry services). Re-run `npm test -- --runInBand --coverage` before handing off to confirm.
 - **Feature:** touch every new branch or state in the feature under test.
 - Exclude pure boilerplate (navigation container) via `/* istanbul ignore file */` where justified (see `AppNavigator.tsx`).
 
@@ -59,9 +60,24 @@ describe('MainMenuScreen', () => {
 });
 ```
 
+## Нови тестови пакети (Jan 31 2026)
+
+- **ChoiceProcessor** (`app/src/services/__tests__/ChoiceProcessor.test.ts`): покрива skill-check пътищата (успех/неуспех, fallback при липсващи failure consequences, атрибутни бонуси) и пропагиране на ConsequenceApplicator warnings/events до резултата.
+- **gameStore** (`app/src/store/__tests__/gameStore.test.ts`): нови сценарии за multi-day `advanceTime`, положителен clamp на `set/adjustRelationship` и персистентност на `loadGameState` през AsyncStorage слоя.
+- **useSaveLoad hook** (`app/src/hooks/__tests__/useSaveLoad.test.ts`): покритие за success/error пътищата на `loadFromSlot`, `deleteSlot`, `recoverSlot`, с проверки за уведомления и error state.
+- **SaveSlotOccam / perfStore / UX stores**: интеграционни тестове за perf guardrails (<16ms), telemetry за select/delete/recover/NG+, и guard-логика при липсващи визуални ефекти.
+
+## Мокване и изчакване
+
+- **AsyncStorage** – Jest setup вече предоставя mock; за интеграции (пример `gameStore`) изчакайте `await new Promise((resolve) => setTimeout(resolve, 0))`, за да се флашне persist слоя преди `getItem` проверки.
+- **Zustand stores** – винаги ресетвайте чрез `act(() => store.getState().reset())`; за hook-ове (напр. `useSaveLoad`) използвайте `renderHook` и `waitFor` за стабилизиране на `loading` преди асерции.
+- **Telemetry** – използвайте `jest.fn()` за `log*` методите и/или `subscribeToMenuTelemetry`, като отписвате слушателите след теста, за да се избегнат утечки.
+- **Perf events** – mock-нете `useUXPerfEvents` или измерете чрез `performance.now` spies (виж `SaveSlotOccam` теста) и проверявайте, че последното събитие е в очаквания праг.
+- **Async hooks** – при `useSaveLoad` всички публични методи минават през вътрешния `run` helper; проверявайте и `actionState`, и `useUIStore` нотификациите след `await act(...)`.
+
 ## Performance & Telemetry
 
-When a component logs telemetry or perf events (e.g., `logMenuOpened`), assert that the event is emitted. Subscribe via helper functions (`subscribeToMenuTelemetry`) and unsubscribe after the test.
+Когато компонент логва telemetry или perf events (напр. `logMenuOpened`, `logSaveSlotSelected`), тествайте, че събитията се емитират. Използвайте helper-и като `subscribeToMenuTelemetry`, `useUXPerfEvents.getState()` и `waitFor`, за да уловите асинхронните ъпдейти.
 
 ## Troubleshooting
 

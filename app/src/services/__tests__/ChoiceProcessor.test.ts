@@ -5,7 +5,7 @@ import { ScenarioLoader } from '../scenarioLoader';
 import { performSkillCheck } from '@/game/types/skillCheck';
 import type { Choice } from '@/game/types/scenario';
 import type { GameState } from '@/game/types/gameState';
-import type { PlayerCharacter } from '@/game/types/character';
+import { createPlayerCharacter, type PlayerCharacter } from '@/game/types/character';
 
 jest.mock('@/game/services/ConditionEvaluator', () => ({
   ConditionEvaluator: {
@@ -78,7 +78,7 @@ describe('ChoiceProcessor', () => {
       },
     };
 
-    character = {
+    character = createPlayerCharacter({
       name: 'Test Hero',
       level: 5,
       experience: 100,
@@ -98,9 +98,7 @@ describe('ChoiceProcessor', () => {
       skills: {
         persuasion: 30,
       },
-      inventory: [],
-      equipment: {},
-    };
+    });
 
     baseChoice = {
       id: 'choice-1',
@@ -179,6 +177,120 @@ describe('ChoiceProcessor', () => {
     }
     expect(result.nextScenario).toEqual({ id: 'scenario-failure' });
     expect(result.skillCheckResult).toEqual({ success: false });
+  });
+
+  it('propagates warnings and events from ConsequenceApplicator into the result', async () => {
+    const scenario = { id: 'scenario-a' } as any;
+    const events = [{ type: 'gold_change', newTotal: 99 } as any];
+    const warnings = ['low stamina'];
+    mockApply.mockResolvedValueOnce({ success: true, events, warnings });
+
+    const result = await ChoiceProcessor.processChoice(baseChoice, scenario, gameState, character);
+
+    expect(result.events).toEqual(events);
+    expect(result.warnings).toEqual(warnings);
+  });
+
+  it('uses empty fallback when failure consequences are missing', async () => {
+    const scenario = { id: 'scenario-a' } as any;
+    const choice: Choice = {
+      ...baseChoice,
+      failureConsequences: undefined,
+      skillCheck: { skill: 'persuasion', dc: 25 },
+    };
+
+    mockPerformSkillCheck.mockReturnValue({ success: false } as any);
+
+    await ChoiceProcessor.processChoice(choice, scenario, gameState, character);
+
+    expect(mockPerformSkillCheck).toHaveBeenCalled();
+    expect(mockApply).toHaveBeenCalledWith([], gameState, character);
+  });
+
+  it('passes mapped attribute bonus into performSkillCheck', async () => {
+    const scenario = { id: 'scenario-a' } as any;
+    character.skills.intimidation = 4;
+    const choice: Choice = {
+      ...baseChoice,
+      skillCheck: { skill: 'intimidation', dc: 12 },
+    } as any;
+
+    mockPerformSkillCheck.mockReturnValue({ success: true } as any);
+
+    await ChoiceProcessor.processChoice(choice, scenario, gameState, character);
+
+    expect(mockPerformSkillCheck).toHaveBeenCalledWith(choice.skillCheck, 4, 1);
+  });
+
+  it('falls back to intelligence bonus for unknown skills', async () => {
+    const scenario = { id: 'scenario-a' } as any;
+    const choice: Choice = {
+      ...baseChoice,
+      skillCheck: { skill: 'shadow_dance', dc: 14 } as any,
+    };
+
+    mockPerformSkillCheck.mockReturnValue({ success: true } as any);
+
+    await ChoiceProcessor.processChoice(choice, scenario, gameState, character);
+
+    expect(mockPerformSkillCheck).toHaveBeenCalledWith(choice.skillCheck, 0, 2);
+  });
+
+  it('propagates warnings and events from ConsequenceApplicator into the result', async () => {
+    const scenario = { id: 'scenario-a' } as any;
+    const events = [{ type: 'gold_change', newTotal: 99 } as any];
+    const warnings = ['low stamina'];
+    mockApply.mockResolvedValueOnce({ success: true, events, warnings });
+
+    const result = await ChoiceProcessor.processChoice(baseChoice, scenario, gameState, character);
+
+    expect(result.events).toEqual(events);
+    expect(result.warnings).toEqual(warnings);
+  });
+
+  it('uses empty fallback when failure consequences are missing', async () => {
+    const scenario = { id: 'scenario-a' } as any;
+    const choice: Choice = {
+      ...baseChoice,
+      failureConsequences: undefined,
+      skillCheck: { skill: 'persuasion', dc: 25 },
+    };
+
+    mockPerformSkillCheck.mockReturnValue({ success: false } as any);
+
+    await ChoiceProcessor.processChoice(choice, scenario, gameState, character);
+
+    expect(mockPerformSkillCheck).toHaveBeenCalled();
+    expect(mockApply).toHaveBeenCalledWith([], gameState, character);
+  });
+
+  it('passes mapped attribute bonus into performSkillCheck', async () => {
+    const scenario = { id: 'scenario-a' } as any;
+    character.skills.intimidation = 4;
+    const choice: Choice = {
+      ...baseChoice,
+      skillCheck: { skill: 'intimidation', dc: 12 },
+    } as any;
+
+    mockPerformSkillCheck.mockReturnValue({ success: true } as any);
+
+    await ChoiceProcessor.processChoice(choice, scenario, gameState, character);
+
+    expect(mockPerformSkillCheck).toHaveBeenCalledWith(choice.skillCheck, 4, 1);
+  });
+
+  it('falls back to intelligence bonus for unknown skills', async () => {
+    const scenario = { id: 'scenario-a' } as any;
+    const choice: Choice = {
+      ...baseChoice,
+      skillCheck: { skill: 'shadow_dance', dc: 14 } as any,
+    };
+
+    mockPerformSkillCheck.mockReturnValue({ success: true } as any);
+
+    await ChoiceProcessor.processChoice(choice, scenario, gameState, character);
+
+    expect(mockPerformSkillCheck).toHaveBeenCalledWith(choice.skillCheck, 0, 2);
   });
 
   it('returns death result when character health drops to zero', async () => {

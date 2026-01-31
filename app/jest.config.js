@@ -6,6 +6,9 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!(jest-)?react-native|@react-native|expo(nent)?|@expo|@react-navigation)',
   ],
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': require.resolve('babel-jest'),
+  },
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/index.{ts,tsx}'],
   coverageDirectory: '<rootDir>/coverage',
