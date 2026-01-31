@@ -2,11 +2,122 @@ import React from 'react';
 import { act, fireEvent } from '@testing-library/react-native';
 import { Text, Pressable } from 'react-native';
 import { MainMenuScreen } from '../MainMenuScreen';
-import { useSaveSlots } from '../../state/saveSlots';
-import { useUXState } from '../../state/uxState';
+import { useSaveSlots } from '@/store/saveSlotsStore';
+import { useUIStore } from '@/store/uiStore';
 import { renderWithProviders } from '../../test-utils/renderWithProviders';
+import { resetUiAndSaveStores } from '../../test-utils/resetTestStores';
 
 const mockNavigate = jest.fn();
+
+type MockUIState = {
+  overlaysVisible: number;
+  highContrast: boolean;
+  locale: string;
+  effectsAvailable: boolean;
+  setOverlaysVisible: (value: number) => void;
+  setHighContrast: (value: boolean) => void;
+  setLocale: (value: string) => void;
+  setEffectsAvailable: (value: boolean) => void;
+};
+
+type MockSaveSlot = {
+  id: string;
+  occupied: boolean;
+  title: string | null;
+  updatedAt: string | null;
+  playtimeMinutes: number;
+  lastSaveType: 'manual' | 'auto';
+  dlcFlags: string[];
+  corrupted: boolean;
+};
+
+type MockSaveSlotsState = {
+  slots: MockSaveSlot[];
+  hasOccupied: boolean;
+  setSlot: (id: string, data: Partial<MockSaveSlot>) => void;
+  deleteSlot: (id: string) => void;
+  reset: (slots?: MockSaveSlot[]) => void;
+};
+
+jest.mock('@/store/uiStore', () => {
+  const mockState: MockUIState = {
+    overlaysVisible: 0,
+    highContrast: false,
+    locale: 'bg',
+    effectsAvailable: true,
+    setOverlaysVisible: (value: number) => {
+      mockState.overlaysVisible = value;
+    },
+    setHighContrast: (value: boolean) => {
+      mockState.highContrast = value;
+    },
+    setLocale: (value: string) => {
+      mockState.locale = value;
+    },
+    setEffectsAvailable: (value: boolean) => {
+      mockState.effectsAvailable = value;
+    },
+  };
+
+  const useUIStore = (selector?: (state: MockUIState) => any) =>
+    selector ? selector(mockState) : mockState;
+
+  useUIStore.getState = () => mockState;
+
+  return { useUIStore };
+});
+
+jest.mock('@/store/saveSlotsStore', () => {
+  const DEFAULT_SLOTS: MockSaveSlot[] = [
+    {
+      id: 'slot-1',
+      occupied: true,
+      title: 'Test Slot',
+      updatedAt: '2023-01-01T00:00:00.000Z',
+      playtimeMinutes: 120,
+      lastSaveType: 'manual',
+      dlcFlags: [],
+      corrupted: false,
+    },
+  ];
+
+  const cloneSlots = (slots: MockSaveSlot[]) => slots.map((slot) => ({ ...slot }));
+  const hasOccupied = (slots: MockSaveSlot[]) => slots.some((slot) => slot.occupied);
+
+  const mockState: MockSaveSlotsState = {
+    slots: cloneSlots(DEFAULT_SLOTS),
+    hasOccupied: hasOccupied(DEFAULT_SLOTS),
+    setSlot: (id, data) => {
+      mockState.slots = mockState.slots.map((slot) => (slot.id === id ? { ...slot, ...data } : slot));
+      mockState.hasOccupied = hasOccupied(mockState.slots);
+    },
+    deleteSlot: (id) => {
+      mockState.slots = mockState.slots.map((slot) =>
+        slot.id === id
+          ? {
+              ...slot,
+              occupied: false,
+              title: null,
+              updatedAt: null,
+              playtimeMinutes: 0,
+            }
+          : slot,
+      );
+      mockState.hasOccupied = hasOccupied(mockState.slots);
+    },
+    reset: (slots = DEFAULT_SLOTS) => {
+      mockState.slots = cloneSlots(slots);
+      mockState.hasOccupied = hasOccupied(mockState.slots);
+    },
+  };
+
+  const useSaveSlots = (selector?: (state: MockSaveSlotsState) => any) =>
+    selector ? selector(mockState) : mockState;
+
+  useSaveSlots.getState = () => mockState;
+
+  return { useSaveSlots };
+});
 
 jest.mock('@react-navigation/native', () => {
   const actual = jest.requireActual('@react-navigation/native');
@@ -60,10 +171,7 @@ const getStyleProp = (styleProp: any, key: string) => {
 describe('MainMenuScreen', () => {
   beforeEach(() => {
     mockNavigate.mockClear();
-    act(() => {
-      useSaveSlots.getState().reset();
-      useUXState.getState().setHighContrast(false);
-    });
+    resetUiAndSaveStores();
   });
 
   it('пренасочва към LoadGame при навигация от менюто', () => {
@@ -160,7 +268,7 @@ describe('MainMenuScreen', () => {
 
   it('uses high-contrast overlay colors when enabled', () => {
     act(() => {
-      useUXState.getState().setHighContrast(true);
+      useUIStore.getState().setHighContrast(true);
     });
 
     const { getByTestId } = renderScreen();

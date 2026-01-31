@@ -10,9 +10,9 @@ import {
   logSaveSlotDeleted,
   logSaveSlotSelected,
 } from '../../services/telemetry/save';
-import { useSaveSlots, type SaveSlot } from '../../state/saveSlots';
-import { useUXPerfEvents } from '../../state/perf';
-import { useUXState } from '../../state/uxState';
+import { useSaveSlots, type SaveSlot } from '@/store/saveSlotsStore';
+import { useUXPerfEvents } from '@/store/perfStore';
+import { useUIStore } from '@/store/uiStore';
 import { getGuardianShellTheme } from '../../theme/guardianShell';
 
 const ACTION_ZONE_WIDTH = 48;
@@ -36,7 +36,10 @@ const formatPlaytime = (minutes: number) => {
 const formatDlcFlags = (flags: string[]) => (flags.length ? flags.join(', ') : '—');
 
 export const SaveSlotOccam: React.FC = () => {
-  const { locale, highContrast, setOverlaysVisible, effectsAvailable } = useUXState();
+  const locale = useUIStore((state) => state.locale);
+  const highContrast = useUIStore((state) => state.highContrast);
+  const setOverlaysVisible = useUIStore((state) => state.setOverlaysVisible);
+  const effectsAvailable = useUIStore((state) => state.effectsAvailable);
   const { slots, setSlot, deleteSlot } = useSaveSlots();
   const theme = useMemo(() => getGuardianShellTheme(highContrast), [highContrast]);
   const [activeSlotId, setActiveSlotId] = useState<string>(slots[0]?.id ?? NEW_GAME_PLUS_ID);

@@ -7,13 +7,16 @@ import { MainMenuOccam } from '../components/menu/MainMenuOccam';
 import type { MenuOptionId } from '../constants/menuOptions';
 import type { RootStackParamList } from '../navigation/AppNavigator';
 import { getGuardianShellTheme } from '../theme/guardianShell';
-import { useUXState } from '../state/uxState';
-import { useSaveSlots } from '../state/saveSlots';
+import { useUIStore } from '@/store/uiStore';
+import { useSaveSlots } from '@/store/saveSlotsStore';
 import { t } from '../localization/menu';
 
 export const MainMenuScreen: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { highContrast, locale } = useUXState();
+  const { highContrast, locale } = useUIStore((state) => ({
+    highContrast: state.highContrast,
+    locale: state.locale,
+  }));
   const theme = useMemo(() => getGuardianShellTheme(highContrast), [highContrast]);
   const hasSaves = useSaveSlots((state) => state.hasOccupied);
   const [bgmEnabled, setBgmEnabled] = useState(true);

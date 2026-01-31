@@ -12,7 +12,9 @@
       "@/components/*": ["src/components/*"],
       "@/state/*": ["src/state/*"],
       "@/services/*": ["src/services/*"],
-      "@/game/*": ["src/game/*"]
+      "@/game/*": ["src/game/*"],
+      "@/store/*": ["src/store/*"],
+      "@/theme/*": ["src/theme/*"]
     }
   },
   "include": ["src", "App.tsx", "jest.setup.js"]

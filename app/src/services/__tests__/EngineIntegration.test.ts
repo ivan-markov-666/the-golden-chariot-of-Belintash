@@ -4,11 +4,13 @@ import {
   clearScenarioCache,
   getScenarioCacheStats,
 } from '../scenarioLoader';
-import { createInitialGameState, GameState } from '../../game/types/gameState';
-import { PlayerCharacter } from '../../game/types/character';
+import { createInitialGameState } from '../../game/types/gameState';
+import type { GameState } from '../../game/types/gameState';
+import type { PlayerCharacter } from '../../game/types/character';
+import type { Scenario, Choice } from '../../game/types/scenario';
 import * as SkillCheckModule from '../../game/types/skillCheck';
 
-const buildScenario = (id: string, overrides = {}) => ({
+const buildScenario = (id: string, overrides: Partial<Scenario> = {}): Scenario => ({
   id,
   titleKey: `scenarios.${id}.title`,
   textKey: `scenarios.${id}.text`,
@@ -22,7 +24,7 @@ const buildScenario = (id: string, overrides = {}) => ({
   ...overrides,
 });
 
-const buildChoice = () => ({
+const buildChoice = (): Choice => ({
   id: 'integration-choice',
   textKey: 'choices.integration',
   conditions: [{ type: 'flag', target: 'integration_ready', value: true }],
@@ -41,7 +43,7 @@ jest.mock('@/game/data/scenarioManifest', () => ({
   },
 }));
 
-const createTestCharacter = () => ({
+const createTestCharacter = (): PlayerCharacter => ({
   name: 'Integration Hero',
   level: 5,
   experience: 100,
