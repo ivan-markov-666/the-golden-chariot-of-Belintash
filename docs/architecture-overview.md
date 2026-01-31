@@ -39,6 +39,17 @@ app/
 4. **Telemetry services** abstract logging so future GuardianShell bus integration is centralized.
 5. **Theme/localization** functions supply color/copy tokens down the tree.
 
+## Relationship System (Story 3.5)
+
+- **GameState payload** – `relationships: Record<string, number>` за актуалните стойности (-100 до +100), `relationshipMetadata` за история/етапи и `factionReputation` за репутация по региони.
+- **RelationshipService** – централен helper (`app/src/game/services/RelationshipService.ts`) с:
+  1. `getRelationshipLevel` – картографира афинитета към нива (enemy…close);
+  2. `adjustWithDecay` – дрейф към неутрално (0.5 точки/ден) преди нова делта;
+  3. `applyDelta` – комбинира decay, clamp, записва history (timestamp, reason, location) и обновява `lastInteractionDay`/milestones;
+  4. `meetsRelationshipRequirement` – удобна проверка за gating.
+- **ConsequenceApplicator integration** – `relationship` последствията вече използват `RelationshipService.applyDelta`, което гарантира decay + попълване на метаданните и генериране на `relationship_change` event.
+- **ConditionEvaluator** продължава да чете `gameState.relationships`, така че новата система е прозрачно съвместима със съществуващите условни проверки.
+
 ## Build & Deployment
 
 - Expo-managed workflow for development; EAS Build to ship platform binaries (to be configured in future stories).

@@ -1,6 +1,7 @@
 import { Consequence } from '../types/consequence';
 import { GameState } from '../types/gameState';
 import { PlayerCharacter } from '../types/character';
+import { RelationshipService } from './RelationshipService';
 
 const DEV_MODE = typeof __DEV__ !== 'undefined' ? __DEV__ : process.env.NODE_ENV !== 'production';
 
@@ -355,9 +356,13 @@ export class ConsequenceApplicator {
     gameState: GameState,
     context: TransactionContext,
   ): void {
-    const current = gameState.relationships[target] ?? 0;
-    gameState.relationships[target] = Math.max(-100, Math.min(100, current + amount));
-    this.recordEvent(context, { type: 'relationship_change', target, value: gameState.relationships[target] });
+    const currentDay = gameState.gameTime?.day ?? 0;
+    const newValue = RelationshipService.applyDelta(gameState, target, amount, currentDay, {
+      reason: 'consequence',
+      location: gameState.location,
+    });
+
+    this.recordEvent(context, { type: 'relationship_change', target, value: newValue });
   }
 
   private static unlockEntry(

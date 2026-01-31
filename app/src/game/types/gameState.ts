@@ -30,12 +30,34 @@ export interface GameStateMetadata {
 /**
  * Snapshot of every persisted system in the story engine.
  */
+export interface RelationshipInteraction {
+  timestamp: number;
+  delta: number;
+  reason?: string;
+  location?: string;
+  resultingLevel?: 'enemy' | 'unfriendly' | 'neutral' | 'friendly' | 'close';
+}
+
+export interface RelationshipMilestone {
+  id: string;
+  label?: string;
+  reachedAt: number;
+}
+
+export interface RelationshipProfile {
+  lastInteractionDay: number | null;
+  history: RelationshipInteraction[];
+  milestones: RelationshipMilestone[];
+}
+
 export interface GameState {
   currentScenario: Scenario | null;
   flags: Record<string, boolean>;
   counters: Record<string, number>;
   location: string;
   relationships: Record<string, number>;
+  relationshipMetadata: Record<string, RelationshipProfile>;
+  factionReputation: Record<string, number>;
   unlockedShops: string[];
   unlockedDialogues: string[];
   unlockedQuests: string[];
@@ -80,6 +102,28 @@ export const GameStateSchema: z.ZodType<GameState> = z.object({
   counters: z.record(z.number()),
   location: z.string(),
   relationships: z.record(z.number()),
+  relationshipMetadata: z.record(
+    z.object({
+      lastInteractionDay: z.number().nullable(),
+      history: z.array(
+        z.object({
+          timestamp: z.number(),
+          delta: z.number(),
+          reason: z.string().optional(),
+          location: z.string().optional(),
+          resultingLevel: z.enum(['enemy', 'unfriendly', 'neutral', 'friendly', 'close']).optional(),
+        }),
+      ),
+      milestones: z.array(
+        z.object({
+          id: z.string(),
+          label: z.string().optional(),
+          reachedAt: z.number(),
+        }),
+      ),
+    }),
+  ),
+  factionReputation: z.record(z.number()),
   unlockedShops: z.array(z.string()),
   unlockedDialogues: z.array(z.string()),
   unlockedQuests: z.array(z.string()),
@@ -96,6 +140,8 @@ export const createInitialGameState = (): GameState => ({
   counters: {},
   location: 'kamenitsa_home',
   relationships: {},
+  relationshipMetadata: {},
+  factionReputation: {},
   unlockedShops: [],
   unlockedDialogues: [],
   unlockedQuests: [],
