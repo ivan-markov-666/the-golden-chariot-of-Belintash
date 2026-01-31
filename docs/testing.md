@@ -15,7 +15,7 @@ GuardianShell mandates reliable tests across unit, component, and integration la
 | --- | --- | --- |
 | Component tests | `src/components/**/__tests__` | Use `@testing-library/react-native` render helpers |
 | Screen tests | `src/screens/__tests__` | Include navigation mocks where needed |
-| Store tests | `src/state/__tests__` (future) | Reset Zustand stores between tests |
+| Store tests | `src/store/__tests__` | Reset Zustand stores between tests |
 | Services tests | `src/services/**/__tests__` | Mock network/telemetry clients |
 
 ## Running Tests
@@ -25,13 +25,15 @@ cd app
 npm test                 # single pass
 npm test -- --watch      # rerun on file changes
 npm test -- --runInBand  # stable CI mode
+npm run test -- --coverage  # full suite w/ coverage (≈89% lines as of Jan 31, 2026)
 ```
 
-Add `--clearCache` if encountering stale transforms.
+Add `--clearCache` if encountering stale transforms. For coverage runs, keep the console output (or HTML report under `coverage/`) attached to story hand-offs.
 
 ## Coverage Expectations
 
-- **Global:** ≥70% statements/branches/lines/functions (checked in CI)
+- **Global CI gate:** ≥70% statements/branches/lines/functions (currently ~88/70/89/96%).
+- **Core services goal:** ≥90% coverage for engine + store layers (Game/Character/Quest/UI + telemetry services). Re-run `npm run test -- --coverage` before handing off to confirm.
 - **Feature:** touch every new branch or state in the feature under test.
 - Exclude pure boilerplate (navigation container) via `/* istanbul ignore file */` where justified (see `AppNavigator.tsx`).
 

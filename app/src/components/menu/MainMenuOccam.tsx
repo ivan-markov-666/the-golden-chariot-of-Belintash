@@ -2,8 +2,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { MENU_OPTIONS, type MenuOptionId, type MenuOptionMeta } from '../../constants/menuOptions';
-import { useEntitlements } from '../../state/entitlements';
-import { useUXState } from '../../state/uxState';
+import { useEntitlements } from '@/store/entitlementsStore';
+import { useUIStore } from '@/store/uiStore';
 import { getGuardianShellTheme } from '../../theme/guardianShell';
 import { t, type MenuCopyKey } from '../../localization/menu';
 import {
@@ -11,8 +11,8 @@ import {
   logMenuOpened,
   logMenuOptionSelected,
 } from '../../services/telemetry/menu';
-import { useSaveSlots } from '../../state/saveSlots';
-import { useUXPerfEvents } from '../../state/perf';
+import { useSaveSlots } from '@/store/saveSlotsStore';
+import { useUXPerfEvents } from '@/store/perfStore';
 
 const BUTTON_LABEL_KEY: Record<MenuOptionId, MenuCopyKey> = {
   newGame: 'button.newGame',
@@ -42,7 +42,9 @@ type MainMenuOccamProps = {
 };
 
 export const MainMenuOccam: React.FC<MainMenuOccamProps> = ({ onNavigate }) => {
-  const { locale, highContrast, setOverlaysVisible } = useUXState();
+  const locale = useUIStore((state) => state.locale);
+  const highContrast = useUIStore((state) => state.highContrast);
+  const setOverlaysVisible = useUIStore((state) => state.setOverlaysVisible);
   const { hasEntitlement } = useEntitlements();
   const hasSaves = useSaveSlots((state) => state.hasOccupied);
   const logPerfEvent = useUXPerfEvents((state) => state.logEvent);

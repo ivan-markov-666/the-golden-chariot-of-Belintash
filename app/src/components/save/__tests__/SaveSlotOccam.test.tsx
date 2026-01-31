@@ -1,8 +1,8 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import { SaveSlotOccam } from '../SaveSlotOccam';
-import { useSaveSlots } from '../../../state/saveSlots';
-import { useUXState } from '../../../state/uxState';
+import { useSaveSlots } from '@/store/saveSlotsStore';
+import { useUIStore } from '@/store/uiStore';
 import { useUXPerfEvents } from '../../../state/perf';
 import {
   subscribeToSaveTelemetry,
@@ -28,15 +28,127 @@ jest.mock('../../../services/guardianShell/manualOverride', () => ({
   requestManualOverride: jest.fn(),
 }));
 
+jest.mock('@/store/uiStore', () => {
+  const { create } = require('zustand') as typeof import('zustand');
+  const initialState = {
+    overlaysVisible: 0,
+    highContrast: false,
+    locale: 'bg',
+    effectsAvailable: true,
+  };
+
+  const useUIStore = create((set) => ({
+    ...initialState,
+    setOverlaysVisible: (value: number) => set({ overlaysVisible: value }),
+    setHighContrast: (value: boolean) => set({ highContrast: value }),
+    setLocale: (value: string) => set({ locale: value }),
+    setEffectsAvailable: (value: boolean) => set({ effectsAvailable: value }),
+  }));
+
+  return { useUIStore };
+});
+
+jest.mock('@/store/saveSlotsStore', () => {
+  const { create } = require('zustand') as typeof import('zustand');
+
+  const DEFAULT_SLOTS = [
+    {
+      id: 'slot-1',
+      occupied: true,
+      title: 'Dry Seal of Stara Planina',
+      updatedAt: '2026-01-29T09:00:00.000Z',
+      playtimeMinutes: 324,
+      lastSaveType: 'manual' as const,
+      dlcFlags: ['occult'],
+      corrupted: false,
+    },
+    {
+      id: 'slot-2',
+      occupied: true,
+      title: 'Witness Of Rhodope',
+      updatedAt: '2026-01-28T14:00:00.000Z',
+      playtimeMinutes: 812,
+      lastSaveType: 'auto' as const,
+      dlcFlags: [],
+      corrupted: true,
+    },
+    {
+      id: 'slot-3',
+      occupied: false,
+      title: null,
+      updatedAt: null,
+      playtimeMinutes: 0,
+      lastSaveType: 'manual' as const,
+      dlcFlags: [],
+      corrupted: false,
+    },
+  ];
+
+  const cloneSlots = (slots: any[]) => slots.map((slot) => ({ ...slot }));
+  const hasOccupied = (slots: any[]) => slots.some((slot) => slot.occupied);
+
+  const useSaveSlots = create((set) => ({
+    slots: cloneSlots(DEFAULT_SLOTS),
+    hasOccupied: hasOccupied(DEFAULT_SLOTS),
+    setSlot: (id: string, data: Partial<any>) =>
+      set((state: any) => {
+        const slots = state.slots.map((slot: any) => (slot.id === id ? { ...slot, ...data } : slot));
+        return { slots, hasOccupied: hasOccupied(slots) };
+      }),
+    deleteSlot: (id: string) =>
+      set((state: any) => {
+        const slots = state.slots.map((slot: any) =>
+          slot.id === id
+            ? {
+                ...slot,
+                occupied: false,
+                title: null,
+                updatedAt: null,
+                playtimeMinutes: 0,
+                corrupted: false,
+              }
+            : slot,
+        );
+        return { slots, hasOccupied: hasOccupied(slots) };
+      }),
+    reset: (slots = DEFAULT_SLOTS) => {
+      const cloned = cloneSlots(slots);
+      set({ slots: cloned, hasOccupied: hasOccupied(cloned) });
+    },
+  }));
+
+  return { useSaveSlots };
+});
+
+jest.mock('../../../state/perf', () => {
+  type MockUXPerfEvent = { id: string; durationMs: number; timestamp: number };
+  const state = {
+    events: [] as MockUXPerfEvent[],
+    logEvent: (event: MockUXPerfEvent) => {
+      state.events.push(event);
+    },
+    reset: () => {
+      state.events = [];
+    },
+  };
+
+  const useUXPerfEvents = (selector?: (s: typeof state) => any) =>
+    selector ? selector(state) : state;
+
+  useUXPerfEvents.getState = () => state;
+
+  return { useUXPerfEvents };
+});
+
 const resetStores = () => {
   act(() => {
     useSaveSlots.getState().reset();
     useUXPerfEvents.getState().reset();
-    const uxState = useUXState.getState();
-    uxState.setOverlaysVisible(0);
-    uxState.setHighContrast(false);
-    uxState.setLocale('bg');
-    uxState.setEffectsAvailable(true);
+    const uiState = useUIStore.getState();
+    uiState.setOverlaysVisible(0);
+    uiState.setHighContrast(false);
+    uiState.setLocale('bg');
+    uiState.setEffectsAvailable(true);
   });
 };
 
@@ -143,7 +255,7 @@ describe('SaveSlotOccam', () => {
     const haptics = require('expo-haptics');
 
     act(() => {
-      useUXState.getState().setEffectsAvailable(false);
+      useUIStore.getState().setEffectsAvailable(false);
     });
 
     renderWithProviders(<SaveSlotOccam />);
@@ -154,7 +266,7 @@ describe('SaveSlotOccam', () => {
     expect(haptics.impactAsync).toHaveBeenCalledTimes(2);
 
     act(() => {
-      useUXState.getState().setEffectsAvailable(true);
+      useUIStore.getState().setEffectsAvailable(true);
     });
   });
 
@@ -162,13 +274,13 @@ describe('SaveSlotOccam', () => {
     const { unmount } = render(<SaveSlotOccam />);
 
     await waitFor(() => {
-      expect(useUXState.getState().overlaysVisible).toBe(2);
+      expect(useUIStore.getState().overlaysVisible).toBe(2);
     });
 
     unmount();
 
     await waitFor(() => {
-      expect(useUXState.getState().overlaysVisible).toBe(0);
+      expect(useUIStore.getState().overlaysVisible).toBe(0);
     });
   });
 

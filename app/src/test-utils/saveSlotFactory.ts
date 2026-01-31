@@ -1,4 +1,4 @@
-import { SaveSlot } from '../state/saveSlots';
+import { SaveSlot } from '@/store/saveSlotsStore';
 
 let counter = 0;
 

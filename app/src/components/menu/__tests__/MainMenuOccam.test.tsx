@@ -1,14 +1,14 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import { MainMenuOccam } from '../MainMenuOccam';
-import { useSaveSlots } from '../../../state/saveSlots';
+import { useSaveSlots } from '@/store/saveSlotsStore';
 import { useEntitlements } from '../../../state/entitlements';
 import {
   subscribeToMenuTelemetry,
   type MenuTelemetryEvent,
 } from '../../../services/telemetry/menu';
 import { useUXPerfEvents } from '../../../state/perf';
-import { useUXState } from '../../../state/uxState';
+import { useUIStore } from '@/store/uiStore';
 import { t } from '../../../localization/menu';
 
 jest.mock('expo-linear-gradient', () => {
@@ -16,6 +16,127 @@ jest.mock('expo-linear-gradient', () => {
   return {
     LinearGradient: ({ children }: any) => <React.Fragment>{children}</React.Fragment>,
   };
+});
+
+jest.mock('@/store/uiStore', () => {
+  const { create } = require('zustand') as typeof import('zustand');
+  const initialState = {
+    overlaysVisible: 0,
+    highContrast: false,
+    locale: 'bg',
+    effectsAvailable: true,
+  };
+
+  const useUIStore = create((set) => ({
+    ...initialState,
+    setOverlaysVisible: (value: number) =>
+      set((state: typeof initialState) =>
+        state.overlaysVisible === value ? state : { overlaysVisible: value },
+      ),
+    setHighContrast: (value: boolean) =>
+      set((state: typeof initialState) =>
+        state.highContrast === value ? state : { highContrast: value },
+      ),
+    setLocale: (value: string) =>
+      set((state: typeof initialState) => (state.locale === value ? state : { locale: value })),
+    setEffectsAvailable: (value: boolean) =>
+      set((state: typeof initialState) =>
+        state.effectsAvailable === value ? state : { effectsAvailable: value },
+      ),
+  }));
+
+  return { useUIStore };
+});
+
+jest.mock('@/store/saveSlotsStore', () => {
+  const { create } = require('zustand') as typeof import('zustand');
+  const DEFAULT_SLOTS = [
+    {
+      id: 'slot-1',
+      occupied: false,
+      title: null,
+      updatedAt: null,
+      playtimeMinutes: 0,
+      lastSaveType: 'manual' as const,
+      dlcFlags: [],
+      corrupted: false,
+    },
+    {
+      id: 'slot-2',
+      occupied: false,
+      title: null,
+      updatedAt: null,
+      playtimeMinutes: 0,
+      lastSaveType: 'manual' as const,
+      dlcFlags: [],
+      corrupted: false,
+    },
+    {
+      id: 'slot-3',
+      occupied: false,
+      title: null,
+      updatedAt: null,
+      playtimeMinutes: 0,
+      lastSaveType: 'manual' as const,
+      dlcFlags: [],
+      corrupted: false,
+    },
+  ];
+
+  const cloneSlots = (slots: any[]) => slots.map((slot) => ({ ...slot }));
+  const hasOccupied = (slots: any[]) => slots.some((slot) => slot.occupied);
+
+  const useSaveSlots = create((set) => ({
+    slots: cloneSlots(DEFAULT_SLOTS),
+    hasOccupied: hasOccupied(DEFAULT_SLOTS),
+    setSlot: (id: string, data: Partial<any>) =>
+      set((state: any) => {
+        const slots = state.slots.map((slot: any) => (slot.id === id ? { ...slot, ...data } : slot));
+        return { slots, hasOccupied: hasOccupied(slots) };
+      }),
+    deleteSlot: (id: string) =>
+      set((state: any) => {
+        const slots = state.slots.map((slot: any) =>
+          slot.id === id
+            ? {
+                ...slot,
+                occupied: false,
+                title: null,
+                updatedAt: null,
+                playtimeMinutes: 0,
+                corrupted: false,
+              }
+            : slot,
+        );
+        return { slots, hasOccupied: hasOccupied(slots) };
+      }),
+    reset: (slots = DEFAULT_SLOTS) => {
+      const cloned = cloneSlots(slots);
+      set({ slots: cloned, hasOccupied: hasOccupied(cloned) });
+    },
+  }));
+
+  return { useSaveSlots };
+});
+
+jest.mock('../../../state/perf', () => {
+  type MockUXPerfEvent = { id: string; durationMs: number; timestamp: number };
+  const state = {
+    events: [] as MockUXPerfEvent[],
+    logEvent: (event: MockUXPerfEvent) => {
+      state.events.push(event);
+    },
+    reset: () => {
+      state.events = [];
+    },
+  };
+
+  const useUXPerfEvents = (selector?: (s: typeof state) => any) =>
+    selector ? selector(state) : state;
+
+  useUXPerfEvents.getState = () => state;
+
+  return { useUXPerfEvents };
 });
 
 const EMPTY_SLOTS = [
@@ -28,10 +149,10 @@ const resetStores = () => {
   useSaveSlots.getState().reset(EMPTY_SLOTS as any);
   useEntitlements.getState().reset();
   useUXPerfEvents.getState().reset();
-  const uxState = useUXState.getState();
-  uxState.setOverlaysVisible(0);
-  uxState.setHighContrast(false);
-  uxState.setLocale('bg');
+  const uiState = useUIStore.getState();
+  uiState.setOverlaysVisible(0);
+  uiState.setHighContrast(false);
+  uiState.setLocale('bg');
 };
 
 describe('MainMenuOccam', () => {
@@ -156,12 +277,12 @@ describe('MainMenuOccam', () => {
 
     await waitFor(() => {
       expect(getByText(t('bg', 'tooltips.credits'))).toBeTruthy();
-      expect(useUXState.getState().overlaysVisible).toBe(2);
+      expect(useUIStore.getState().overlaysVisible).toBe(2);
     });
 
     unmount();
     await waitFor(() => {
-      expect(useUXState.getState().overlaysVisible).toBe(0);
+      expect(useUIStore.getState().overlaysVisible).toBe(0);
     });
   });
 
