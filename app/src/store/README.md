@@ -60,6 +60,24 @@ questState.startQuest('bears_of_belintash', [
 ]);
 ```
 
+### Quest journal & QuestService
+
+```ts
+import { QuestService } from '@/services/QuestService';
+import { useQuestStore, selectFilteredQuests } from '@/store/questStore';
+import { useGameStore } from '@/store/gameStore';
+
+const gameState = useGameStore.getState().gameState;
+
+if (QuestService.isQuestAvailable('tutorial-scouting', gameState, character)) {
+  QuestService.startQuest('tutorial-scouting', gameState);
+}
+
+const quests = selectFilteredQuests(useQuestStore.getState());
+```
+
+`useQuestStore` exposes journal filters (`setJournalFilters`), stage/branch management (`setQuestStage`, `setQuestBranch`), expiration (`setQuestExpiration`, `expireQuest`), reward claiming (`claimQuestRewards`) и прогресиране на цели (`updateObjectiveProgress`). `QuestService` централизира логиката за prerequisites, многоетапни quest-ове и прилагане на награди към character/game store-овете.
+
 ## Testing pattern
 
 ```ts

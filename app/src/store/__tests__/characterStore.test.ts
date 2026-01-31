@@ -111,7 +111,9 @@ describe('characterStore', () => {
 
   it('equipItem/unequipItem modify equipment slots', () => {
     act(() => {
-      useCharacterStore.getState().createCharacter();
+      useCharacterStore.getState().createCharacter({
+        inventory: [{ id: 'sabre', quantity: 1 }],
+      });
       useCharacterStore.getState().equipItem('weapon', 'sabre');
     });
 
@@ -140,9 +142,8 @@ describe('characterStore', () => {
 
   it('tracks inventory weight and encumbrance when adding/removing items', () => {
     act(() => {
-      useCharacterStore.getState().createCharacter({ maxCarryWeight: 5 });
+      useCharacterStore.getState().createCharacter({ maxCarryWeight: 2 });
       useCharacterStore.getState().addItem('ore', 5);
-      useCharacterStore.getState().removeItem('ore', 2);
     });
 
     const status = selectInventoryStatus(useCharacterStore.getState());

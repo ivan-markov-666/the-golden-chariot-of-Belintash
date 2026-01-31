@@ -94,6 +94,24 @@ describe('gameStore', () => {
     expect(time.hour).toBe(23);
   });
 
+  it('advanceTime прехвърля дни напред/назад при големи стъпки', () => {
+    act(() => {
+      useGameStore.getState().setGameTime({ day: 3, hour: 22, period: 'night' });
+      useGameStore.getState().advanceTime(30);
+    });
+
+    let time = selectGameTime(useGameStore.getState());
+    expect(time).toMatchObject({ day: 5, hour: 4, period: 'night' });
+
+    act(() => {
+      useGameStore.getState().setGameTime({ day: 5, hour: 1, period: 'night' });
+      useGameStore.getState().advanceTime(-27);
+    });
+
+    time = selectGameTime(useGameStore.getState());
+    expect(time).toMatchObject({ day: 3, hour: 22, period: 'night' });
+  });
+
   it('setRelationship/adjustRelationship clamp to -100..100', () => {
     act(() => {
       useGameStore.getState().setRelationship('npc_voden', 999);
@@ -103,6 +121,16 @@ describe('gameStore', () => {
 
     const state = useGameStore.getState();
     expect(selectRelationship('npc_voden')(state)).toBe(-100);
+  });
+
+  it('setRelationship не позволява стойности над 100 и adjustRelationship ги задържа в обхвата', () => {
+    act(() => {
+      useGameStore.getState().setRelationship('npc_smolyan', 150);
+      useGameStore.getState().adjustRelationship('npc_smolyan', 25);
+    });
+
+    const state = useGameStore.getState();
+    expect(selectRelationship('npc_smolyan')(state)).toBe(100);
   });
 
   it('loadGameState replaces whole snapshot', () => {
@@ -119,5 +147,27 @@ describe('gameStore', () => {
 
     expect(useGameStore.getState().gameState.location).toBe('kamenitsa');
     expect(useGameStore.getState().gameState.flags.x).toBe(true);
+  });
+
+  it('loadGameState записва snapshot и през persist слоя', async () => {
+    const fresh = createInitialGameState();
+    const loaded = {
+      ...fresh,
+      location: 'occult-sanctum',
+      flags: { ritual_complete: true },
+    };
+
+    await act(async () => {
+      useGameStore.getState().loadGameState(loaded);
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    const persistedRaw = await AsyncStorage.getItem('game-storage');
+    expect(persistedRaw).toBeTruthy();
+
+    const persisted = JSON.parse(persistedRaw!);
+    expect(persisted.state.gameState.location).toBe('occult-sanctum');
+    expect(persisted.state.gameState.flags.ritual_complete).toBe(true);
   });
 });
