@@ -4,9 +4,15 @@ import {
   useCharacterStore,
   selectAttribute,
   selectCharacter,
+  selectEffectiveAttributes,
+  selectEffectiveSkills,
   selectHealth,
+  selectInventoryStatus,
   selectMana,
+  selectPendingAttributePoints,
+  selectPendingSkillPoints,
   selectSkill,
+  selectStatusEffects,
 } from '@/store/characterStore';
 
 describe('characterStore', () => {
@@ -116,5 +122,57 @@ describe('characterStore', () => {
     });
 
     expect(useCharacterStore.getState().character?.equipment.weapon).toBeUndefined();
+  });
+
+  it('spendAttributePoint/spendSkillPoint consume pending points', () => {
+    act(() => {
+      useCharacterStore.getState().createCharacter({ attributePoints: 1, skillPoints: 1 });
+      useCharacterStore.getState().spendAttributePoint('strength');
+      useCharacterStore.getState().spendSkillPoint('alchemy');
+    });
+
+    const state = useCharacterStore.getState();
+    expect(selectPendingAttributePoints(state)).toBe(0);
+    expect(selectPendingSkillPoints(state)).toBe(0);
+    expect(selectAttribute('strength')(state)).toBeGreaterThan(10);
+    expect(selectSkill('alchemy')(state)).toBe(1);
+  });
+
+  it('tracks inventory weight and encumbrance when adding/removing items', () => {
+    act(() => {
+      useCharacterStore.getState().createCharacter({ maxCarryWeight: 5 });
+      useCharacterStore.getState().addItem('ore', 5);
+      useCharacterStore.getState().removeItem('ore', 2);
+    });
+
+    const status = selectInventoryStatus(useCharacterStore.getState());
+    expect(status?.weight).toBeGreaterThan(0);
+    expect(status?.encumbered).toBe(true);
+  });
+
+  it('apply/remove status effects updates selectors and effective stats', () => {
+    const effectId = 'buff-1';
+    act(() => {
+      useCharacterStore.getState().createCharacter();
+      useCharacterStore.getState().applyStatusEffect({
+        id: effectId,
+        type: 'buff',
+        appliedAt: Date.now(),
+        attributeModifiers: { strength: 5 },
+        skillModifiers: { occult: 3 },
+      });
+    });
+
+    let state = useCharacterStore.getState();
+    expect(selectStatusEffects(state)).toHaveLength(1);
+    expect(selectEffectiveAttributes(state)?.strength).toBeGreaterThan(10);
+    expect(selectEffectiveSkills(state)?.occult).toBe(3);
+
+    act(() => {
+      useCharacterStore.getState().removeStatusEffect(effectId);
+    });
+
+    state = useCharacterStore.getState();
+    expect(selectStatusEffects(state)).toHaveLength(0);
   });
 });

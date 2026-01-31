@@ -7,7 +7,7 @@ The engine state is split into four dedicated Zustand stores:
 | Store | Persistence | Responsibility |
 | --- | --- | --- |
 | `useGameStore` | ✅ AsyncStorage (`game-storage`) | Flags, counters, location, relationships, time, metadata |
-| `useCharacterStore` | ✅ AsyncStorage (`character-storage`) | Player stats/skills/resources/inventory/equipment |
+| `useCharacterStore` | ✅ AsyncStorage (`character-storage`) | Player stats/skills/resources/inventory/equipment + progression |
 | `useQuestStore` | ✅ AsyncStorage (`quest-storage`) | Quest lifecycle + objectives |
 | `useUIStore` | ❌ non-persisted | Loading state, modals, notifications |
 
@@ -19,11 +19,18 @@ All stores share the same structure: `devtools` middleware for Redux DevTools na
 
 ```tsx
 import { useGameStore, selectFlag } from '@/store/gameStore';
-import { useCharacterStore, selectHealth } from '@/store/characterStore';
+import {
+  useCharacterStore,
+  selectHealth,
+  selectEffectiveAttributes,
+  selectPendingAttributePoints,
+} from '@/store/characterStore';
 
 export function QuestGate() {
   const hasKey = useGameStore(selectFlag('obelisk_key'));
   const health = useCharacterStore(selectHealth);
+  const pendingPoints = useCharacterStore(selectPendingAttributePoints);
+  const effective = useCharacterStore(selectEffectiveAttributes);
   const setFlag = useGameStore((state) => state.setFlag);
 
   const handleUnlock = () => {
@@ -35,6 +42,7 @@ export function QuestGate() {
   return (
     <View>
       <Text>HP: {health?.current}/{health?.max}</Text>
+      <Text>STR (effective): {effective?.strength ?? '—'} / pending pts: {pendingPoints}</Text>
       <Button title="Unlock" onPress={handleUnlock} />
     </View>
   );
