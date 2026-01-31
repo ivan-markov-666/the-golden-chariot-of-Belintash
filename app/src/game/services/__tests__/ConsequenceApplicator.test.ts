@@ -218,6 +218,31 @@ describe('ConsequenceApplicator', () => {
     expect(character.health).toBe(initialHealth);
     expect(result.warnings).toContain('Transaction rolled back due to error');
   });
+
+  it('updates relationship metadata/history when applying relationship consequences', async () => {
+    const gameState = createGameState();
+    const character = createCharacter();
+    gameState.gameTime.day = 7;
+    gameState.location = 'ancient_ruins';
+
+    const consequences: Consequence[] = [{ type: 'relationship', target: 'npc.shamana', value: 20 }];
+
+    const result = await ConsequenceApplicator.apply(consequences, gameState, character);
+
+    expect(result.success).toBe(true);
+    expect(gameState.relationships['npc.shamana']).toBe(20);
+
+    const profile = gameState.relationshipMetadata['npc.shamana'];
+    expect(profile).toBeDefined();
+    expect(profile.lastInteractionDay).toBe(7);
+    expect(profile.history).toHaveLength(1);
+    expect(profile.history[0]).toMatchObject({
+      delta: 20,
+      reason: 'consequence',
+      location: 'ancient_ruins',
+      resultingLevel: 'friendly',
+    });
+  });
 });
 
 function createGameState(): GameState {
@@ -227,6 +252,8 @@ function createGameState(): GameState {
     counters: {},
     location: 'kamenitsa_home',
     relationships: {},
+    relationshipMetadata: {},
+    factionReputation: {},
     unlockedShops: [],
     unlockedDialogues: [],
     unlockedQuests: [],
@@ -262,5 +289,12 @@ function createCharacter(): PlayerCharacter {
     },
     inventory: [],
     equipment: {},
+    attributePoints: 0,
+    skillPoints: 0,
+    statusEffects: [],
+    milestones: [],
+    inventoryWeight: 0,
+    maxCarryWeight: 80,
+    encumbered: false,
   };
 }
