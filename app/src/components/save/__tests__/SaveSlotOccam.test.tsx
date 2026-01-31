@@ -1,9 +1,9 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import { SaveSlotOccam } from '../SaveSlotOccam';
-import { useSaveSlots } from '@/store/saveSlotsStore';
 import { useUIStore } from '@/store/uiStore';
 import { useUXPerfEvents } from '@/store/perfStore';
+import { useSaveLoad, type UseSaveLoadResult } from '@/hooks/useSaveLoad';
 import {
   subscribeToSaveTelemetry,
   type SaveTelemetryEvent,
@@ -48,77 +48,54 @@ jest.mock('@/store/uiStore', () => {
   return { useUIStore };
 });
 
-jest.mock('@/store/saveSlotsStore', () => {
-  const { create } = require('zustand') as typeof import('zustand');
+const createMockSlots = () => [
+  {
+    id: 'slot-1',
+    occupied: true,
+    title: 'Dry Seal of Stara Planina',
+    updatedAt: '2026-01-29T09:00:00.000Z',
+    playtimeMinutes: 324,
+    lastSaveType: 'manual' as const,
+    dlcFlags: ['occult'],
+    corrupted: false,
+  },
+  {
+    id: 'slot-2',
+    occupied: true,
+    title: 'Witness Of Rhodope',
+    updatedAt: '2026-01-28T14:00:00.000Z',
+    playtimeMinutes: 812,
+    lastSaveType: 'auto' as const,
+    dlcFlags: [],
+    corrupted: true,
+  },
+  {
+    id: 'slot-3',
+    occupied: false,
+    title: null,
+    updatedAt: null,
+    playtimeMinutes: 0,
+    lastSaveType: 'manual' as const,
+    dlcFlags: [],
+    corrupted: false,
+  },
+];
 
-  const DEFAULT_SLOTS = [
-    {
-      id: 'slot-1',
-      occupied: true,
-      title: 'Dry Seal of Stara Planina',
-      updatedAt: '2026-01-29T09:00:00.000Z',
-      playtimeMinutes: 324,
-      lastSaveType: 'manual' as const,
-      dlcFlags: ['occult'],
-      corrupted: false,
-    },
-    {
-      id: 'slot-2',
-      occupied: true,
-      title: 'Witness Of Rhodope',
-      updatedAt: '2026-01-28T14:00:00.000Z',
-      playtimeMinutes: 812,
-      lastSaveType: 'auto' as const,
-      dlcFlags: [],
-      corrupted: true,
-    },
-    {
-      id: 'slot-3',
-      occupied: false,
-      title: null,
-      updatedAt: null,
-      playtimeMinutes: 0,
-      lastSaveType: 'manual' as const,
-      dlcFlags: [],
-      corrupted: false,
-    },
-  ];
+const mockSaveLoadState: UseSaveLoadResult = {
+  slots: createMockSlots(),
+  actionState: { type: null, slotId: undefined },
+  error: null,
+  loading: false,
+  refreshSlots: jest.fn(() => Promise.resolve()),
+  saveToSlot: jest.fn(() => Promise.resolve()),
+  loadFromSlot: jest.fn(() => Promise.resolve()),
+  deleteSlot: jest.fn(() => Promise.resolve()),
+  recoverSlot: jest.fn(() => Promise.resolve()),
+};
 
-  const cloneSlots = (slots: any[]) => slots.map((slot) => ({ ...slot }));
-  const hasOccupied = (slots: any[]) => slots.some((slot) => slot.occupied);
-
-  const useSaveSlots = create((set) => ({
-    slots: cloneSlots(DEFAULT_SLOTS),
-    hasOccupied: hasOccupied(DEFAULT_SLOTS),
-    setSlot: (id: string, data: Partial<any>) =>
-      set((state: any) => {
-        const slots = state.slots.map((slot: any) => (slot.id === id ? { ...slot, ...data } : slot));
-        return { slots, hasOccupied: hasOccupied(slots) };
-      }),
-    deleteSlot: (id: string) =>
-      set((state: any) => {
-        const slots = state.slots.map((slot: any) =>
-          slot.id === id
-            ? {
-                ...slot,
-                occupied: false,
-                title: null,
-                updatedAt: null,
-                playtimeMinutes: 0,
-                corrupted: false,
-              }
-            : slot,
-        );
-        return { slots, hasOccupied: hasOccupied(slots) };
-      }),
-    reset: (slots = DEFAULT_SLOTS) => {
-      const cloned = cloneSlots(slots);
-      set({ slots: cloned, hasOccupied: hasOccupied(cloned) });
-    },
-  }));
-
-  return { useSaveSlots };
-});
+jest.mock('@/hooks/useSaveLoad', () => ({
+  useSaveLoad: jest.fn(() => mockSaveLoadState),
+}));
 
 jest.mock('@/store/perfStore', () => {
   type MockUXPerfEvent = { id: string; durationMs: number; timestamp: number };
@@ -140,9 +117,20 @@ jest.mock('@/store/perfStore', () => {
   return { useUXPerfEvents };
 });
 
+const useSaveLoadMock = useSaveLoad as jest.MockedFunction<typeof useSaveLoad>;
+
 const resetStores = () => {
   act(() => {
-    useSaveSlots.getState().reset();
+    mockSaveLoadState.slots = createMockSlots();
+    mockSaveLoadState.actionState = { type: null, slotId: undefined };
+    mockSaveLoadState.error = null;
+    mockSaveLoadState.loading = false;
+    mockSaveLoadState.refreshSlots.mockClear();
+    mockSaveLoadState.saveToSlot.mockClear();
+    mockSaveLoadState.loadFromSlot.mockClear();
+    mockSaveLoadState.deleteSlot.mockClear();
+    mockSaveLoadState.recoverSlot.mockClear();
+    useSaveLoadMock.mockReturnValue(mockSaveLoadState);
     useUXPerfEvents.getState().reset();
     const uiState = useUIStore.getState();
     uiState.setOverlaysVisible(0);
@@ -209,22 +197,21 @@ describe('SaveSlotOccam', () => {
   });
 
   it('превключва активния слот, ако текущият липсва в стора', () => {
-    const { getByTestId } = render(<SaveSlotOccam />);
+    mockSaveLoadState.slots = [
+      {
+        id: 'solo-slot',
+        occupied: true,
+        title: 'Solo',
+        updatedAt: '2026-01-28T00:00:00.000Z',
+        playtimeMinutes: 42,
+        lastSaveType: 'manual',
+        dlcFlags: [],
+        corrupted: false,
+      },
+    ] as any;
+    useSaveLoadMock.mockReturnValue({ ...mockSaveLoadState });
 
-    act(() => {
-      useSaveSlots.getState().reset([
-        {
-          id: 'solo-slot',
-          occupied: true,
-          title: 'Solo',
-          updatedAt: '2026-01-28T00:00:00.000Z',
-          playtimeMinutes: 42,
-          lastSaveType: 'manual',
-          dlcFlags: [],
-          corrupted: false,
-        },
-      ] as any);
-    });
+    const { getByTestId } = render(<SaveSlotOccam />);
 
     const soloCard = getByTestId('save-slot-card-solo-slot');
     expect(soloCard.props.accessibilityState?.selected).toBe(true);
@@ -237,8 +224,7 @@ describe('SaveSlotOccam', () => {
     fireEvent.press(getByTestId('action-recover'));
 
     expect(requestManualOverride).toHaveBeenCalledWith({ slotId: 'slot-2', reason: 'corruption' });
-    const slot = useSaveSlots.getState().slots.find((s) => s.id === 'slot-2');
-    expect(slot?.corrupted).toBe(false);
+    expect(mockSaveLoadState.recoverSlot).toHaveBeenCalledWith('slot-2');
   });
 
   it('показва NG+ overlay копие и специално действие', () => {
@@ -293,8 +279,8 @@ describe('SaveSlotOccam', () => {
     fireEvent.press(getByTestId('action-select'));
     fireEvent.press(getByTestId('action-delete'));
 
-    const slot = useSaveSlots.getState().slots.find((s) => s.id === 'slot-1');
-    expect(slot).toMatchObject({ occupied: false, title: null, corrupted: false });
+    expect(mockSaveLoadState.loadFromSlot).toHaveBeenCalledWith('slot-1');
+    expect(mockSaveLoadState.deleteSlot).toHaveBeenCalledWith('slot-1');
     expect(events.filter((event) => event.type === 'save.slotSelected')).toHaveLength(2);
     expect(events.find((event) => event.type === 'save.slotDeleted')).toBeTruthy();
 

@@ -3,7 +3,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import { MainMenuOccam } from '../MainMenuOccam';
 import { useSaveSlots } from '@/store/saveSlotsStore';
 import { useEntitlements } from '@/store/entitlementsStore';
-import { subscribeToMenuTelemetry, type MenuTelemetryEvent } from '../../../services/telemetry/menu';
+import { subscribeToMenuTelemetry } from '../../../services/telemetry/menu';
 import { useUXPerfEvents } from '@/store/perfStore';
 import { useUIStore } from '@/store/uiStore';
 import { t } from '../../../localization/menu';
@@ -141,6 +141,12 @@ const EMPTY_SLOTS = [
   { id: 'slot-2', occupied: false, title: null, updatedAt: null },
   { id: 'slot-3', occupied: false, title: null, updatedAt: null },
 ];
+
+type MenuTelemetryEvent = {
+  type: string;
+  optionId?: string;
+  slotId?: string;
+};
 
 const resetStores = () => {
   useSaveSlots.getState().reset(EMPTY_SLOTS as any);

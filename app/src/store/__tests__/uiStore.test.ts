@@ -40,17 +40,17 @@ describe('uiStore', () => {
   });
 
   it('manages notifications lifecycle', () => {
-    let id: string | undefined;
+    let notificationId = '';
     act(() => {
       useUIStore.getState().addNotification({ type: 'info', message: 'Hello' });
-      id = useUIStore.getState().notifications[0]?.id;
+      notificationId = useUIStore.getState().notifications[0]?.id ?? '';
     });
 
     expect(useUIStore.getState().notifications).toHaveLength(1);
 
     act(() => {
-      if (id) {
-        useUIStore.getState().removeNotification(id);
+      if (notificationId) {
+        useUIStore.getState().removeNotification(notificationId);
       }
       useUIStore.getState().addNotification({ type: 'success', message: 'Saved' });
       useUIStore.getState().clearNotifications();
