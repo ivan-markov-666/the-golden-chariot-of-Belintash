@@ -14,8 +14,9 @@ import { useUXPerfEvents } from '@/store/perfStore';
 import { useUIStore } from '@/store/uiStore';
 import { getGuardianShellTheme } from '../../theme/guardianShell';
 import { useSaveLoad } from '@/hooks/useSaveLoad';
+import { useActiveDLCs } from '@/hooks/useActiveDLCs';
 import type { SaveSlotId } from '@/services/save/SaveLoadService';
-import type { SaveSlot } from '@/store/saveSlotsStore';
+import type { SaveSlot, SaveSlotDlcDetail } from '@/store/saveSlotsStore';
 
 const ACTION_ZONE_WIDTH = 48;
 const NEW_GAME_PLUS_ID = 'ng-plus';
@@ -35,8 +36,6 @@ const formatPlaytime = (minutes: number) => {
   return `${hoursPart} ${minutesPart}`.trim();
 };
 
-const formatDlcFlags = (flags: string[]) => (flags.length ? flags.join(', ') : '—');
-
 const isSaveSlotId = (slotId: string): slotId is SaveSlotId =>
   slotId === 'slot-1' || slotId === 'slot-2' || slotId === 'slot-3';
 
@@ -53,6 +52,7 @@ export const SaveSlotOccam: React.FC = () => {
     deleteSlot: deleteSaveSlot,
     recoverSlot,
   } = useSaveLoad();
+  const { activeDetails: activeDlcDetails } = useActiveDLCs();
   const theme = useMemo(() => getGuardianShellTheme(highContrast), [highContrast]);
   const [activeSlotId, setActiveSlotId] = useState<string>(slots[0]?.id ?? NEW_GAME_PLUS_ID);
   const logPerfEvent = useUXPerfEvents((state) => state.logEvent);
@@ -97,6 +97,58 @@ export const SaveSlotOccam: React.FC = () => {
     renderStartRef.current = null;
   }, [logPerfEvent]);
 
+  const renderBadgeGroup = (
+    details: SaveSlotDlcDetail[] | undefined,
+    options: { variant: 'active' | 'missing'; testPrefix: string; showNoneLabel?: boolean },
+  ) => {
+    const list = details ?? [];
+    if (list.length === 0) {
+      if (options.showNoneLabel === false) {
+        return null;
+      }
+      return (
+        <Text
+          style={[styles.noDlcLabel, { color: theme.palette.textSecondary }]}
+          testID={`${options.testPrefix}-empty`}
+        >
+          {tsave(locale, 'label.none')}
+        </Text>
+      );
+    }
+
+    return (
+      <View style={styles.dlcBadgeRow} testID={`${options.testPrefix}-row`}>
+        {list.map((detail) => {
+          const color =
+            options.variant === 'missing' ? theme.palette.danger : detail.badgeColor ?? theme.palette.secondary;
+          return (
+            <View
+              key={`${options.testPrefix}-${detail.id}`}
+              testID={`${options.testPrefix}-${detail.id}`}
+              style={[
+                styles.dlcBadge,
+                options.variant === 'missing'
+                  ? [styles.dlcBadgeMissing, { borderColor: theme.palette.danger }]
+                  : [styles.dlcBadgeActive, { borderColor: color }],
+              ]}
+            >
+              <Text
+                style={[
+                  styles.dlcBadgeLabel,
+                  options.variant === 'missing'
+                    ? [styles.dlcBadgeMissingLabel, { color: theme.palette.danger }]
+                    : [styles.dlcBadgeActiveLabel, { color }],
+                ]}
+              >
+                {detail.shortName ?? detail.name}
+              </Text>
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
+
   const handleSlotFocus = (slot: SaveSlot) => {
     setActiveSlotId(slot.id);
     logSaveSlotSelected(slot.id, {
@@ -120,16 +172,18 @@ export const SaveSlotOccam: React.FC = () => {
     if (!isSaveSlotId(slot.id) || slot.corrupted) {
       return;
     }
-    void safeRun(() => loadFromSlot(slot.id));
+    const slotId: SaveSlotId = slot.id;
+    void safeRun(() => loadFromSlot(slotId));
   };
 
   const handleDelete = (slot: SaveSlot) => {
     if (!isSaveSlotId(slot.id)) {
       return;
     }
+    const slotId: SaveSlotId = slot.id;
     void safeRun(async () => {
-      await deleteSaveSlot(slot.id);
-      logSaveSlotDeleted(slot.id, { timestamp: Date.now() });
+      await deleteSaveSlot(slotId);
+      logSaveSlotDeleted(slotId, { timestamp: Date.now() });
     });
   };
 
@@ -137,9 +191,10 @@ export const SaveSlotOccam: React.FC = () => {
     if (!isSaveSlotId(slot.id)) {
       return;
     }
-    requestManualOverride({ slotId: slot.id, reason: 'corruption' });
-    logSaveRecoveryAttempt(slot.id, { dlcFlags: slot.dlcFlags });
-    void safeRun(() => recoverSlot(slot.id));
+    const slotId: SaveSlotId = slot.id;
+    requestManualOverride({ slotId, reason: 'corruption' });
+    logSaveRecoveryAttempt(slotId, { dlcFlags: slot.dlcFlags });
+    void safeRun(() => recoverSlot(slotId));
   };
 
   const handleNewGamePlus = () => {
@@ -150,6 +205,8 @@ export const SaveSlotOccam: React.FC = () => {
   const renderSlotCard = (slot: SaveSlot) => {
     const selected = activeSlotId === slot.id;
     const slotAction = actionState.slotId === slot.id ? actionState.type : null;
+    const slotDlcDetails = slot.dlcDetails ?? [];
+    const slotMissingDLCs = slot.missingDLCs ?? [];
     return (
       <Pressable
         key={slot.id}
@@ -173,8 +230,30 @@ export const SaveSlotOccam: React.FC = () => {
           {formatTimestamp(slot.updatedAt)} · {tsave(locale, slot.lastSaveType === 'manual' ? 'label.manual' : 'label.auto')}
         </Text>
         <Text style={[styles.slotMeta, { color: theme.palette.textSecondary }]}>
-          {formatPlaytime(slot.playtimeMinutes)} · DLC: {formatDlcFlags(slot.dlcFlags)}
+          {formatPlaytime(slot.playtimeMinutes)}
         </Text>
+        <View style={styles.dlcBadgeContainer}>
+          {renderBadgeGroup(slotDlcDetails, {
+            variant: 'active',
+            testPrefix: `dlc-badge-${slot.id}`,
+            showNoneLabel: true,
+          })}
+        </View>
+        {slotMissingDLCs.length > 0 && (
+          <View
+            style={[styles.missingDlcWarning, { borderColor: theme.palette.danger }]}
+            testID={`missing-dlc-warning-${slot.id}`}
+          >
+            <Text style={[styles.warningText, { color: theme.palette.danger }]}>
+              {tsave(locale, 'warning.missingDlc')}
+            </Text>
+            {renderBadgeGroup(slotMissingDLCs, {
+              variant: 'missing',
+              testPrefix: `missing-dlc-badge-${slot.id}`,
+              showNoneLabel: false,
+            })}
+          </View>
+        )}
         {slot.corrupted && (
           <Text style={[styles.corruptionBadge, { color: theme.palette.accent }]}> 
             {tsave(locale, 'status.corrupted')}
@@ -228,7 +307,7 @@ export const SaveSlotOccam: React.FC = () => {
           testID="occam-layer-overlay"
         >
           <View style={styles.overlayContent}>
-            <Text style={[styles.overlayHeading, { color: theme.palette.secondary }]}>
+            <Text style={[styles.overlayHeading, { color: theme.palette.secondary }]}> 
               {isNewGamePlus ? tsave(locale, 'overlay.ngPlusTitle') : tsave(locale, 'overlay.detailsTitle')}
             </Text>
             {isNewGamePlus ? (
@@ -237,39 +316,67 @@ export const SaveSlotOccam: React.FC = () => {
               </Text>
             ) : (
               <>
-                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}>
+                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}> 
                   {tsave(locale, 'field.timestamp')}: {formatTimestamp(activeSlot?.updatedAt ?? null)}
                 </Text>
-                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}>
+                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}> 
                   {tsave(locale, 'field.playtime')}: {formatPlaytime(activeSlot?.playtimeMinutes ?? 0)}
                 </Text>
-                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}>
-                  {tsave(locale, 'field.dlc')}: {formatDlcFlags(activeSlot?.dlcFlags ?? [])}
-                </Text>
-                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}>
+                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}> 
                   {tsave(locale, 'field.lastSave')}:{' '}
                   {tsave(locale, activeSlot?.lastSaveType === 'manual' ? 'label.manual' : 'label.auto')}
                 </Text>
-                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}>
+                <Text style={[styles.overlayBody, { color: theme.palette.textPrimary }]}> 
                   {tsave(locale, 'field.status')}:{' '}
-                  {activeSlot?.corrupted
-                    ? tsave(locale, 'status.corrupted')
-                    : tsave(locale, 'status.clean')}
+                  {activeSlot?.corrupted ? tsave(locale, 'status.corrupted') : tsave(locale, 'status.clean')}
                 </Text>
+                <View style={styles.overlaySection}>
+                  <Text style={[styles.overlayLabel, { color: theme.palette.textSecondary }]}> 
+                    {tsave(locale, 'field.dlc')}
+                  </Text>
+                  {renderBadgeGroup(activeSlot?.dlcDetails ?? [], {
+                    variant: 'active',
+                    testPrefix: `slot-overlay-dlc-${activeSlot?.id ?? 'none'}`,
+                    showNoneLabel: true,
+                  })}
+                </View>
+                <View style={styles.overlaySection}>
+                  <Text style={[styles.overlayLabel, { color: theme.palette.danger }]}> 
+                    {tsave(locale, 'field.missingDlc')}
+                  </Text>
+                  {renderBadgeGroup(activeSlot?.missingDLCs ?? [], {
+                    variant: 'missing',
+                    testPrefix: `slot-overlay-missing-dlc-${activeSlot?.id ?? 'none'}`,
+                    showNoneLabel: true,
+                  })}
+                  {(activeSlot?.missingDLCs?.length ?? 0) > 0 && (
+                    <Text
+                      style={[styles.warningText, { color: theme.palette.danger }]}
+                      testID={`slot-overlay-missing-warning-${activeSlot?.id ?? 'none'}`}
+                    > 
+                      {tsave(locale, 'warning.missingDlc')}
+                    </Text>
+                  )}
+                </View>
               </>
-            )}
-            {!effectsAvailable && (
-              <Text style={[styles.drySeal, { color: theme.palette.accent }] }>
-                {tsave(locale, 'drySeal.fallback')}
-              </Text>
             )}
             {error && (
               <Text style={[styles.errorText, { color: theme.palette.danger }]}>{error}</Text>
             )}
+            <View style={styles.overlaySection}>
+              <Text style={[styles.overlayLabel, { color: theme.palette.textSecondary }]}> 
+                {tsave(locale, 'field.activeDlc')}
+              </Text>
+              {renderBadgeGroup(activeDlcDetails, {
+                variant: 'active',
+                testPrefix: 'active-dlc-badge',
+                showNoneLabel: true,
+              })}
+            </View>
           </View>
 
           <View style={[styles.reachZone, { borderColor: theme.palette.outline }]} testID="reach-zone">
-            {!isNewGamePlus && activeSlot && (
+            {!isNewGamePlus && activeSlot ? (
               <>
                 <ActionButton
                   label={tsave(locale, 'button.select')}
@@ -298,7 +405,7 @@ export const SaveSlotOccam: React.FC = () => {
                   />
                 )}
               </>
-            )}
+            ) : null}
             {isNewGamePlus && (
               <ActionButton
                 label={tsave(locale, 'button.newGamePlus')}
@@ -307,7 +414,7 @@ export const SaveSlotOccam: React.FC = () => {
                 testID="action-ng-plus"
               />
             )}
-            <Text style={[styles.reachHint, { color: theme.palette.textSecondary }]}>
+            <Text style={[styles.reachHint, { color: theme.palette.textSecondary }]}> 
               {tsave(locale, 'reachZone.hint')}
             </Text>
           </View>
@@ -388,6 +495,50 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 4,
   },
+  dlcBadgeContainer: {
+    marginTop: 8,
+  },
+  dlcBadgeRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  dlcBadge: {
+    borderWidth: 1,
+    borderRadius: 999,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    marginRight: 8,
+    marginBottom: 6,
+  },
+  dlcBadgeActive: {
+    backgroundColor: 'rgba(255,255,255,0.04)',
+  },
+  dlcBadgeMissing: {
+    backgroundColor: 'rgba(246,106,99,0.12)',
+  },
+  dlcBadgeLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  dlcBadgeActiveLabel: {},
+  dlcBadgeMissingLabel: {},
+  noDlcLabel: {
+    fontSize: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  missingDlcWarning: {
+    marginTop: 8,
+    padding: 8,
+    borderWidth: 1,
+    borderRadius: 12,
+  },
+  warningText: {
+    fontSize: 12,
+    marginBottom: 4,
+  },
   corruptionBadge: {
     marginTop: 8,
     fontSize: 12,
@@ -418,6 +569,15 @@ const styles = StyleSheet.create({
   },
   overlayBody: {
     fontSize: 14,
+  },
+  overlaySection: {
+    marginTop: 12,
+  },
+  overlayLabel: {
+    fontSize: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 6,
   },
   drySeal: {
     fontSize: 12,
