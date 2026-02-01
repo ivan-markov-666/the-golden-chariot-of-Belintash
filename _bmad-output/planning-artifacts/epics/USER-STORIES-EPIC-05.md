@@ -71,22 +71,22 @@ This is the first screen players see - it sets the tone for the entire experienc
 ### Acceptance Criteria
 
 #### Must Have
-- [ ] Game title displayed prominently
-- [ ] "New Game" button (navigates to character creation)
-- [ ] "Continue" button (loads last save, disabled if no saves)
-- [ ] "Load Game" button (shows save slots)
-- [ ] "Settings" button
-- [ ] Background image/artwork
-- [ ] Responsive layout
-- [ ] Navigation working
-- [ ] Disabled state for unavailable options
+- [x] Game title displayed prominently
+- [x] "New Game" button (navigates to character creation)
+- [x] "Continue" button (loads last save, disabled if no saves)
+- [x] "Load Game" button (shows save slots)
+- [x] "Settings" button
+- [x] Background image/artwork
+- [x] Responsive layout
+- [x] Navigation working
+- [x] Disabled state for unavailable options
 
 #### Should Have
-- [ ] "Credits" button
-- [ ] Version number display
-- [ ] Fade-in animation on mount
-- [ ] Button hover/press animations
-- [ ] Background music toggle
+- [x] "Credits" button
+- [x] Version number display
+- [x] Fade-in animation on mount
+- [x] Button hover/press animations
+- [x] Background music toggle
 - [ ] Save slot preview on hover
 
 #### Nice to Have
