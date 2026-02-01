@@ -35,9 +35,9 @@
 
 ## Table of Contents
 
-- [Story 4.1: Build Basic UI Components](#story-41-build-basic-ui-components)
-- [Story 4.2: Build Game UI Components](#story-42-build-game-ui-components)
-- [Story 4.3: Create Screen Layouts](#story-43-create-screen-layouts)
+- [Story 4.1: Build Basic UI Components](#story-41-build-basic-ui-components) ✓
+- [Story 4.2: Build Game UI Components](#story-42-build-game-ui-components) ✓
+- [Story 4.3: Create Screen Layouts](#story-43-create-screen-layouts) ✓
 
 ---
 
@@ -1511,7 +1511,7 @@ const styles = StyleSheet.create({
 
 ## Epic 4 Summary
 
-**Completion Status:** 0/3 stories complete  
+**Completion Status:** 3/3 stories complete ✓  
 **Total SP:** 13 SP  
 **Estimated Duration:** 3-5 days (Sprint 3)
 
