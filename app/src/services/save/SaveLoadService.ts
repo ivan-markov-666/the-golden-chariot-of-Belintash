@@ -5,6 +5,9 @@ import { useGameStore } from '@/store/gameStore';
 import { useCharacterStore } from '@/store/characterStore';
 import { useQuestStore, type Quest } from '@/store/questStore';
 import { useSaveSlots, type SaveSlot } from '@/store/saveSlotsStore';
+import { useEntitlements } from '@/store/entitlementsStore';
+import { DLCService } from '@/services/DLCService';
+import { ensureDLCsRegistered, getDlcDetails } from '@/game/dlc/DLCRegistry';
 
 const SAVE_VERSION = '1.0.0';
 const SAVE_KEY_PREFIX = 'save-slot-';
@@ -12,6 +15,14 @@ const SAVE_SLOT_IDS = ['slot-1', 'slot-2', 'slot-3'] as const;
 export type SaveSlotId = (typeof SAVE_SLOT_IDS)[number];
 const AUTO_SAVE_SLOT: SaveSlotId = 'slot-1';
 const AUTO_SAVE_INTERVAL_MS = 5 * 60 * 1000;
+
+export interface SaveDLCDetail {
+  id: string;
+  name: string;
+  version: string;
+  shortName?: string;
+  badgeColor?: string;
+}
 
 export interface SaveMetadata {
   slotId: SaveSlotId;
@@ -21,6 +32,8 @@ export interface SaveMetadata {
   playtimeMinutes: number;
   lastSaved: number;
   saveType: 'manual' | 'auto';
+  dlcFlags: string[];
+  dlcDetails: SaveDLCDetail[];
 }
 
 export interface SaveData {
@@ -42,7 +55,9 @@ export class SaveLoadService {
   private static instance: SaveLoadService | null = null;
   private autoSaveTimer: ReturnType<typeof setInterval> | null = null;
 
-  private constructor() {}
+  private constructor() {
+    ensureDLCsRegistered();
+  }
 
   public static getInstance(): SaveLoadService {
     if (!SaveLoadService.instance) {
@@ -57,6 +72,8 @@ export class SaveLoadService {
     const gameState = useGameStore.getState().gameState;
     const character = useCharacterStore.getState().character;
     const quests = useQuestStore.getState().quests;
+    const activeDLCs = this.getActiveDLCs();
+    const dlcDetails = getDlcDetails(activeDLCs);
 
     if (!character) {
       throw new Error('Cannot save without an active character');
@@ -71,6 +88,8 @@ export class SaveLoadService {
       playtimeMinutes: Math.floor((gameState.metadata.playtime ?? 0) / 60),
       lastSaved: timestamp,
       saveType,
+      dlcFlags: activeDLCs,
+      dlcDetails,
     };
 
     const saveData: SaveData = {
@@ -102,8 +121,10 @@ export class SaveLoadService {
     this.validateSaveData(saveData);
 
     useGameStore.getState().loadGameState(saveData.gameState);
+    const hydratedGameState = useGameStore.getState().gameState;
     useCharacterStore.getState().loadCharacter(saveData.character);
     useQuestStore.getState().loadQuests(saveData.quests);
+    this.applyDLCContent(saveData.metadata.dlcFlags ?? [], hydratedGameState);
     this.updateSaveSlotStore(slotId, saveData);
 
     return saveData;
@@ -259,6 +280,12 @@ export class SaveLoadService {
   }
 
   private toSaveSlot(slotId: SaveSlotId, saveData: SaveData): SaveSlot {
+    const flags = saveData.metadata.dlcFlags ?? [];
+    const missingDLCs = this.getMissingDLCs(flags);
+    const dlcDetails =
+      saveData.metadata.dlcDetails && saveData.metadata.dlcDetails.length > 0
+        ? saveData.metadata.dlcDetails
+        : getDlcDetails(flags);
     return {
       id: slotId,
       occupied: true,
@@ -266,7 +293,9 @@ export class SaveLoadService {
       updatedAt: new Date(saveData.metadata.lastSaved).toISOString(),
       playtimeMinutes: saveData.metadata.playtimeMinutes,
       lastSaveType: saveData.metadata.saveType,
-      dlcFlags: [],
+      dlcFlags: flags,
+      dlcDetails,
+      missingDLCs,
       corrupted: false,
     };
   }
@@ -280,8 +309,27 @@ export class SaveLoadService {
       playtimeMinutes: 0,
       lastSaveType: 'manual',
       dlcFlags: [],
+      dlcDetails: [],
+      missingDLCs: [],
       corrupted: false,
     };
+  }
+
+  private getActiveDLCs(): string[] {
+    const entitlements = useEntitlements.getState().entitlements ?? {};
+    return Object.entries(entitlements)
+      .filter(([, enabled]) => Boolean(enabled))
+      .map(([dlcId]) => dlcId);
+  }
+
+  private getMissingDLCs(flags: string[]): SaveDLCDetail[] {
+    const active = this.getActiveDLCs();
+    const missingIds = flags.filter((flag) => !active.includes(flag));
+    return missingIds.length ? getDlcDetails(missingIds) : [];
+  }
+
+  private applyDLCContent(dlcIds: string[], gameState: GameState): void {
+    dlcIds.forEach((dlcId) => DLCService.enableDLCContent(dlcId, gameState));
   }
 }
 

@@ -50,6 +50,16 @@ app/
 - **ConsequenceApplicator integration** – `relationship` последствията вече използват `RelationshipService.applyDelta`, което гарантира decay + попълване на метаданните и генериране на `relationship_change` event.
 - **ConditionEvaluator** продължава да чете `gameState.relationships`, така че новата система е прозрачно съвместима със съществуващите условни проверки.
 
+## DLC State Handling (Story 3.6)
+
+- **DLCService** (`app/src/services/DLCService.ts`) управлява отделния storage слой:
+  1. Регистрация на manifest-и (`registerDLC`) + dependency validation;
+  2. Проверки за наличност (`isDLCInstalled`, `getInstalledDLCs`);
+  3. Отделни AsyncStorage ключове per DLC/slot (`getDLCSaveKey`, `saveDLCState`, `loadDLCState`), включително version/timestamp envelope и предупреждения при mismatch;
+  4. Активиране на content flags в основния `GameState` чрез `enableDLCContent`;
+  5. `reset()` улеснява unit тестовете (изчиства регистрираните manifest-и).
+- **Entitlements & SaveLoad** – DLC state се пази извън основния save payload, така че героят/quests остават чисти; интентите в `useEntitlements` могат да се използват като gate преди `DLCService.enableDLCContent`.
+
 ## Build & Deployment
 
 - Expo-managed workflow for development; EAS Build to ship platform binaries (to be configured in future stories).

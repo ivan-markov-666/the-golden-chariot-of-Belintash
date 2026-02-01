@@ -1,4 +1,7 @@
 import { create } from 'zustand';
+import type { DlcDetail } from '@/game/dlc/DLCRegistry';
+
+export type SaveSlotDlcDetail = DlcDetail;
 
 export type SaveSlot = {
   id: string;
@@ -8,6 +11,8 @@ export type SaveSlot = {
   playtimeMinutes: number;
   lastSaveType: 'manual' | 'auto';
   dlcFlags: string[];
+  dlcDetails: SaveSlotDlcDetail[];
+  missingDLCs: SaveSlotDlcDetail[];
   corrupted: boolean;
 };
 
@@ -20,6 +25,16 @@ const DEFAULT_SLOTS: SaveSlot[] = [
     playtimeMinutes: 324,
     lastSaveType: 'manual',
     dlcFlags: ['occult'],
+    dlcDetails: [
+      {
+        id: 'dlc-occult-expansion',
+        name: 'Occult Expansion',
+        version: '1.0.0',
+        shortName: 'Occult',
+        badgeColor: '#a855f7',
+      },
+    ],
+    missingDLCs: [],
     corrupted: false,
   },
   {
@@ -30,6 +45,16 @@ const DEFAULT_SLOTS: SaveSlot[] = [
     playtimeMinutes: 812,
     lastSaveType: 'auto',
     dlcFlags: [],
+    dlcDetails: [],
+    missingDLCs: [
+      {
+        id: 'dlc-occult-expansion',
+        name: 'Occult Expansion',
+        version: '1.0.0',
+        shortName: 'Occult',
+        badgeColor: '#a855f7',
+      },
+    ],
     corrupted: true,
   },
   {
@@ -40,11 +65,18 @@ const DEFAULT_SLOTS: SaveSlot[] = [
     playtimeMinutes: 0,
     lastSaveType: 'manual',
     dlcFlags: [],
+    dlcDetails: [],
+    missingDLCs: [],
     corrupted: false,
   },
 ];
 
-const cloneSlots = (slots: SaveSlot[]) => slots.map((slot) => ({ ...slot }));
+const cloneSlots = (slots: SaveSlot[]) =>
+  slots.map((slot) => ({
+    ...slot,
+    dlcDetails: slot.dlcDetails.map((detail) => ({ ...detail })),
+    missingDLCs: slot.missingDLCs.map((detail) => ({ ...detail })),
+  }));
 const hasOccupied = (slots: SaveSlot[]) => slots.some((slot) => slot.occupied);
 
 export type SaveSlotState = {
@@ -87,6 +119,8 @@ export const useSaveSlots = create<SaveSlotState>((set) => ({
           playtimeMinutes: 0,
           lastSaveType: 'manual',
           dlcFlags: [],
+          dlcDetails: [],
+          missingDLCs: [],
           corrupted: false,
         };
         return clearedSlot;

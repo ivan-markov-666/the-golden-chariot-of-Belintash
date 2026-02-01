@@ -67,6 +67,16 @@ const createMockSlots = () => [
     playtimeMinutes: 324,
     lastSaveType: 'manual' as const,
     dlcFlags: ['occult'],
+    dlcDetails: [
+      {
+        id: 'dlc-occult-expansion',
+        name: 'Occult Expansion',
+        version: '1.0.0',
+        shortName: 'Occult',
+        badgeColor: '#a855f7',
+      },
+    ],
+    missingDLCs: [],
     corrupted: false,
   },
   {
@@ -77,6 +87,16 @@ const createMockSlots = () => [
     playtimeMinutes: 812,
     lastSaveType: 'auto' as const,
     dlcFlags: [],
+    dlcDetails: [],
+    missingDLCs: [
+      {
+        id: 'dlc-occult-expansion',
+        name: 'Occult Expansion',
+        version: '1.0.0',
+        shortName: 'Occult',
+        badgeColor: '#a855f7',
+      },
+    ],
     corrupted: true,
   },
   {
@@ -87,6 +107,8 @@ const createMockSlots = () => [
     playtimeMinutes: 0,
     lastSaveType: 'manual' as const,
     dlcFlags: [],
+    dlcDetails: [],
+    missingDLCs: [],
     corrupted: false,
   },
 ];
@@ -132,6 +154,32 @@ jest.mock('@/store/perfStore', () => {
 
   return { useUXPerfEvents };
 });
+
+jest.mock('@/hooks/useActiveDLCs', () => ({
+  useActiveDLCs: jest.fn(() => ({
+    activeIds: ['dlc-occult-expansion'],
+    activeDetails: [
+      {
+        id: 'dlc-occult-expansion',
+        name: 'Occult Expansion',
+        version: '1.0.0',
+        shortName: 'Occult',
+        badgeColor: '#a855f7',
+        hasEntitlement: true,
+      },
+    ],
+    missingEntitlements: [
+      {
+        id: 'dlc-lost-expedition',
+        name: 'Lost Expedition',
+        version: '0.9.0',
+        shortName: 'Lost',
+        badgeColor: '#f97316',
+        hasEntitlement: false,
+      },
+    ],
+  })),
+}));
 
 const useSaveLoadMock = useSaveLoad as jest.MockedFunction<typeof useSaveLoad>;
 const telemetryMocks = {
@@ -331,6 +379,31 @@ describe('SaveSlotOccam', () => {
     expect(
       getAllByText(new RegExp(escapeRegExp(tsave('bg', 'status.clean')), 'i')).length,
     ).toBeGreaterThan(0);
+  });
+
+  it('показва визуални badge индикации за слотовете и предупрежденията', () => {
+    const { getByTestId } = render(<SaveSlotOccam />);
+
+    expect(getByTestId('dlc-badge-slot-1-row')).toBeTruthy();
+    expect(getByTestId('dlc-badge-slot-1-dlc-occult-expansion')).toBeTruthy();
+
+    const warning = getByTestId('missing-dlc-warning-slot-2');
+    expect(warning).toBeTruthy();
+    expect(getByTestId('missing-dlc-badge-slot-2-dlc-occult-expansion')).toBeTruthy();
+  });
+
+  it('рендерира overlay детайли за активни и липсващи DLC', async () => {
+    const { getByTestId, findByTestId, findByText } = render(<SaveSlotOccam />);
+
+    await findByTestId('slot-overlay-dlc-slot-1-row');
+
+    fireEvent.press(getByTestId('save-slot-card-slot-2'));
+
+    await findByTestId('slot-overlay-missing-dlc-slot-2-row');
+    await findByTestId('slot-overlay-missing-warning-slot-2');
+
+    await findByTestId('active-dlc-badge-row');
+    expect(getByTestId('active-dlc-badge-dlc-occult-expansion')).toBeTruthy();
   });
 
   it('запазва perf guardrail под 16ms', async () => {

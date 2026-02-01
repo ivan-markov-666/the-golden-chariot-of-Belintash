@@ -1,0 +1,2735 @@
+
+> test
+> cd app && npm run test SaveSlotOccam 
+
+
+> app@1.0.0 test
+> jest SaveSlotOccam 
+
+PASS src/state/__tests__/entitlements.test.ts (14.073 s)
+PASS src/store/__tests__/perfStore.test.ts (14.087 s)
+PASS src/state/__tests__/uxState.test.ts (14.076 s)
+PASS src/store/__tests__/questStore.test.ts (14.164 s)
+  ● Console
+
+    console.debug
+      [QuestStore] action: anonymous {
+        quests: {},
+        journalFilters: { showActive: true, showCompleted: true, showFailed: true },
+        startQuest: [Function: startQuest],
+        setQuestStage: [Function: setQuestStage],
+        setQuestBranch: [Function: setQuestBranch],
+        setQuestExpiration: [Function: setQuestExpiration],
+        expireQuest: [Function: expireQuest],
+        updateObjectiveProgress: [Function: updateObjectiveProgress],
+        completeObjective: [Function: completeObjective],
+        completeQuest: [Function: completeQuest],
+        failQuest: [Function: failQuest],
+        claimQuestRewards: [Function: claimQuestRewards],
+        setJournalFilters: [Function: setJournalFilters],
+        resetQuests: [Function: resetQuests],
+        loadQuests: [Function: loadQuests]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/completeObjective/missing [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/completeObjective/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/complete/missing [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/fail/missing [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/complete/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/q2 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/fail/q2 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/load { quests: { q1: { id: 'q1', status: 'active', objectives: [Array] } } }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/stage/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/progress/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/progress/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/expiration/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/expire/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/rewards/q1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/load {
+        quests: {
+          active: { id: 'active', status: 'active', objectives: [] },
+          completed: { id: 'completed', status: 'completed', objectives: [] },
+          failed: { id: 'failed', status: 'failed', objectives: [] }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/journalFilters [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+PASS src/store/__tests__/characterStore.test.ts (14.33 s)
+  ● Console
+
+    console.debug
+      [CharacterStore] action: anonymous {
+        character: null,
+        createCharacter: [Function: createCharacter],
+        updateCharacter: [Function: updateCharacter],
+        addExperience: [Function: addExperience],
+        levelUp: [Function: levelUp],
+        spendAttributePoint: [Function: spendAttributePoint],
+        spendSkillPoint: [Function: spendSkillPoint],
+        adjustHealth: [Function: adjustHealth],
+        adjustMana: [Function: adjustMana],
+        adjustGold: [Function: adjustGold],
+        increaseAttribute: [Function: increaseAttribute],
+        increaseSkill: [Function: increaseSkill],
+        addItem: [Function: addItem],
+        removeItem: [Function: removeItem],
+        equipItem: [Function: equipItem],
+        unequipItem: [Function: unequipItem],
+        applyStatusEffect: [Function: applyStatusEffect],
+        removeStatusEffect: [Function: removeStatusEffect],
+        unlockMilestone: [Function: unlockMilestone],
+        resetCharacter: [Function: resetCharacter],
+        loadCharacter: [Function: loadCharacter]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/update [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/addExperience [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/levelUp [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/addExperience [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/levelUp [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/adjustHealth [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/adjustMana [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/adjustGold [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/increaseAttribute/strength [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/increaseSkill/occult [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/increaseSkill/occult [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/addItem [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/addItem [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/addItem [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/removeItem [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/equip/weapon [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/unequip/weapon [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/spendAttributePoint/strength [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/spendSkillPoint/alchemy [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/addItem [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/statusEffect/apply/buff-1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/statusEffect/remove/buff-1 [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+PASS src/screens/__tests__/LoadGameScreen.test.tsx (15.942 s)
+PASS src/components/menu/__tests__/MainMenuOccam.test.tsx (16.39 s)
+PASS src/screens/__tests__/PlaceholderScreen.test.tsx
+FAIL src/components/save/__tests__/SaveSlotOccam.test.tsx (17.124 s)
+  ● SaveSlotOccam › превключва активния слот, ако текущият липсва в стора
+
+    TypeError: Cannot read properties of undefined (reading 'length')
+
+    [0m [90m 238 |[39m           })}
+     [90m 239 |[39m         [33m<[39m[33m/[39m[33mView[39m[33m>[39m
+    [31m[1m>[22m[39m[90m 240 |[39m         {slot[33m.[39mmissingDLCs[33m.[39mlength [33m>[39m [35m0[39m [33m&&[39m (
+     [90m     |[39m                           [31m[1m^[22m[39m
+     [90m 241 |[39m           [33m<[39m[33mView[39m
+     [90m 242 |[39m             style[33m=[39m{[styles[33m.[39mmissingDlcWarning[33m,[39m { borderColor[33m:[39m theme[33m.[39mpalette[33m.[39mdanger }]}
+     [90m 243 |[39m             testID[33m=[39m{[32m`missing-dlc-warning-${slot.id}`[39m}[0m
+
+      at length (src/components/save/SaveSlotOccam.tsx:240:27)
+      at renderSlotCard (src/components/save/SaveSlotOccam.tsx:281:34)
+          at Array.map (<anonymous>)
+      at map (src/components/save/SaveSlotOccam.tsx:281:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (src/components/save/__tests__/SaveSlotOccam.test.tsx:283:35)
+
+PASS src/state/__tests__/perf.test.ts
+PASS src/services/telemetry/__tests__/save.test.ts
+PASS src/store/__tests__/entitlementsStore.test.ts
+PASS src/store/__tests__/uiStore.test.ts
+  ● Console
+
+    console.debug
+      [UIStore] action: ui/setLoading { loading: false }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setCurrentScreen { currentScreen: 'home' }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/closeModal [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setOverlaysVisible [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setHighContrast [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLocale [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setEffectsAvailable [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setOverlaysVisible [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setOverlaysVisible [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setOverlaysVisible [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLoading { loading: false }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setCurrentScreen { currentScreen: 'home' }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/closeModal [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setOverlaysVisible [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setHighContrast [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLocale [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setEffectsAvailable [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setHighContrast [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLocale [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLoading { loading: false }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setCurrentScreen { currentScreen: 'home' }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/closeModal [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setOverlaysVisible [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setHighContrast [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLocale [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setEffectsAvailable [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/removeNotification/notif_1769893726106_81blkfusdpk [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLoading { loading: false }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setCurrentScreen { currentScreen: 'home' }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/closeModal [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setOverlaysVisible [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setHighContrast [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLocale [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setEffectsAvailable [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLoading { loading: true }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setCurrentScreen { currentScreen: 'quests' }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/openModal/confirm [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/closeModal [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLoading { loading: false }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLoading { loading: false }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setCurrentScreen { currentScreen: 'home' }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/closeModal [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setOverlaysVisible [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setHighContrast [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setLocale [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setEffectsAvailable [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setEffectsAvailable [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/setEffectsAvailable [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+PASS src/screens/__tests__/MainMenuScreen.test.tsx (18.394 s)
+PASS src/game/services/__tests__/VariableInterpolator.test.ts
+PASS src/state/__tests__/saveSlots.test.ts
+PASS src/game/data/__tests__/scenarioManifest.test.ts
+PASS src/services/guardianShell/__tests__/manualOverride.test.ts
+PASS src/game/types/__tests__/skillCheck.test.ts
+PASS src/services/__tests__/CharacterProgressionService.test.ts
+PASS src/services/haptics/__tests__/drySeal.test.ts
+FAIL src/services/__tests__/DLCService.test.ts (20.335 s)
+  ● Console
+
+    console.log
+      [DLC] Registering: Occult Expansion
+
+      at DLCService.log [as registerDLC] (src/services/DLCService.ts:34:15)
+
+    console.log
+      [DLC] Registering: Occult Expansion
+
+      at DLCService.log [as registerDLC] (src/services/DLCService.ts:34:15)
+
+    console.log
+      [DLC] Registering: Occult Expansion
+
+      at DLCService.log [as registerDLC] (src/services/DLCService.ts:34:15)
+
+    console.log
+      [DLC] Registering: Occult Expansion
+
+      at DLCService.log [as registerDLC] (src/services/DLCService.ts:34:15)
+
+    console.log
+      [DLC] Registering: Occult Expansion
+
+      at DLCService.log [as registerDLC] (src/services/DLCService.ts:34:15)
+
+  ● DLCService › saveDLCState › записва envelope със версия и timestamp
+
+    TypeError: _asyncStorage.default.setItem is not a function
+
+    [0m [90m 77 |[39m     }[33m;[39m
+     [90m 78 |[39m
+    [31m[1m>[22m[39m[90m 79 |[39m     [36mawait[39m [33mAsyncStorage[39m[33m.[39msetItem([36mthis[39m[33m.[39mgetDLCSaveKey(dlcId[33m,[39m slotIndex)[33m,[39m [33mJSON[39m[33m.[39mstringify(envelope))[33m;[39m
+     [90m    |[39m                        [31m[1m^[22m[39m
+     [90m 80 |[39m   }
+     [90m 81 |[39m
+     [90m 82 |[39m   [90m/**[39m[0m
+
+      at DLCService.setItem (src/services/DLCService.ts:79:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at DLCService.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+      at DLCService.apply [as saveDLCState] (src/services/DLCService.ts:60:35)
+      at Object.saveDLCState (src/services/__tests__/DLCService.test.ts:49:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● DLCService › loadDLCState › връща state, когато данните са валидни
+
+    TypeError: _asyncStorage.default.getItem is not a function
+
+    [0m [90m 89 |[39m     }
+     [90m 90 |[39m
+    [31m[1m>[22m[39m[90m 91 |[39m     [36mconst[39m raw [33m=[39m [36mawait[39m [33mAsyncStorage[39m[33m.[39mgetItem([36mthis[39m[33m.[39mgetDLCSaveKey(dlcId[33m,[39m slotIndex))[33m;[39m
+     [90m    |[39m                                    [31m[1m^[22m[39m
+     [90m 92 |[39m     [36mif[39m ([33m![39mraw) {
+     [90m 93 |[39m       [36mreturn[39m [36mnull[39m[33m;[39m
+     [90m 94 |[39m     }[0m
+
+      at DLCService.getItem (src/services/DLCService.ts:91:36)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at DLCService.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+      at DLCService.apply [as loadDLCState] (src/services/DLCService.ts:85:35)
+      at Object.loadDLCState (src/services/__tests__/DLCService.test.ts:88:39)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● DLCService › loadDLCState › логва при version mismatch, но все пак връща state
+
+    TypeError: _asyncStorage.default.getItem is not a function
+
+    [0m [90m 89 |[39m     }
+     [90m 90 |[39m
+    [31m[1m>[22m[39m[90m 91 |[39m     [36mconst[39m raw [33m=[39m [36mawait[39m [33mAsyncStorage[39m[33m.[39mgetItem([36mthis[39m[33m.[39mgetDLCSaveKey(dlcId[33m,[39m slotIndex))[33m;[39m
+     [90m    |[39m                                    [31m[1m^[22m[39m
+     [90m 92 |[39m     [36mif[39m ([33m![39mraw) {
+     [90m 93 |[39m       [36mreturn[39m [36mnull[39m[33m;[39m
+     [90m 94 |[39m     }[0m
+
+      at DLCService.getItem (src/services/DLCService.ts:91:36)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at DLCService.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+      at DLCService.apply [as loadDLCState] (src/services/DLCService.ts:85:35)
+      at Object.loadDLCState (src/services/__tests__/DLCService.test.ts:103:39)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+PASS src/test-utils/__tests__/saveSlotFactory.test.ts
+PASS src/services/__tests__/ScenarioCache.test.ts
+PASS src/game/services/__tests__/ConditionEvaluator.test.ts
+  ● Console
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'flag', target: 'quest.completed', value: true },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: {
+          type: 'counter',
+          target: 'kills',
+          operator: 'greater_equal',
+          value: 5
+        },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.warn
+      [ConditionEvaluator] Unknown stat luck
+
+    [0m [90m 190 |[39m     [36mif[39m (statValue [33m===[39m undefined) {
+     [90m 191 |[39m       [36mif[39m ([33mDEV_MODE[39m) {
+    [31m[1m>[22m[39m[90m 192 |[39m         console[33m.[39mwarn([32m'[ConditionEvaluator] Unknown stat'[39m[33m,[39m condition[33m.[39mtarget)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 193 |[39m       }
+     [90m 194 |[39m       [36mreturn[39m [36mfalse[39m[33m;[39m
+     [90m 195 |[39m     }[0m
+
+      at ConditionEvaluator.warn [as evaluateStat] (src/game/services/ConditionEvaluator.ts:192:17)
+      at ConditionEvaluator.evaluateStat [as evaluateCondition] (src/game/services/ConditionEvaluator.ts:147:21)
+      at ConditionEvaluator.evaluateCondition [as evaluate] (src/game/services/ConditionEvaluator.ts:29:25)
+      at evaluate (src/game/services/ConditionEvaluator.ts:358:34)
+      at Object.<anonymous> (src/game/services/__tests__/ConditionEvaluator.test.ts:48:29)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'stat', target: 'luck', operator: 'greater_than', value: 0 },
+        result: false
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.warn
+      [ConditionEvaluator] Unknown skill lockpicking
+
+    [0m [90m 203 |[39m     [36mif[39m (skillValue [33m===[39m undefined) {
+     [90m 204 |[39m       [36mif[39m ([33mDEV_MODE[39m) {
+    [31m[1m>[22m[39m[90m 205 |[39m         console[33m.[39mwarn([32m'[ConditionEvaluator] Unknown skill'[39m[33m,[39m condition[33m.[39mtarget)[33m;[39m
+     [90m     |[39m                 [31m[1m^[22m[39m
+     [90m 206 |[39m       }
+     [90m 207 |[39m       [36mreturn[39m [36mfalse[39m[33m;[39m
+     [90m 208 |[39m     }[0m
+
+      at ConditionEvaluator.warn [as evaluateSkill] (src/game/services/ConditionEvaluator.ts:205:17)
+      at ConditionEvaluator.evaluateSkill [as evaluateCondition] (src/game/services/ConditionEvaluator.ts:149:21)
+      at ConditionEvaluator.evaluateCondition [as evaluate] (src/game/services/ConditionEvaluator.ts:29:25)
+      at evaluate (src/game/services/ConditionEvaluator.ts:358:34)
+      at Object.<anonymous> (src/game/services/__tests__/ConditionEvaluator.test.ts:49:29)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: {
+          type: 'skill',
+          target: 'lockpicking',
+          operator: 'greater_equal',
+          value: 10
+        },
+        result: false
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'item', target: 'totem', quantity: 2 },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'item', target: 'totem', equipped: true },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: {
+          type: 'relationship',
+          target: 'npc.boril',
+          operator: 'less_than',
+          value: 0
+        },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'level', operator: 'greater_equal', value: 3 },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'location', target: 'kamenitsa_home' },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'time', operator: 'equals', value: 10 },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'and', conditions: [ [Object], [Object] ] },
+        result: false
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'or', conditions: [ [Object], [Object] ] },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: {
+          type: 'not',
+          condition: { type: 'flag', target: 'missing', value: true }
+        },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'item', target: 'artifact', quantity: 0 },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'time', operator: 'less_equal', value: 12 },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+    console.debug
+      [ConditionEvaluator:evaluate] {
+        condition: { type: 'location', target: 'kamenitsa_home' },
+        result: true
+      }
+
+      at ConditionEvaluator.debug [as evaluate] (src/game/services/ConditionEvaluator.ts:32:15)
+
+PASS src/game/types/__tests__/character.test.ts
+PASS src/services/telemetry/__tests__/menu.test.ts
+FAIL src/store/__tests__/saveSlotsStore.test.ts (21.661 s)
+  ● saveSlotsStore › reset accepts custom slots and clones data
+
+    TypeError: Cannot read properties of undefined (reading 'map')
+
+    [0m [90m 75 |[39m   slots[33m.[39mmap((slot) [33m=>[39m ({
+     [90m 76 |[39m     [33m...[39mslot[33m,[39m
+    [31m[1m>[22m[39m[90m 77 |[39m     dlcDetails[33m:[39m slot[33m.[39mdlcDetails[33m.[39mmap((detail) [33m=>[39m ({ [33m...[39mdetail }))[33m,[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 78 |[39m     missingDLCs[33m:[39m slot[33m.[39mmissingDLCs[33m.[39mmap((detail) [33m=>[39m ({ [33m...[39mdetail }))[33m,[39m
+     [90m 79 |[39m   }))[33m;[39m
+     [90m 80 |[39m [36mconst[39m hasOccupied [33m=[39m (slots[33m:[39m [33mSaveSlot[39m[]) [33m=>[39m slots[33m.[39msome((slot) [33m=>[39m slot[33m.[39moccupied)[33m;[39m[0m
+
+      at map (src/store/saveSlotsStore.ts:77:33)
+          at Array.map (<anonymous>)
+      at map (src/store/saveSlotsStore.ts:75:9)
+      at Object.cloneSlots [as reset] (src/store/saveSlotsStore.ts:131:20)
+      at reset (src/store/__tests__/saveSlotsStore.test.ts:68:31)
+      at callback (node_modules/@testing-library/react-native/src/act.ts:31:24)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:789:22)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at Object.<anonymous> (src/store/__tests__/saveSlotsStore.test.ts:67:8)
+
+PASS src/localization/__tests__/save.test.ts
+PASS src/store/__tests__/gameStore.test.ts (21.903 s)
+  ● Console
+
+    console.debug
+      [GameStore] action: anonymous {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729426,
+            updatedAt: 1769893729426,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        },
+        setFlag: [Function: setFlag],
+        setCounter: [Function: setCounter],
+        incrementCounter: [Function: incrementCounter],
+        decrementCounter: [Function: decrementCounter],
+        setLocation: [Function: setLocation],
+        advanceTime: [Function: advanceTime],
+        setGameTime: [Function: setGameTime],
+        setRelationship: [Function: setRelationship],
+        adjustRelationship: [Function: adjustRelationship],
+        resetGameState: [Function: resetGameState],
+        loadGameState: [Function: loadGameState]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729486,
+            updatedAt: 1769893729486,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setFlag/met_witness [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setCounter/rituals [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729500,
+            updatedAt: 1769893729500,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/incrementCounter/steps [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/incrementCounter/steps [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/decrementCounter/steps [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729513,
+            updatedAt: 1769893729513,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setLocation [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setLocation [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729516,
+            updatedAt: 1769893729516,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729517,
+            updatedAt: 1769893729517,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setGameTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/advanceTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setGameTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/advanceTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setGameTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/advanceTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setGameTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/advanceTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setGameTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/advanceTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729525,
+            updatedAt: 1769893729525,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setGameTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/advanceTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setGameTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/advanceTime [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729529,
+            updatedAt: 1769893729529,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setRelationship/npc_voden [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/adjustRelationship/npc_voden [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/adjustRelationship/npc_voden [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729540,
+            updatedAt: 1769893729540,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setRelationship/npc_smolyan [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/adjustRelationship/npc_smolyan [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729542,
+            updatedAt: 1769893729542,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/load {
+        gameState: {
+          currentScenario: null,
+          flags: { x: true },
+          counters: {},
+          location: 'kamenitsa',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729543,
+            updatedAt: 1769893729543,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729544,
+            updatedAt: 1769893729544,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/load {
+        gameState: {
+          currentScenario: null,
+          flags: { ritual_complete: true },
+          counters: {},
+          location: 'occult-sanctum',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729544,
+            updatedAt: 1769893729544,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+PASS src/services/__tests__/QuestService.test.ts (22.05 s)
+  ● Console
+
+    console.debug
+      [QuestStore] action: anonymous {
+        quests: {},
+        journalFilters: { showActive: true, showCompleted: true, showFailed: true },
+        startQuest: [Function: startQuest],
+        setQuestStage: [Function: setQuestStage],
+        setQuestBranch: [Function: setQuestBranch],
+        setQuestExpiration: [Function: setQuestExpiration],
+        expireQuest: [Function: expireQuest],
+        updateObjectiveProgress: [Function: updateObjectiveProgress],
+        completeObjective: [Function: completeObjective],
+        completeQuest: [Function: completeQuest],
+        failQuest: [Function: failQuest],
+        claimQuestRewards: [Function: claimQuestRewards],
+        setJournalFilters: [Function: setJournalFilters],
+        resetQuests: [Function: resetQuests],
+        loadQuests: [Function: loadQuests]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: anonymous {
+        character: null,
+        createCharacter: [Function: createCharacter],
+        updateCharacter: [Function: updateCharacter],
+        addExperience: [Function: addExperience],
+        levelUp: [Function: levelUp],
+        spendAttributePoint: [Function: spendAttributePoint],
+        spendSkillPoint: [Function: spendSkillPoint],
+        adjustHealth: [Function: adjustHealth],
+        adjustMana: [Function: adjustMana],
+        adjustGold: [Function: adjustGold],
+        increaseAttribute: [Function: increaseAttribute],
+        increaseSkill: [Function: increaseSkill],
+        addItem: [Function: addItem],
+        removeItem: [Function: removeItem],
+        equipItem: [Function: equipItem],
+        unequipItem: [Function: unequipItem],
+        applyStatusEffect: [Function: applyStatusEffect],
+        removeStatusEffect: [Function: removeStatusEffect],
+        unlockMilestone: [Function: unlockMilestone],
+        resetCharacter: [Function: resetCharacter],
+        loadCharacter: [Function: loadCharacter]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: anonymous {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729594,
+            updatedAt: 1769893729594,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        },
+        setFlag: [Function: setFlag],
+        setCounter: [Function: setCounter],
+        incrementCounter: [Function: incrementCounter],
+        decrementCounter: [Function: decrementCounter],
+        setLocation: [Function: setLocation],
+        advanceTime: [Function: advanceTime],
+        setGameTime: [Function: setGameTime],
+        setRelationship: [Function: setRelationship],
+        adjustRelationship: [Function: adjustRelationship],
+        resetGameState: [Function: resetGameState],
+        loadGameState: [Function: loadGameState]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729674,
+            updatedAt: 1769893729674,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/load {
+        quests: {
+          prerequisite: { id: 'prerequisite', status: 'active', objectives: [] }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729683,
+            updatedAt: 1769893729683,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/load {
+        quests: {
+          prerequisite: { id: 'prerequisite', status: 'completed', objectives: [] }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729696,
+            updatedAt: 1769893729696,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/load {
+        quests: {
+          prerequisite: { id: 'prerequisite', status: 'completed', objectives: [] }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/completeObjective/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/completeObjective/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/stage/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/completeObjective/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/complete/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/addExperience [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+          at Array.forEach (<anonymous>)
+
+    console.debug
+      [QuestStore] action: quest/rewards/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729704,
+            updatedAt: 1769893729704,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/load {
+        quests: {
+          prerequisite: { id: 'prerequisite', status: 'completed', objectives: [] }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/expiration/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/progress/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/expire/tutorial-scouting [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+PASS src/hooks/__tests__/useSaveLoad.test.ts (22.191 s)
+  ● Console
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+          at Generator.throw (<anonymous>)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+          at Generator.throw (<anonymous>)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/clearNotifications { notifications: [] }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [UIStore] action: ui/addNotification [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+          at Generator.throw (<anonymous>)
+
+PASS src/services/save/__tests__/SaveLoadService.test.ts (22.24 s)
+  ● Console
+
+    console.debug
+      [GameStore] action: anonymous {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729593,
+            updatedAt: 1769893729593,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        },
+        setFlag: [Function: setFlag],
+        setCounter: [Function: setCounter],
+        incrementCounter: [Function: incrementCounter],
+        decrementCounter: [Function: decrementCounter],
+        setLocation: [Function: setLocation],
+        advanceTime: [Function: advanceTime],
+        setGameTime: [Function: setGameTime],
+        setRelationship: [Function: setRelationship],
+        adjustRelationship: [Function: adjustRelationship],
+        resetGameState: [Function: resetGameState],
+        loadGameState: [Function: loadGameState]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: anonymous {
+        character: null,
+        createCharacter: [Function: createCharacter],
+        updateCharacter: [Function: updateCharacter],
+        addExperience: [Function: addExperience],
+        levelUp: [Function: levelUp],
+        spendAttributePoint: [Function: spendAttributePoint],
+        spendSkillPoint: [Function: spendSkillPoint],
+        adjustHealth: [Function: adjustHealth],
+        adjustMana: [Function: adjustMana],
+        adjustGold: [Function: adjustGold],
+        increaseAttribute: [Function: increaseAttribute],
+        increaseSkill: [Function: increaseSkill],
+        addItem: [Function: addItem],
+        removeItem: [Function: removeItem],
+        equipItem: [Function: equipItem],
+        unequipItem: [Function: unequipItem],
+        applyStatusEffect: [Function: applyStatusEffect],
+        removeStatusEffect: [Function: removeStatusEffect],
+        unlockMilestone: [Function: unlockMilestone],
+        resetCharacter: [Function: resetCharacter],
+        loadCharacter: [Function: loadCharacter]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: anonymous {
+        quests: {},
+        journalFilters: { showActive: true, showCompleted: true, showFailed: true },
+        startQuest: [Function: startQuest],
+        setQuestStage: [Function: setQuestStage],
+        setQuestBranch: [Function: setQuestBranch],
+        setQuestExpiration: [Function: setQuestExpiration],
+        expireQuest: [Function: expireQuest],
+        updateObjectiveProgress: [Function: updateObjectiveProgress],
+        completeObjective: [Function: completeObjective],
+        completeQuest: [Function: completeQuest],
+        failQuest: [Function: failQuest],
+        claimQuestRewards: [Function: claimQuestRewards],
+        setJournalFilters: [Function: setJournalFilters],
+        resetQuests: [Function: resetQuests],
+        loadQuests: [Function: loadQuests]
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729834,
+            updatedAt: 1769893729834,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setLocation [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/tutorial [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.log
+      [DLC] Registering: Occult Expansion
+
+      at DLCService.log [as registerDLC] (src/services/DLCService.ts:34:15)
+          at Array.forEach (<anonymous>)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729878,
+            updatedAt: 1769893729878,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setLocation [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/tutorial [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729882,
+            updatedAt: 1769893729882,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/load {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'belintash',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa', 'belintash' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729878,
+            updatedAt: 1769893729878,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/load [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/load {
+        quests: {
+          tutorial: {
+            id: 'tutorial',
+            status: 'active',
+            objectives: [Array],
+            startedAt: 1769893729881
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729895,
+            updatedAt: 1769893729895,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setLocation [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/tutorial [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729898,
+            updatedAt: 1769893729898,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setLocation [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/tutorial [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/reset {
+        gameState: {
+          currentScenario: null,
+          flags: {},
+          counters: {},
+          location: 'kamenitsa_home',
+          relationships: {},
+          relationshipMetadata: {},
+          factionReputation: {},
+          unlockedShops: [],
+          unlockedDialogues: [],
+          unlockedQuests: [],
+          unlockedLocations: [ 'kamenitsa_home', 'kamenitsa' ],
+          dialogueHistory: [],
+          scenarioHistory: [],
+          gameTime: { day: 1, hour: 6, period: 'morning' },
+          metadata: {
+            createdAt: 1769893729902,
+            updatedAt: 1769893729902,
+            version: '1.0.0',
+            contentVersion: '1.0.0',
+            playtime: 0
+          }
+        }
+      }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/reset { character: null }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/reset { quests: {} }
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [CharacterStore] action: character/create [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [GameStore] action: game/setLocation [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+    console.debug
+      [QuestStore] action: quest/start/tutorial [function]
+
+      at debug (src/store/middleware/withStoreLogger.ts:20:15)
+
+PASS src/game/services/__tests__/RelationshipService.test.ts (8.186 s)
+PASS src/services/__tests__/scenarioLoader.test.ts (8.148 s)
+PASS src/game/types/__tests__/schemas.test.ts (8.072 s)
+PASS src/services/__tests__/EngineIntegration.test.ts (8.357 s)
+PASS src/services/__tests__/ChoiceProcessor.test.ts (6.765 s)
+PASS src/game/types/__tests__/scenarioGuards.test.ts
+PASS src/game/services/__tests__/ConsequenceApplicator.test.ts
+---------------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------------------------
+File                             | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                                                                 
+---------------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------------------------
+All files                        |   83.74 |    69.28 |   88.55 |   85.93 |                                                                                                   
+ components/menu                 |   93.33 |    77.77 |     100 |     100 |                                                                                                   
+  MainMenuOccam.tsx              |   93.33 |    77.77 |     100 |     100 | 53-78,146                                                                                         
+ components/save                 |   94.82 |    72.78 |     100 |   95.04 |                                                                                                   
+  SaveSlotOccam.tsx              |   94.82 |    72.78 |     100 |   95.04 | 84,107,173,181,192                                                                                
+ constants                       |     100 |      100 |     100 |     100 |                                                                                                   
+  menuOptions.ts                 |     100 |      100 |     100 |     100 |                                                                                                   
+ game/data                       |     100 |      100 |     100 |     100 |                                                                                                   
+  scenarioManifest.ts            |     100 |      100 |     100 |     100 |                                                                                                   
+ game/dlc                        |   66.66 |       25 |      50 |      70 |                                                                                                   
+  DLCRegistry.ts                 |   66.66 |       25 |      50 |      70 | 26,43-44,48,61-62                                                                                 
+ game/services                   |   74.93 |     63.6 |   84.61 |   74.81 |                                                                                                   
+  ConditionEvaluator.ts          |   68.46 |    57.89 |   96.42 |   68.21 | 44,49,61-71,82,95-118,128-132,167-170,197,210,220,224,257-258,267,276-277,286,306,316-319,336,340 
+  ConsequenceApplicator.ts       |   86.98 |    71.59 |      96 |   87.58 | 143,161-162,167-168,186-187,192-193,217-218,230-231,251,278-279,285-286                           
+  DLCService.ts                  |       0 |        0 |       0 |       0 | 20-123                                                                                            
+  RelationshipService.ts         |   95.45 |    84.84 |      90 |      95 | 94,142                                                                                            
+  VariableInterpolator.ts        |    90.9 |    78.94 |     100 |    90.9 | 19,60,81-85                                                                                       
+ game/types                      |     100 |      100 |     100 |     100 |                                                                                                   
+  character.ts                   |     100 |      100 |     100 |     100 |                                                                                                   
+  condition.ts                   |     100 |      100 |     100 |     100 |                                                                                                   
+  consequence.ts                 |     100 |      100 |     100 |     100 |                                                                                                   
+  gameState.ts                   |     100 |      100 |     100 |     100 |                                                                                                   
+  scenario.ts                    |     100 |      100 |     100 |     100 |                                                                                                   
+  skillCheck.ts                  |     100 |      100 |     100 |     100 |                                                                                                   
+ hooks                           |   72.41 |       50 |   62.96 |   73.07 |                                                                                                   
+  useActiveDLCs.ts               |       0 |        0 |       0 |       0 | 15-42                                                                                             
+  useSaveLoad.ts                 |     100 |       75 |     100 |     100 | 51                                                                                                
+ localization                    |     100 |      100 |     100 |     100 |                                                                                                   
+  menu.ts                        |     100 |      100 |     100 |     100 |                                                                                                   
+  save.ts                        |     100 |      100 |     100 |     100 |                                                                                                   
+ screens                         |     100 |     90.9 |     100 |     100 |                                                                                                   
+  LoadGameScreen.tsx             |     100 |      100 |     100 |     100 |                                                                                                   
+  MainMenuScreen.tsx             |     100 |     90.9 |     100 |     100 | 37,84                                                                                             
+  PlaceholderScreen.tsx          |     100 |      100 |     100 |     100 |                                                                                                   
+ services                        |   85.04 |    69.46 |   94.11 |   87.14 |                                                                                                   
+  CharacterProgressionService.ts |   94.44 |    69.44 |     100 |     100 | 22,33,41-45,59-91                                                                                 
+  ChoiceProcessor.ts             |     100 |    92.85 |     100 |     100 | 104,128                                                                                           
+  DLCService.ts                  |   66.66 |    38.09 |   88.88 |   66.66 | 54,92-110,119                                                                                     
+  QuestService.ts                |   70.88 |    55.31 |      80 |      75 | 48,52,66,71,75,102-106,152-167                                                                    
+  ScenarioCache.ts               |   85.29 |    84.61 |     100 |   85.29 | 51-55                                                                                             
+  scenarioLoader.ts              |   96.55 |     90.9 |   95.65 |   96.22 | 110,130                                                                                           
+ services/guardianShell          |     100 |      100 |     100 |     100 |                                                                                                   
+  manualOverride.ts              |     100 |      100 |     100 |     100 |                                                                                                   
+ services/haptics                |     100 |      100 |     100 |     100 |                                                                                                   
+  drySeal.ts                     |     100 |      100 |     100 |     100 |                                                                                                   
+ services/save                   |   66.17 |    56.25 |   48.71 |   71.42 |                                                                                                   
+  SaveLoadService.ts             |   66.17 |    56.25 |   48.71 |   71.42 | 79,117,134-136,146-165,173,224,232,238,241,244,247-265,304,322,337,343                            
+ services/telemetry              |     100 |      100 |     100 |     100 |                                                                                                   
+  menu.ts                        |     100 |      100 |     100 |     100 |                                                                                                   
+  save.ts                        |     100 |      100 |     100 |     100 |                                                                                                   
+ state                           |     100 |    72.72 |     100 |     100 |                                                                                                   
+  entitlements.ts                |     100 |      100 |     100 |     100 |                                                                                                   
+  perf.ts                        |     100 |      100 |     100 |     100 |                                                                                                   
+  saveSlots.ts                   |     100 |    72.72 |     100 |     100 | 68-70                                                                                             
+  uxState.ts                     |     100 |      100 |     100 |     100 |                                                                                                   
+ store                           |   87.07 |       70 |   92.63 |   95.17 |                                                                                                   
+  characterStore.ts              |   81.37 |    56.32 |   93.84 |   92.43 | 67-69,279,342-348                                                                                 
+  entitlementsStore.ts           |     100 |      100 |     100 |     100 |                                                                                                   
+  gameStore.ts                   |     100 |    78.57 |     100 |     100 | 88-91,180-216                                                                                     
+  perfStore.ts                   |     100 |      100 |     100 |     100 |                                                                                                   
+  questStore.ts                  |   86.07 |       80 |   94.87 |   92.06 | 108-112,303                                                                                       
+  saveSlotsStore.ts              |     100 |      100 |     100 |     100 |                                                                                                   
+  uiStore.ts                     |   78.94 |    88.88 |   72.41 |     100 | 55                                                                                                
+ store/middleware                |     100 |       80 |     100 |     100 |                                                                                                   
+  withStoreLogger.ts             |     100 |       80 |     100 |     100 | 3-17                                                                                              
+ test-utils                      |     100 |      100 |     100 |     100 |                                                                                                   
+  renderWithProviders.tsx        |     100 |      100 |     100 |     100 |                                                                                                   
+  resetTestStores.ts             |     100 |      100 |     100 |     100 |                                                                                                   
+  saveSlotFactory.ts             |     100 |      100 |     100 |     100 |                                                                                                   
+ theme                           |     100 |      100 |     100 |     100 |                                                                                                   
+  guardianShell.ts               |     100 |      100 |     100 |     100 |                                                                                                   
+---------------------------------|---------|----------|---------|---------|---------------------------------------------------------------------------------------------------
+
+Summary of all failing tests
+FAIL src/components/save/__tests__/SaveSlotOccam.test.tsx (17.124 s)
+  ● SaveSlotOccam › превключва активния слот, ако текущият липсва в стора
+
+    TypeError: Cannot read properties of undefined (reading 'length')
+
+    [0m [90m 238 |[39m           })}
+     [90m 239 |[39m         [33m<[39m[33m/[39m[33mView[39m[33m>[39m
+    [31m[1m>[22m[39m[90m 240 |[39m         {slot[33m.[39mmissingDLCs[33m.[39mlength [33m>[39m [35m0[39m [33m&&[39m (
+     [90m     |[39m                           [31m[1m^[22m[39m
+     [90m 241 |[39m           [33m<[39m[33mView[39m
+     [90m 242 |[39m             style[33m=[39m{[styles[33m.[39mmissingDlcWarning[33m,[39m { borderColor[33m:[39m theme[33m.[39mpalette[33m.[39mdanger }]}
+     [90m 243 |[39m             testID[33m=[39m{[32m`missing-dlc-warning-${slot.id}`[39m}[0m
+
+      at length (src/components/save/SaveSlotOccam.tsx:240:27)
+      at renderSlotCard (src/components/save/SaveSlotOccam.tsx:281:34)
+          at Array.map (<anonymous>)
+      at map (src/components/save/SaveSlotOccam.tsx:281:20)
+      at Object.react-stack-bottom-frame (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13976:20)
+      at renderWithHooks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2866:22)
+      at updateFunctionComponent (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6006:19)
+      at beginWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7474:18)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:1574:13)
+      at performUnitOfWork (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10972:22)
+      at workLoopSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10816:41)
+      at renderRootSync (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10797:11)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10384:39)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2094:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:566:34)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:859:10)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at renderWithAct (node_modules/@testing-library/react-native/src/render-act.ts:13:11)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:69:33)
+      at renderInternal (node_modules/@testing-library/react-native/src/render.tsx:44:10)
+      at Object.<anonymous> (src/components/save/__tests__/SaveSlotOccam.test.tsx:283:35)
+
+FAIL src/services/__tests__/DLCService.test.ts (20.335 s)
+  ● DLCService › saveDLCState › записва envelope със версия и timestamp
+
+    TypeError: _asyncStorage.default.setItem is not a function
+
+    [0m [90m 77 |[39m     }[33m;[39m
+     [90m 78 |[39m
+    [31m[1m>[22m[39m[90m 79 |[39m     [36mawait[39m [33mAsyncStorage[39m[33m.[39msetItem([36mthis[39m[33m.[39mgetDLCSaveKey(dlcId[33m,[39m slotIndex)[33m,[39m [33mJSON[39m[33m.[39mstringify(envelope))[33m;[39m
+     [90m    |[39m                        [31m[1m^[22m[39m
+     [90m 80 |[39m   }
+     [90m 81 |[39m
+     [90m 82 |[39m   [90m/**[39m[0m
+
+      at DLCService.setItem (src/services/DLCService.ts:79:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at DLCService.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+      at DLCService.apply [as saveDLCState] (src/services/DLCService.ts:60:35)
+      at Object.saveDLCState (src/services/__tests__/DLCService.test.ts:49:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● DLCService › loadDLCState › връща state, когато данните са валидни
+
+    TypeError: _asyncStorage.default.getItem is not a function
+
+    [0m [90m 89 |[39m     }
+     [90m 90 |[39m
+    [31m[1m>[22m[39m[90m 91 |[39m     [36mconst[39m raw [33m=[39m [36mawait[39m [33mAsyncStorage[39m[33m.[39mgetItem([36mthis[39m[33m.[39mgetDLCSaveKey(dlcId[33m,[39m slotIndex))[33m;[39m
+     [90m    |[39m                                    [31m[1m^[22m[39m
+     [90m 92 |[39m     [36mif[39m ([33m![39mraw) {
+     [90m 93 |[39m       [36mreturn[39m [36mnull[39m[33m;[39m
+     [90m 94 |[39m     }[0m
+
+      at DLCService.getItem (src/services/DLCService.ts:91:36)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at DLCService.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+      at DLCService.apply [as loadDLCState] (src/services/DLCService.ts:85:35)
+      at Object.loadDLCState (src/services/__tests__/DLCService.test.ts:88:39)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● DLCService › loadDLCState › логва при version mismatch, но все пак връща state
+
+    TypeError: _asyncStorage.default.getItem is not a function
+
+    [0m [90m 89 |[39m     }
+     [90m 90 |[39m
+    [31m[1m>[22m[39m[90m 91 |[39m     [36mconst[39m raw [33m=[39m [36mawait[39m [33mAsyncStorage[39m[33m.[39mgetItem([36mthis[39m[33m.[39mgetDLCSaveKey(dlcId[33m,[39m slotIndex))[33m;[39m
+     [90m    |[39m                                    [31m[1m^[22m[39m
+     [90m 92 |[39m     [36mif[39m ([33m![39mraw) {
+     [90m 93 |[39m       [36mreturn[39m [36mnull[39m[33m;[39m
+     [90m 94 |[39m     }[0m
+
+      at DLCService.getItem (src/services/DLCService.ts:91:36)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at DLCService.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+      at DLCService.apply [as loadDLCState] (src/services/DLCService.ts:85:35)
+      at Object.loadDLCState (src/services/__tests__/DLCService.test.ts:103:39)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+FAIL src/store/__tests__/saveSlotsStore.test.ts (21.661 s)
+  ● saveSlotsStore › reset accepts custom slots and clones data
+
+    TypeError: Cannot read properties of undefined (reading 'map')
+
+    [0m [90m 75 |[39m   slots[33m.[39mmap((slot) [33m=>[39m ({
+     [90m 76 |[39m     [33m...[39mslot[33m,[39m
+    [31m[1m>[22m[39m[90m 77 |[39m     dlcDetails[33m:[39m slot[33m.[39mdlcDetails[33m.[39mmap((detail) [33m=>[39m ({ [33m...[39mdetail }))[33m,[39m
+     [90m    |[39m                                 [31m[1m^[22m[39m
+     [90m 78 |[39m     missingDLCs[33m:[39m slot[33m.[39mmissingDLCs[33m.[39mmap((detail) [33m=>[39m ({ [33m...[39mdetail }))[33m,[39m
+     [90m 79 |[39m   }))[33m;[39m
+     [90m 80 |[39m [36mconst[39m hasOccupied [33m=[39m (slots[33m:[39m [33mSaveSlot[39m[]) [33m=>[39m slots[33m.[39msome((slot) [33m=>[39m slot[33m.[39moccupied)[33m;[39m[0m
+
+      at map (src/store/saveSlotsStore.ts:77:33)
+          at Array.map (<anonymous>)
+      at map (src/store/saveSlotsStore.ts:75:9)
+      at Object.cloneSlots [as reset] (src/store/saveSlotsStore.ts:131:20)
+      at reset (src/store/__tests__/saveSlotsStore.test.ts:68:31)
+      at callback (node_modules/@testing-library/react-native/src/act.ts:31:24)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:789:22)
+      at actImplementation (node_modules/@testing-library/react-native/src/act.ts:30:25)
+      at Object.<anonymous> (src/store/__tests__/saveSlotsStore.test.ts:67:8)
+
+
+Test Suites: 3 failed, 37 passed, 40 total
+Tests:       5 failed, 242 passed, 247 total
+Snapshots:   1 passed, 1 total
+Time:        32.045 s
+Ran all test suites matching /SaveSlotOccam|/i.
