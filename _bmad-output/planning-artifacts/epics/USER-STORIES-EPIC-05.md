@@ -19,7 +19,7 @@
 **Epic Success Criteria:**
 - Main Menu screen with navigation ✓
 - Character Creation screen with stat allocation ✓
-- Gameplay screen with scenario display and choice selection
+- Gameplay screen with scenario display and choice selection ✓
 - Inventory & Character screen with equipment management
 - Screen navigation working (React Navigation)
 - All screens connected to Zustand stores
@@ -42,7 +42,7 @@
 
 - [Story 5.1: Main Menu Screen](#story-51-main-menu-screen) ✓
 - [Story 5.2: Character Creation Screen](#story-52-character-creation-screen) ✓
-- [Story 5.3: Gameplay Screen](#story-53-gameplay-screen)
+- [Story 5.3: Gameplay Screen](#story-53-gameplay-screen) ✓
 - [Story 5.4: Inventory & Character Screen](#story-54-inventory--character-screen)
 
 ---
