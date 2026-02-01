@@ -43,7 +43,7 @@
 - [Story 5.1: Main Menu Screen](#story-51-main-menu-screen) ✓
 - [Story 5.2: Character Creation Screen](#story-52-character-creation-screen) ✓
 - [Story 5.3: Gameplay Screen](#story-53-gameplay-screen) ✓
-- [Story 5.4: Inventory & Character Screen](#story-54-inventory--character-screen)
+- [x] Story 5.4: Inventory & Character Screen - **COMPLETED**](#story-54-inventory--character-screen) ✓
 
 ---
 
